@@ -6,13 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CardDataBase : MonoBehaviour
 {
-   public static Dictionary<Global.Factions, Deck> Decks = new Dictionary<Global.Factions, Deck>();
-   public static Deck Gryffindor;
-   public static Deck Slytherin;
-   public static List<UnitCard> Neutral = new List<UnitCard>();
-   public static List<SpecialCard> Specials = new List<SpecialCard>();
-   public static Dictionary<Global.Factions, Leader> Leaders = new Dictionary<Global.Factions, Leader>();
-   public void Awake()
+   public Dictionary<Global.Factions, Deck> Decks = new Dictionary<Global.Factions, Deck>();
+   public Deck Gryffindor;
+   public Deck Slytherin;
+   public List<UnitCard> Neutral = new List<UnitCard>();
+   public List<SpecialCard> Specials = new List<SpecialCard>();
+   public Dictionary<Global.Factions, Leader> Leaders = new Dictionary<Global.Factions, Leader>();
+   public void Start()
    {
       //Leaders
       Debug.Log("Enter dataBase");
@@ -66,17 +66,18 @@ public class CardDataBase : MonoBehaviour
       Resources.Load<Sprite>("Hagrid")));
 
       //Neutral
-      Neutral.Add(new HeroUnit("Albus Dumbledore", Global.Factions.Neutral, "Roba una carta", "El Gran Hechicero, director de Hogwarts, el mago más grande de su tiempo. Su sombra se alza como un faro, guiando a las generaciones futuras hacia la luz.",
+      //Albus es hero arreglar
+      Neutral.Add(new Unit("Albus Dumbledore", Global.Factions.Neutral, Global.Effects["DrawCard"], "El Gran Hechicero, director de Hogwarts, el mago más grande de su tiempo. Su sombra se alza como un faro, guiando a las generaciones futuras hacia la luz.",
       12, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("AlbusDumbledore")));
-      Neutral.Add(new Unit("Wingardium Leviosa", Global.Factions.Neutral, "Coloca un clima de asedio en el campo", "Es un encantamiento usado para hacer que los objetos leviten o vuelen. Se enseña en el primer año en la clase de Encantamientos en el Colegio Hogwarts de Magia y Hechicería.",
+      Neutral.Add(new Unit("Wingardium Leviosa", Global.Factions.Neutral, Global.Effects["PutWeather"], "Es un encantamiento usado para hacer que los objetos leviten o vuelen. Se enseña en el primer año en la clase de Encantamientos en el Colegio Hogwarts de Magia y Hechicería.",
       1, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("WingardiumLeviosa")));
-      Neutral.Add(new Unit("Expelliarmus", Global.Factions.Neutral, "Elimina la carta con más poder del rival", "Es un hechizo de desarme ampliamente utilizado en el mundo mágico, el objetivo es despojado de su arma o varita. El objeto en cuestión sale volando de las manos del oponente y cae al suelo.",
+      Neutral.Add(new Unit("Expelliarmus", Global.Factions.Neutral, Global.Effects["PowerfulCard"], "Es un hechizo de desarme ampliamente utilizado en el mundo mágico, el objetivo es despojado de su arma o varita. El objeto en cuestión sale volando de las manos del oponente y cae al suelo.",
       0, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("Expelliarmus")));
-      Neutral.Add(new Unit("Argus Filch", Global.Factions.Neutral, "Limpia la fila, no vacía, con menos unidades del campo rival", "El cuidador de Hogwarts, inflexible cuando se trata de las normas escolares. Su gato, Mrs. Norris, lo acompaña en sus rondas nocturnas para atrapar a los infractores.",
+      Neutral.Add(new Unit("Argus Filch", Global.Factions.Neutral, Global.Effects["ClearRow"], "El cuidador de Hogwarts, inflexible cuando se trata de las normas escolares. Su gato, Mrs. Norris, lo acompaña en sus rondas nocturnas para atrapar a los infractores.",
       0, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("ArgusFilch")));
       Neutral.Add(new Unit("Peter Pettigrew", Global.Factions.Neutral, "", "aunque cobarde y traidor, es un recordatorio de que incluso los personajes más oscuros tienen profundidad y complejidad",
       3, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("PeterPettigrew")));
-      Neutral.Add(new Unit("Flawkes", Global.Factions.Neutral, "elimina la carta con menos poder del rival", "Se cree que Fawkes ha existido durante siglos. Sus lágrimas tienen propiedades curativas y su canto puede inspirar coraje o miedo. Fue el fiel compañero y defensor del director de Hogwarts, Albus Dumbledore.",
+      Neutral.Add(new Unit("Flawkes", Global.Factions.Neutral, Global.Effects["LessPowerCard"], "Se cree que Fawkes ha existido durante siglos. Sus lágrimas tienen propiedades curativas y su canto puede inspirar coraje o miedo. Fue el fiel compañero y defensor del director de Hogwarts, Albus Dumbledore.",
       3, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("Flawkes")));
       Neutral.Add(new Unit("Avada Kedavra", Global.Factions.Neutral, "", "El hechizo causa una muerte instantánea y sin dolor, sin causar ninguna herida en el cuerpo y sin dejar rastro de violencia.",
       10, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("AvadaKedavra")));
@@ -90,9 +91,9 @@ public class CardDataBase : MonoBehaviour
       4, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("Fred&GeorgeWeasley")));
       Gryffindor.AddCard(new Unit("Ginny Weasley", Global.Factions.Gryffindor, "", "es una bruja valiente, apasionada y leal, y su papel en la lucha contra las fuerzas oscuras es fundamental.",
       6, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("GinnyWeasley")));
-      Gryffindor.AddCard(new Unit("Hedwing", Global.Factions.Gryffindor, "Coloca un aumento en su propia fila", "Hedwig es inteligente y leal. A menudo se posaba en el hombro de Harry y lo acompañaba en sus aventuras. Su afecto y lealtad hacia él eran evidentes",
+      Gryffindor.AddCard(new Unit("Hedwing", Global.Factions.Gryffindor, Global.Effects["PutBoost"], "Hedwig es inteligente y leal. A menudo se posaba en el hombro de Harry y lo acompañaba en sus aventuras. Su afecto y lealtad hacia él eran evidentes",
       2, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("Hedwing")));
-      Gryffindor.AddCard(new HeroUnit("Hermione Granger", Global.Factions.Gryffindor, "Iguala el poder de tus unidades en juego al promedio del poder de las cartas de tu campo", "La bruja más inteligente de su generación, la que siempre tiene la respuesta a todo. Fundadora del Ejército de Dumbledore, una organización secreta para enseñar defensa contra las artes oscuras.",
+      Gryffindor.AddCard(new HeroUnit("Hermione Granger", Global.Factions.Gryffindor, Global.Effects["Average"], "La bruja más inteligente de su generación, la que siempre tiene la respuesta a todo. Fundadora del Ejército de Dumbledore, una organización secreta para enseñar defensa contra las artes oscuras.",
       8, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("HermioneGranger")));
       Gryffindor.AddCard(new Unit("James y Lily Potter", Global.Factions.Gryffindor, "", "Su amor y sacrificio dejaron una marca indeleble en la historia mágica y en el corazón de su hijo, Harry.",
       6, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("James&LilyPotter")));
@@ -104,11 +105,11 @@ public class CardDataBase : MonoBehaviour
       6, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("NevilleLongbottom")));
       Gryffindor.AddCard(new Unit("Parvati Patil", Global.Factions.Gryffindor, "", "Sus asignaturas preferidas son Adivinación y Cuidado de Criaturas Mágicas, Lavender Brown es su mejor amiga.",
       3, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("ParvatiPatil")));
-      Gryffindor.AddCard(new HeroUnit("Remus Lupin", Global.Factions.Gryffindor, "Coloca un clima de cuerpo a cuerpo en el campo", "Mago consumado y hábil, con un amplio conocimiento de Artes Oscuras. También poseía la capacidad de impartir adecuadamente habilidades prácticas y teóricas de magia defensiva a otros. Remus era capaz de conjurar a un Patronus lobo corpóreo.",
+      Gryffindor.AddCard(new HeroUnit("Remus Lupin", Global.Factions.Gryffindor, Global.Effects["PutWeather"], "Mago consumado y hábil, con un amplio conocimiento de Artes Oscuras. También poseía la capacidad de impartir adecuadamente habilidades prácticas y teóricas de magia defensiva a otros. Remus era capaz de conjurar a un Patronus lobo corpóreo.",
       7, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("RemusLupin")));
-      Gryffindor.AddCard(new HeroUnit("Sirius Black", Global.Factions.Gryffindor, "Coloca un aumento en el campo", "El fugitivo de Askaban, valiente y leal, como lo demuestra su participación en ambas guerras y la disposición a morir por sus seres queridos. Era un mago talentoso e inteligente cuyo animago era un gran perro negro.",
+      Gryffindor.AddCard(new HeroUnit("Sirius Black", Global.Factions.Gryffindor, Global.Effects["PutBoost"], "El fugitivo de Askaban, valiente y leal, como lo demuestra su participación en ambas guerras y la disposición a morir por sus seres queridos. Era un mago talentoso e inteligente cuyo animago era un gran perro negro.",
       9, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("SiriusBlack")));
-      Gryffindor.AddCard(new Unit("Ron Weasley", Global.Factions.Gryffindor, "Multiplica su ataque por la cantidad de unidades iguales en el campo", "Demostró ser un poderoso mago por derecho propio, leal, valiente y a que menudo muestra un gran sentido del humor. Mejor amigo de Harry y Hermione.",
+      Gryffindor.AddCard(new Unit("Ron Weasley", Global.Factions.Gryffindor, Global.Effects["MultiplyPower"], "Demostró ser un poderoso mago por derecho propio, leal, valiente y a que menudo muestra un gran sentido del humor. Mejor amigo de Harry y Hermione.",
       5, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("RonWeasley")));
       Gryffindor.AddCard(new Unit("William Weasley", Global.Factions.Gryffindor, "", "Hijo mayor de los Wesley, demostró una valentía inquebrantable. Su espíritu indomable lo llevó a enfrentarse a Lord Voldemort y sus seguidores, arriesgando su vida por la seguridad de los demás.",
       4, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("WilliamWeasley")));
@@ -118,21 +119,21 @@ public class CardDataBase : MonoBehaviour
       4, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("AndromedaTonks")));
       Slytherin.AddCard(new Unit("Astoria Malfoy", Global.Factions.Slytherin, "", "Se crió en los ideales de la supremacía de la sangre pura, se vio afectada por una maldición impuesta a su antepasado mucho antes de su tiempo, lo que hizo que su cuerpo se volviera extremadamente frágil.",
       3, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("AstoriaMalfoy")));
-      Slytherin.AddCard(new HeroUnit("Bellatrix Lestrange", Global.Factions.Slytherin, "Coloca un clima de ataque a distancia", "Mortífaga fanáticamente leal a Lord Voldemort. Era una de las pocas mujeres en el grupo, al igual que una de los más peligrosos y sádicos seguidores de Voldemort.",
+      Slytherin.AddCard(new HeroUnit("Bellatrix Lestrange", Global.Factions.Slytherin, Global.Effects["PutWeather"], "Mortífaga fanáticamente leal a Lord Voldemort. Era una de las pocas mujeres en el grupo, al igual que una de los más peligrosos y sádicos seguidores de Voldemort.",
       9, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("BellatrixLestrange")));
-      Slytherin.AddCard(new Unit("Dolores Umbridge", Global.Factions.Slytherin, "Robar una carta", "Nombrada Suma Inquisidora de Hogwarts es cruel y sádica, que disfruta infligiendo dolor a los demás. Cree que la fuerza es la única forma de mantener el orden y está obsesionada con las reglas y la disciplina.",
+      Slytherin.AddCard(new Unit("Dolores Umbridge", Global.Factions.Slytherin, Global.Effects["DrawCard"], "Nombrada Suma Inquisidora de Hogwarts es cruel y sádica, que disfruta infligiendo dolor a los demás. Cree que la fuerza es la única forma de mantener el orden y está obsesionada con las reglas y la disciplina.",
       8, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("DoloresUmbridge")));
-      Slytherin.AddCard(new HeroUnit("Draco Malfoy", Global.Factions.Slytherin, "Destruye la carta con más poder del rival", "Cruel, hambriento de poder y, en última instancia, cobarde. Aparenta ser un bravucón intrépido, malcriado y grosero, y no muestra remordimiento por el mal que ha causado.",
+      Slytherin.AddCard(new HeroUnit("Draco Malfoy", Global.Factions.Slytherin, Global.Effects["PowerfulCard"], "Cruel, hambriento de poder y, en última instancia, cobarde. Aparenta ser un bravucón intrépido, malcriado y grosero, y no muestra remordimiento por el mal que ha causado.",
       7, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("DracoMalfoy")));
       Slytherin.AddCard(new Unit("Gregory Goyle", Global.Factions.Slytherin, "", "matón que utiliza su tamaño y fuerza para intimidar. Aunque lento en comprensión, es leal a Draco Malfoy.",
       4, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("GregoryGoyle")));
       Slytherin.AddCard(new Unit("Horace Slughorn", Global.Factions.Slytherin, "", " Maestro de Pociones y Jefe de la Casa Slytherin. Escogía a sus alumnos favoritos, a veces por la ambición o la inteligencia que demostraban, otras por su encanto o su talento.",
       5, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("HoraceSlughorn")));
-      Slytherin.AddCard(new Unit("Lucius Malfoy", Global.Factions.Slytherin, "Coloca un aumento de cuerpo a cuerpo", " Patriarca Malfoy, mortífago, fiel a Lord Voldemort, y participó en la Primera Guerra Mágica. ",
+      Slytherin.AddCard(new Unit("Lucius Malfoy", Global.Factions.Slytherin, Global.Effects["PutBoost"], " Patriarca Malfoy, mortífago, fiel a Lord Voldemort, y participó en la Primera Guerra Mágica. ",
       6, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("LuciusMalfoy")));
       Slytherin.AddCard(new Unit("Millicent Bulstrode", Global.Factions.Slytherin, "", "Su pertenencia a Slytherin y su participación en la Brigada Inquisitorial sugieren que comparte las opiniones de pureza de sangre y es leal a su casa.",
       3, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("MillicentBulstrode")));
-      Slytherin.AddCard(new Unit("Nagini", Global.Factions.Slytherin, "Iguala el poder de tus unidades en juego al promedio del poder de las cartas del campo rival", "Su veneno fue utilizado por Voldemort como uno de los ingredientes para recuperar su fuerza después de su caída inicial.",
+      Slytherin.AddCard(new Unit("Nagini", Global.Factions.Slytherin, Global.Effects["Average"], "Su veneno fue utilizado por Voldemort como uno de los ingredientes para recuperar su fuerza después de su caída inicial.",
       2, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("Nagini")));
       Slytherin.AddCard(new Unit("Narcissa Malfoy", Global.Factions.Slytherin, "", "Esposa del mortífago Lucius Malfoy y madre de Draco. Aunque nunca se declaró oficialmente como mortífaga, Narcissa creía en la importancia de la pureza de la sangre y estaba a favor de que su marido siguiera a Lord Voldemort.",
       3, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("NarcissaMalfoy")));

@@ -4,12 +4,18 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class GameController : MonoBehaviour
 {
     public GameObject Player;
     public GameObject Enemy;
     public GameObject Message;
+    public GameObject HandPlayer;
+    public GameObject HandEnemy;
+    public GameObject DeckPlayer;
+    public GameObject DeckEnemy;
+    public string currentTurn;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +28,195 @@ public class GameController : MonoBehaviour
     void Update()
     {
         UpdateWinner(Player.transform.Find("PlayerField").GetComponentInChildren<SumTotalPower>().total, Enemy.transform.Find("EnemyField").GetComponentInChildren<SumTotalPower>().total);
+    }
+
+    async public void Effects(GameObject unit)
+    {
+        Debug.Log("EnterEffect");
+        Card unitCard = unit.GetComponent<ThisCard>().thisCard;
+
+        if (unitCard.Skill == Global.Effects["DrawCard"])
+        {
+            Debug.Log("EnterDrawCard");
+            if (currentTurn == "Player")
+            {
+                await Task.Delay(800);
+                DeckPlayer.GetComponent<Draw>().DrawCard();
+            }
+            else
+            {
+                await Task.Delay(800);
+                DeckEnemy.GetComponent<Draw>().DrawCard();
+            }
+        }
+        else if (unitCard.Skill == Global.Effects["PutBoost"])
+        {
+            Debug.Log("EnterPutBoost");
+            if (currentTurn == "Player")
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        else if (unitCard.Skill == Global.Effects["PutWeather"])
+        {
+            Debug.Log("EnterPutWeather");
+            if (currentTurn == "Player")
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        else if (unitCard.Skill == Global.Effects["PowerfulCard"])
+        {
+            Debug.Log("PowerfulCard");
+            if (currentTurn == "Player")
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        else if (unitCard.Skill == Global.Effects["LessPowerCard"])
+        {
+            Debug.Log("LessPowerCard");
+            if (currentTurn == "Player")
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        else if (unitCard.Skill == Global.Effects["Average"])
+        {
+            Debug.Log("Average");
+            if (currentTurn == "Player")
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        else if (unitCard.Skill == Global.Effects["ClearRow"])
+        {
+            Debug.Log("ClearRow");
+            if (currentTurn == "Player")
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        else if (unitCard.Skill == Global.Effects["MultiplyPower"])
+        {
+            Debug.Log("MultiplyPower");
+            if (currentTurn == "Player")
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+    }
+
+    public void Improve(GameObject eventData, string zone)
+    {
+        Debug.Log("EnterImprove");
+        GameObject boost = null;
+        if (currentTurn == "Player")
+        {
+            Debug.Log("TurnoActualJugador");
+            boost = GameObject.Find("PlayerField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+        }
+        else
+        {
+            Debug.Log("TurnoActualEnemigo");
+            boost = GameObject.Find("EnemyField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+        }
+
+        if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
+        {
+            Debug.Log("EnterBoostMelee");
+            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+        }
+        else if ((boost.transform.childCount != 0) && (boost.name == "BoostRanged"))
+        {
+            Debug.Log("EnterBoostRanged");
+            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+        }
+        else if ((boost.transform.childCount != 0) && (boost.name == "BoostSiege"))
+        {
+            Debug.Log("EnterBoostSiege");
+            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+        }
+    }
+
+
+    public void ImproveUnits(GameObject unit, string zone)
+    {
+        Debug.Log("EnterImproveUnit");
+
+        int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
+
+        unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
+
+        if (currentTurn == "Player")
+        {
+            switch (zone)
+            {
+                case "Melee": Player.transform.Find("PlayerField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+                case "Ranged": Player.transform.Find("PlayerField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+                case "Siege": Player.transform.Find("PlayerField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+            }
+
+        }
+        else
+        {
+            switch (zone)
+            {
+                case "Melee": Enemy.transform.Find("EnemyField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+                case "Ranged": Enemy.transform.Find("EnemyField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+                case "Siege": Enemy.transform.Find("EnemyField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+            }
+        }
+
+    }
+
+    public void ImproveUnits(List<GameObject> units)
+    {
+        Debug.Log("EnterImproveUnitsList");
+
+        foreach (var unit in units)
+        {
+            if (!(unit.GetComponent<ThisCard>().thisCard is HeroUnit))
+            {
+
+                int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
+
+
+                unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
+                unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
+            }
+
+
+        }
     }
 
     private void UpdateWinner(int? powerPlayer, int? powerEnemy)
@@ -47,70 +242,35 @@ public class GameController : MonoBehaviour
         }
 
     }
-
-    public void ImproveUnits(GameObject unit, string zone)
-    {
-        Debug.Log("EnterImproveUnit");
-
-        int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
-
-        unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-
-        switch (zone)
-        {
-            case "Melee": GameObject.Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-            case "Ranged": GameObject.Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-            case "Siege": GameObject.Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-        }
-
-    }
-
-    public void ImproveUnits(List<GameObject> units)
-    {
-        foreach (var unit in units)
-        {
-            if (!(unit.GetComponent<ThisCard>().thisCard is HeroUnit))
-            {
-
-                int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
-
-
-                unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
-            }
-
-
-        }
-    }
-
     public void FinalizedTurn(GameObject thisTurn)
     {
         Debug.Log("FinalizedTurn");
-        Debug.Log(thisTurn.transform.GetComponentInChildren<PlayerController>().IsYourTurn);
         StartCoroutine(ChangeTurn(thisTurn));
 
     }
 
     private IEnumerator ChangeTurn(GameObject thisPlayerTurn)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1f);
         thisPlayerTurn.transform.GetComponentInChildren<PlayerController>().IsYourTurn = false;
 
         if (thisPlayerTurn.name == "Player")
         {
+            currentTurn = "Enemy";
             GameObject.Find("Enemy").GetComponentInChildren<PlayerController>().IsYourTurn = true;
             Message.gameObject.SetActive(true);
             Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + GameObject.Find("Enemy").GetComponentInChildren<PlayerController>().Nick;
         }
         else if (thisPlayerTurn.name == "Enemy")
         {
+            currentTurn = "Player";
             GameObject.Find("Player").GetComponentInChildren<PlayerController>().IsYourTurn = true;
             Message.gameObject.SetActive(true);
             Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + GameObject.Find("Player").GetComponentInChildren<PlayerController>().Nick;
         }
         yield return new WaitForSeconds(0.5f);
         SwapObjects(thisPlayerTurn);
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.2f);
         Message.gameObject.SetActive(false);
     }
 

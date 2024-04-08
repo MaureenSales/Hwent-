@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Row : MonoBehaviour
 {
-    public List<GameObject> unitObjects = new();
-    public List<UnitCard> unitsInRow = new();
+    public List<GameObject> unitObjects;
+    public List<UnitCard> unitsInRow;
     public GameObject BoostRow = null;
     public SpecialCard boostCard;
     private GameObject powerRow = null;
 
     public void Start()
     {
+        unitObjects = new();
+        unitsInRow = new();
         if (this.name == "MeleeZone")
         {
             powerRow = this.transform.parent.Find("PowerMelee").gameObject;
@@ -29,6 +31,7 @@ public class Row : MonoBehaviour
     {
         unitObjects.Add(unit);
         Debug.Log(unitObjects.Count);
+        Debug.Log(this.name);
         if (unit.GetComponent<ThisCard>().thisCard is UnitCard)
         {
             unitsInRow.Add((UnitCard)unit.GetComponent<ThisCard>().thisCard);

@@ -7,7 +7,7 @@ using TMPro;
 
 public class SumPower : MonoBehaviour
 {
-    public Row row;
+    public GameObject row;
     public int power;
 
     public TextMeshProUGUI powerText;
@@ -17,19 +17,6 @@ public class SumPower : MonoBehaviour
         power = 0;
         powerText.text = power.ToString();
 
-        if (this.name == "PowerMelee")
-        {
-            row = this.transform.parent.GetComponentInChildren<Row>();
-        }
-        else if (this.name == "PowerRanged")
-        {
-            row = this.transform.parent.GetComponentInChildren<Row>();
-        }
-        else if (this.name == "PowerSiege")
-        {
-            row = this.transform.parent.GetComponentInChildren<Row>();
-        }
-
     }
 
     // Update is called once per frame
@@ -37,18 +24,24 @@ public class SumPower : MonoBehaviour
     {
         Debug.Log("UpdatePower enter");
         int updatePower = 0;
-
-        foreach (var unit in row.unitObjects)
+        Debug.Log(this.name);
+        Debug.Log(row.GetComponent<Row>().unitObjects.Count);
+        Debug.Log(row.name);
+        foreach (var unit in row.GetComponent<Row>().unitObjects)
         {
+            Debug.Log("sitiiene");
             if (unit.GetComponent<ThisCard>().thisCard is UnitCard)
             {
+                Debug.Log(unit.GetComponent<ThisCard>().powerText.text);
                 updatePower += int.Parse(unit.GetComponent<ThisCard>().powerText.text);
 
             }
         }
         power = updatePower;
+        Debug.Log(power);
+        Debug.Log(powerText.text);
         powerText.text = power.ToString();
-
+        Debug.Log(powerText.text);
         this.transform.parent.parent.Find("SumTotalPower").GetComponent<SumTotalPower>().UpdateTotalPower();
     }
 }

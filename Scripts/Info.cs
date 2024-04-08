@@ -9,7 +9,6 @@ public class Info : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Vector3 originalScale;
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(this.name + " OnPointerEnter");
         originalScale = this.transform.localScale;
         this.transform.localScale = new Vector3(originalScale.x + 0.1f, originalScale.y + 0.1f, 0f);
         if (GameObject.Find("Info") != null)
@@ -23,7 +22,6 @@ public class Info : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log(this.name + " OnPointerExit");
         this.transform.localScale = originalScale;
         if(CardInfo != null) Destroy(CardInfo);
     }

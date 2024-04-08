@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeatherController : MonoBehaviour
@@ -50,29 +51,58 @@ public class WeatherController : MonoBehaviour
 
     public void WeatherEffect(GameObject unit, Transform unitTransform)
     {
+        Debug.Log(unit.transform.parent.parent);
         Debug.Log("EnterWeatherEffect");
-        Debug.Log(weather[0] + " " + weather[1] + " " + weather[2]);
-
+        Debug.Log(unit.GetComponent<ThisCard>().powerText.text);
             if (weather[0] && unitTransform.name == "MeleeZone")
             {
                 Debug.Log("EnterWeatherFrost");
-                Debug.Log(unit.GetComponent<ThisCard>().cardName);
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
+                if(unit.transform.parent.parent.name == "Enemy")
+                {
+                    unit.transform.parent.parent.Find("EnemyField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower();
+                }
+                else
+                {
+                    unit.transform.parent.parent.Find("PlayerField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower();
+                }
+                GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Melee");
             }
             else if (weather[1] && unitTransform.name == "RangedZone")
             {
+                Debug.Log("EnterWeatherFog");
+                Debug.Log(unit.transform.parent.name);
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
+                if(unit.transform.parent.parent.name == "Enemy")
+                {
+                    unit.transform.parent.parent.Find("EnemyField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower();
+                }
+                else
+                {
+                    unit.transform.parent.parent.Find("PlayerField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower();
+                }
+                GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Ranged");
             }
             else if (weather[2] && unitTransform.name == "SiegeZone")
             {
+                Debug.Log("EnterWeatherRain");
+                Debug.Log(unit.transform.parent.name);
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
+                if(unit.transform.parent.parent.name == "Enemy")
+                {
+                    unit.transform.parent.parent.Find("EnemyField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower();
+                }
+                else
+                {
+                    unit.transform.parent.parent.Find("PlayerField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower();
+                }
+                GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Siege");
             }
+
+            Debug.Log(unit.GetComponent<ThisCard>().powerText.text);
 
     }
 
@@ -84,13 +114,12 @@ public class WeatherController : MonoBehaviour
             {
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                Debug.Log(unit.transform.parent.name);
-
+                Debug.Log("EnterWeatherEffectList");
                 switch (unit.transform.parent.name)
                 {
-                    case "MeleeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(unit, "Melee"); break;
-                    case "RangedZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(unit, "Ranged"); break;
-                    case "SiegeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(unit, "Siege"); break;
+                    case "MeleeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Melee"); break;
+                    case "RangedZone": GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Ranged"); break;
+                    case "SiegeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Siege"); break;
                 }
 
                 unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
