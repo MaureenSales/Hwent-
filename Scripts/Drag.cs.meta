@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2fc1e26f1b2b1c471b209f027352b9b2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - meleeZone: {fileID: 5980352557944525688, guid: 046ef1d72ecffb54583773e075af42d2, type: 3}
+  - rangedZone: {fileID: 7634108483140742307, guid: 9a967125dab1beb93b36709983559060, type: 3}
+  - siegeZone: {fileID: 6459409318014722168, guid: 618770ef6c690480a886f6ba59ede91c, type: 3}
+  - weatherZone: {fileID: 1102051457372196276, guid: 416a268c0207da46e86c3b14188972ef, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
