@@ -142,8 +142,8 @@ public class DropZone : MonoBehaviour, IDropHandler
             //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects);
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Player");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
             GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn(temp);
 
@@ -158,9 +158,9 @@ public class DropZone : MonoBehaviour, IDropHandler
             //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Player");
             GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn(temp);
          }
          else if (this.name == "SiegeWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().cardName == "Diluvio Quidditch" && (this.transform.childCount < 1))
@@ -174,8 +174,8 @@ public class DropZone : MonoBehaviour, IDropHandler
             //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects);
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Player");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
             GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn(temp);
          }

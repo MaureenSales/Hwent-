@@ -103,7 +103,7 @@ public class WeatherController : MonoBehaviour
 
     }
 
-    public void WeatherEffect(List<GameObject> units)
+    public void WeatherEffect(List<GameObject> units, string owner)
     {
         foreach (var unit in units)
         {
@@ -114,9 +114,9 @@ public class WeatherController : MonoBehaviour
                 Debug.Log("EnterWeatherEffectList");
                 switch (unit.transform.parent.name)
                 {
-                    case "MeleeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Melee"); break;
-                    case "RangedZone": GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Ranged"); break;
-                    case "SiegeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Siege"); break;
+                    case "MeleeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveAfterWeather(unit, "Melee", owner); break;
+                    case "RangedZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveAfterWeather(unit, "Ranged", owner); break;
+                    case "SiegeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveAfterWeather(unit, "Siege", owner); break;
                 }
 
                 unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();

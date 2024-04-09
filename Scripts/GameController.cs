@@ -205,6 +205,38 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void ImproveAfterWeather(GameObject eventData, string zone, string owner)
+    {
+        Debug.Log("EnterImprove");
+        GameObject boost = null;
+        if(owner == "Enemy")
+        {
+        boost = GameObject.Find("EnemyField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+
+        }
+        else
+        {
+            boost = GameObject.Find("PlayerField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+        }
+
+        if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
+        {
+            Debug.Log("EnterBoostMelee");
+            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+        }
+        else if ((boost.transform.childCount != 0) && (boost.name == "BoostRanged"))
+        {
+            Debug.Log("EnterBoostRanged");
+            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+        }
+        else if ((boost.transform.childCount != 0) && (boost.name == "BoostSiege"))
+        {
+            Debug.Log("EnterBoostSiege");
+            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+        }
+    }
+
+
 
     public void ImproveUnits(GameObject unit, string zone)
     {
