@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 public class GameController : MonoBehaviour
 {
@@ -15,7 +16,8 @@ public class GameController : MonoBehaviour
     public GameObject HandEnemy;
     public GameObject DeckPlayer;
     public GameObject DeckEnemy;
-    public string currentTurn;
+    public GameObject currentTurn;
+    public GameObject notCurrentTurn;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +40,7 @@ public class GameController : MonoBehaviour
         if (unitCard.Skill == Global.Effects["DrawCard"])
         {
             Debug.Log("EnterDrawCard");
-            if (currentTurn == "Player")
+            if (currentTurn.name == "Player")
             {
                 await Task.Delay(800);
                 DeckPlayer.GetComponent<Draw>().DrawCard();
@@ -52,7 +54,7 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["PutBoost"])
         {
             Debug.Log("EnterPutBoost");
-            if (currentTurn == "Player")
+            if (currentTurn.name == "Player")
             {
 
             }
@@ -64,7 +66,7 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["PutWeather"])
         {
             Debug.Log("EnterPutWeather");
-            if (currentTurn == "Player")
+            if (currentTurn.name == "Player")
             {
 
             }
@@ -76,7 +78,7 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["PowerfulCard"])
         {
             Debug.Log("PowerfulCard");
-            if (currentTurn == "Player")
+            if (currentTurn.name == "Player")
             {
 
             }
@@ -88,7 +90,7 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["LessPowerCard"])
         {
             Debug.Log("LessPowerCard");
-            if (currentTurn == "Player")
+            if (currentTurn.name == "Player")
             {
 
             }
@@ -100,7 +102,7 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["Average"])
         {
             Debug.Log("Average");
-            if (currentTurn == "Player")
+            if (currentTurn.name == "Player")
             {
 
             }
@@ -112,19 +114,52 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["ClearRow"])
         {
             Debug.Log("ClearRow");
-            if (currentTurn == "Player")
-            {
+            Debug.Log(notCurrentTurn.name);
 
-            }
-            else
+            int indexRow = -1;
+            int countUnit = 10;
+            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
             {
-
+                if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count != 0 && notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count < countUnit)
+                {
+                    countUnit = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count;
+                    indexRow = i;
+                }
             }
+            Debug.Log(indexRow);
+            Debug.Log(countUnit);
+            Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name);
+
+            if (indexRow != -1)
+            {
+                for (int i = 0; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count; i++)
+                {
+                    if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name == "MeleeRow")
+                    {
+                        Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject);
+
+                    }
+                    else if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name == "RangedRow")
+                    {
+                        Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).gameObject);
+                    }
+                    else
+                    {
+                        Debug.Log("EnterDestroySiege");
+                        Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).gameObject);
+                    }
+                }
+                Debug.Log(notCurrentTurn);
+                Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count);
+                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects = new List<GameObject>();
+                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitsInRow = new List<UnitCard>();
+            }
+
         }
         else if (unitCard.Skill == Global.Effects["MultiplyPower"])
         {
             Debug.Log("MultiplyPower");
-            if (currentTurn == "Player")
+            if (currentTurn.name == "Player")
             {
 
             }
@@ -140,16 +175,8 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("EnterImprove");
         GameObject boost = null;
-        if (currentTurn == "Player")
-        {
-            Debug.Log("TurnoActualJugador");
-            boost = GameObject.Find("PlayerField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
-        }
-        else
-        {
-            Debug.Log("TurnoActualEnemigo");
-            boost = GameObject.Find("EnemyField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
-        }
+
+        boost = GameObject.Find(currentTurn.name + "Field").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
 
         if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
         {
@@ -177,25 +204,14 @@ public class GameController : MonoBehaviour
 
         unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
 
-        if (currentTurn == "Player")
+        switch (zone)
         {
-            switch (zone)
-            {
-                case "Melee": Player.transform.Find("PlayerField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-                case "Ranged": Player.transform.Find("PlayerField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-                case "Siege": Player.transform.Find("PlayerField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-            }
+            case "Melee": currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+            case "Ranged": currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+            case "Siege": currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
+        }
 
-        }
-        else
-        {
-            switch (zone)
-            {
-                case "Melee": Enemy.transform.Find("EnemyField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-                case "Ranged": Enemy.transform.Find("EnemyField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-                case "Siege": Enemy.transform.Find("EnemyField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower(); break;
-            }
-        }
+
 
     }
 
@@ -251,30 +267,33 @@ public class GameController : MonoBehaviour
 
     private IEnumerator ChangeTurn(GameObject thisPlayerTurn)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
+        yield return new WaitForEndOfFrame();
         thisPlayerTurn.transform.GetComponentInChildren<PlayerController>().IsYourTurn = false;
 
         if (thisPlayerTurn.name == "Player")
         {
-            currentTurn = "Enemy";
+            currentTurn = Enemy;
+            notCurrentTurn = Player;
             GameObject.Find("Enemy").GetComponentInChildren<PlayerController>().IsYourTurn = true;
             Message.gameObject.SetActive(true);
             Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + GameObject.Find("Enemy").GetComponentInChildren<PlayerController>().Nick;
         }
         else if (thisPlayerTurn.name == "Enemy")
         {
-            currentTurn = "Player";
+            currentTurn = Player;
+            notCurrentTurn = Enemy;
             GameObject.Find("Player").GetComponentInChildren<PlayerController>().IsYourTurn = true;
             Message.gameObject.SetActive(true);
             Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + GameObject.Find("Player").GetComponentInChildren<PlayerController>().Nick;
         }
         yield return new WaitForSeconds(0.5f);
-        SwapObjects(thisPlayerTurn);
+        SwapObjects();
         yield return new WaitForSeconds(1.2f);
         Message.gameObject.SetActive(false);
     }
 
-    private void SwapObjects(GameObject thisPlayerTurn)
+    private void SwapObjects()
     {
         Vector3 positionPlayerSumTotalPower = Player.transform.Find("PlayerField").Find("SumTotalPower").position;
         Vector3 positionPlayerMeleeRow = Player.transform.Find("PlayerField").Find("MeleeRow").position;

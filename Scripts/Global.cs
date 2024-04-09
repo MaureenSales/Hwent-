@@ -11,7 +11,7 @@ public static class Global
         {"PutBoost", "Poner un aumento en una fila propia"},
         {"DrawCard", "Robar un carta"},
         {"PutWeather", "Poner un clima"},
-        {"PowerfulCard", "Eliminar la carta con más poder del rival"},
+        {"PowerfulCard", "Eliminar la carta con más poder del campo"},
         {"LessPowerCard","Eliminar la carta con menos poder del rival"},
         {"MultiplyPower", "Multiplica por n su ataque, siendo n la cantidad de cartas iguales a ella en el campo"},
         {"ClearRow", "Limpia la fila, no vacia, con menos unidades del rival"},

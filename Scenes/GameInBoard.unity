@@ -2250,6 +2250,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 961618069827340085, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 961618069827340085, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 961618069827340085, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1914759407430228260, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
@@ -2778,6 +2790,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7746590968057055669, guid: 11422ac865929583db726601db354ad0, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746590968057055669, guid: 11422ac865929583db726601db354ad0, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746590968057055669, guid: 11422ac865929583db726601db354ad0, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2919,7 +2943,8 @@ MonoBehaviour:
   HandEnemy: {fileID: 1264600721}
   DeckPlayer: {fileID: 5946110859269600792}
   DeckEnemy: {fileID: 1277377441}
-  currentTurn: 
+  currentTurn: {fileID: 797536286}
+  notCurrentTurn: {fileID: 596410375}
 --- !u!1 &1627828911
 GameObject:
   m_ObjectHideFlags: 0
@@ -4001,6 +4026,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3610624667541900044, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610624667541900044, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610624667541900044, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4805156005102691994, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -4459,6 +4496,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 557625253011021969, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 961618069827340085, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 961618069827340085, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 961618069827340085, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
+      propertyPath: m_ChildControlHeight
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1878466736936016010, guid: 5af482ea3d4ce2c50960b60f632b19ef, type: 3}
@@ -4944,6 +4993,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7746590968057055669, guid: 11422ac865929583db726601db354ad0, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746590968057055669, guid: 11422ac865929583db726601db354ad0, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746590968057055669, guid: 11422ac865929583db726601db354ad0, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4977,6 +5038,18 @@ PrefabInstance:
     - target: {fileID: 2694549926293350390, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
       propertyPath: m_Name
       value: RangedRow
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610624667541900044, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610624667541900044, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3610624667541900044, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4805156005102691994, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
       propertyPath: m_IsActive
