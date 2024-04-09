@@ -67,7 +67,6 @@ public class WeatherController : MonoBehaviour
                 {
                     unit.transform.parent.parent.Find("PlayerField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower();
                 }
-                GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Melee");
             }
             else if (weather[1] && unitTransform.name == "RangedZone")
             {
@@ -83,7 +82,6 @@ public class WeatherController : MonoBehaviour
                 {
                     unit.transform.parent.parent.Find("PlayerField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower();
                 }
-                GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Ranged");
             }
             else if (weather[2] && unitTransform.name == "SiegeZone")
             {
@@ -99,7 +97,6 @@ public class WeatherController : MonoBehaviour
                 {
                     unit.transform.parent.parent.Find("PlayerField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower();
                 }
-                GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(unit, "Siege");
             }
 
             Debug.Log(unit.GetComponent<ThisCard>().powerText.text);

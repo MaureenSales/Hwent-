@@ -24,11 +24,10 @@ public class DropZone : MonoBehaviour, IDropHandler
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-                  //eventData.pointerDrag.GetComponent<Info>().enabled = false;
-
+                  
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
-                  GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Melee");
                   GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
+                  GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Melee");
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn(this.transform.parent.parent.parent.gameObject);
                }
                else if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Melee))
@@ -55,8 +54,8 @@ public class DropZone : MonoBehaviour, IDropHandler
                   //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
-                  GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Ranged");
                   GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
+                  GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Ranged");
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn(this.transform.parent.parent.parent.gameObject);
                }
                else if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Ranged))
@@ -82,8 +81,8 @@ public class DropZone : MonoBehaviour, IDropHandler
                   //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
-                  GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Siege");
                   GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
+                  GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Siege");
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn(this.transform.parent.parent.parent.gameObject);
                }
                else if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Siege))
