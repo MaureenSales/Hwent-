@@ -77,8 +77,8 @@ public class CardDataBase : MonoBehaviour
       0, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("ArgusFilch")));
       Neutral.Add(new Unit("Peter Pettigrew", Global.Factions.Neutral, "", "aunque cobarde y traidor, es un recordatorio de que incluso los personajes más oscuros tienen profundidad y complejidad",
       3, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("PeterPettigrew")));
-      Neutral.Add(new Unit("Flawkes", Global.Factions.Neutral, Global.Effects["LessPowerCard"], "Se cree que Fawkes ha existido durante siglos. Sus lágrimas tienen propiedades curativas y su canto puede inspirar coraje o miedo. Fue el fiel compañero y defensor del director de Hogwarts, Albus Dumbledore.",
-      3, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("Flawkes")));
+      Neutral.Add(new Unit("Fawkes", Global.Factions.Neutral, Global.Effects["LessPowerCard"], "Se cree que Fawkes ha existido durante siglos. Sus lágrimas tienen propiedades curativas y su canto puede inspirar coraje o miedo. Fue el fiel compañero y defensor del director de Hogwarts, Albus Dumbledore.",
+      3, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("Fawkes")));
       Neutral.Add(new Unit("Avada Kedavra", Global.Factions.Neutral, "", "El hechizo causa una muerte instantánea y sin dolor, sin causar ninguna herida en el cuerpo y sin dejar rastro de violencia.",
       10, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("AvadaKedavra")));
 

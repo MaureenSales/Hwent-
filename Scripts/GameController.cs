@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class GameController : MonoBehaviour
     public GameObject DeckEnemy;
     public GameObject currentTurn;
     public GameObject notCurrentTurn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -78,26 +80,91 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["PowerfulCard"])
         {
             Debug.Log("PowerfulCard");
-            if (currentTurn.name == "Player")
-            {
+            int maxPower = int.MinValue;
+            int indexRow = -1;
+            int indexInRowZone = -1;
+            string owner = "";
 
-            }
-            else
+            for (int i = 1; i < Player.transform.Find("PlayerField").childCount; i++)
             {
+                for (int j = 0; j < Player.transform.Find("PlayerField").GetChild(i).GetChild(0).childCount; j++)
+                {
+                    Debug.Log("i=" + i);
+                    Debug.Log("j=" + j);
+                    Debug.Log(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).name);
 
+                    if (int.Parse(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower && !(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        maxPower = int.Parse(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                        indexRow = i;
+                        indexInRowZone = j;
+                        owner = "Player";
+                    }
+
+
+                }
             }
+
+            for (int i = 1; i < Enemy.transform.Find("EnemyField").childCount; i++)
+            {
+                for (int j = 0; j < Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).childCount; j++)
+                {
+
+
+                    if (int.Parse(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower && !(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        maxPower = int.Parse(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                        indexRow = i;
+                        indexInRowZone = j;
+                        owner = "Enemy";
+                    }
+
+                }
+            }
+
+            if (indexRow != -1)
+            {
+                if (owner == "Enemy")
+                {
+                    Destroy(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                }
+                else
+                {
+                    Destroy(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                }
+            }
+
         }
         else if (unitCard.Skill == Global.Effects["LessPowerCard"])
         {
             Debug.Log("LessPowerCard");
-            if (currentTurn.name == "Player")
+            int minPower = int.MaxValue;
+            int indexRow = -1;
+            int indexInRowZone = -1;
+            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
             {
+                for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+                {
+                    Debug.Log("i=" + i);
+                    Debug.Log("j=" + j);
+                    Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
 
+
+                    if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) < minPower && !(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        minPower = int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                        indexRow = i;
+                        indexInRowZone = j;
+                    }
+
+                }
             }
-            else
+
+            if (indexRow != -1)
             {
-
+                Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
             }
+
         }
         else if (unitCard.Skill == Global.Effects["Average"])
         {
@@ -209,9 +276,9 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("EnterImprove");
         GameObject boost = null;
-        if(owner == "Enemy")
+        if (owner == "Enemy")
         {
-        boost = GameObject.Find("EnemyField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+            boost = GameObject.Find("EnemyField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
 
         }
         else
