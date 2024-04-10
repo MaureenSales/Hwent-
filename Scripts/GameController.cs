@@ -232,7 +232,15 @@ public class GameController : MonoBehaviour
                         Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
                     }
                 }
-                Player.transform.Find("PlayerField").GetChild(i).GetComponentInChildren<SumPower>();
+                Player.transform.Find("PlayerField").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
+                if(Player.transform.Find("PlayerField").GetChild(i).GetChild(2).childCount != 0)
+                {
+                    ImproveUnits(Player.transform.Find("PlayerField").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+                }
+                if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
+                {
+                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, "Player");
+                }
             }
 
 
@@ -250,12 +258,28 @@ public class GameController : MonoBehaviour
 
                 }
                 Enemy.transform.Find("EnemyField").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
+                if(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(2).childCount != 0)
+                {
+                    ImproveUnits(Enemy.transform.Find("EnemyField").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+                }
+
+                if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
+                {
+                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, "Enemy");
+                }
             }
 
-            if(!(unitCard is HeroUnit))
+            if (!(unitCard is HeroUnit))
             {
                 unit.GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
-                unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower(); 
+                unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower();
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(unit, unit.GetComponent<Drag>().parentToReturnTo);
+                switch (unit.GetComponent<Drag>().parentToReturnTo.name)
+                {
+                    case "MeleeZone": Improve(unit, "Melee"); break;
+                    case "RangedZone": Improve(unit, "Ranged"); break;
+                    case "SiegeZone": Improve(unit, "Siege"); break;
+                }
             }
 
 
@@ -357,17 +381,17 @@ public class GameController : MonoBehaviour
         if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
         {
             Debug.Log("EnterBoostMelee");
-            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject, zone);
         }
         else if ((boost.transform.childCount != 0) && (boost.name == "BoostRanged"))
         {
             Debug.Log("EnterBoostRanged");
-            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject, zone);
         }
         else if ((boost.transform.childCount != 0) && (boost.name == "BoostSiege"))
         {
             Debug.Log("EnterBoostSiege");
-            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject, zone);
         }
     }
 
@@ -388,17 +412,17 @@ public class GameController : MonoBehaviour
         if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
         {
             Debug.Log("EnterBoostMelee");
-            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject, zone);
         }
         else if ((boost.transform.childCount != 0) && (boost.name == "BoostRanged"))
         {
             Debug.Log("EnterBoostRanged");
-            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject, zone);
         }
         else if ((boost.transform.childCount != 0) && (boost.name == "BoostSiege"))
         {
             Debug.Log("EnterBoostSiege");
-            GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject, zone);
         }
     }
 
