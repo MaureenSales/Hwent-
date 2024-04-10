@@ -501,8 +501,10 @@ public class GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         yield return new WaitForEndOfFrame();
-        thisPlayerTurn.transform.GetComponentInChildren<PlayerController>().IsYourTurn = false;
 
+        if(!thisPlayerTurn.transform.GetComponentInChildren<PlayerController>().Pass)
+        thisPlayerTurn.transform.GetComponentInChildren<PlayerController>().IsYourTurn = false;
+        
         if (thisPlayerTurn.name == "Player")
         {
             currentTurn = Enemy;

@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     //public Sprite Avatar;
     public int CardsInHand = 10;
     public bool IsYourTurn = false;
+    public bool Pass = false;
 
     //public Image avatar;
     public TextMeshProUGUI countCards;
@@ -56,7 +57,7 @@ public class PlayerController : MonoBehaviour
         {
             if(GameObject.Find("PlayerBoard") != null)
             {
-            CardsInHand = GameObject.Find("PlayerBoard").GetComponentInChildren<HandCards>().CardsInHandObject.Count;
+            CardsInHand = GameObject.Find("PlayerBoard").transform.Find("Hand").childCount;
             countCards.text = CardsInHand.ToString();
 
             }
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
         {
             if(GameObject.Find("EnemyBoard") != null)
             {
-            CardsInHand = GameObject.Find("EnemyBoard").GetComponentInChildren<HandCards>().CardsInHandObject.Count;
+            CardsInHand = GameObject.Find("EnemyBoard").transform.Find("Hand").childCount;
             countCards.text = CardsInHand.ToString();
 
             }
