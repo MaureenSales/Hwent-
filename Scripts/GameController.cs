@@ -126,12 +126,40 @@ public class GameController : MonoBehaviour
             {
                 if (owner == "Enemy")
                 {
-                    Destroy(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                    if (int.Parse(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
+                    {
+                        Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        Destroy(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        Enemy.transform.Find("EnemyField").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+                    }
+                    else
+                    {
+                        unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
+                        Destroy(unit);
+                    }
+
                 }
                 else
                 {
-                    Destroy(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                    if (int.Parse(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
+                    {
+                        Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        Destroy(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        Player.transform.Find("PlayerField").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+                    }
+                    else
+                    {
+                        unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
+                        await Task.Delay(800);
+                        Destroy(unit);
+                    }
                 }
+            }
+            else
+            {
+                unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
+                await Task.Delay(800);
+                Destroy(unit);
             }
 
         }
@@ -162,21 +190,75 @@ public class GameController : MonoBehaviour
 
             if (indexRow != -1)
             {
+                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
                 Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
             }
 
         }
         else if (unitCard.Skill == Global.Effects["Average"])
         {
             Debug.Log("Average");
-            if (currentTurn.name == "Player")
-            {
 
-            }
-            else
-            {
+            int totalPowerField = 0;
+            int countCardInField = 0;
 
+            totalPowerField += Player.transform.Find("PlayerField").GetComponentInChildren<SumTotalPower>().total;
+            totalPowerField += Enemy.transform.Find("EnemyField").GetComponentInChildren<SumTotalPower>().total;
+
+            countCardInField += Player.transform.Find("PlayerField").Find("MeleeRow").GetChild(0).childCount;
+            countCardInField += Player.transform.Find("PlayerField").Find("RangedRow").GetChild(0).childCount;
+            countCardInField += Player.transform.Find("PlayerField").Find("SiegeRow").GetChild(0).childCount;
+
+            countCardInField += Enemy.transform.Find("EnemyField").Find("MeleeRow").GetChild(0).childCount;
+            countCardInField += Enemy.transform.Find("EnemyField").Find("RangedRow").GetChild(0).childCount;
+            countCardInField += Enemy.transform.Find("EnemyField").Find("SiegeRow").GetChild(0).childCount;
+
+            int ApproximateAverage = totalPowerField / (countCardInField + 1);
+            Debug.Log(countCardInField);
+            Debug.Log(totalPowerField);
+            Debug.Log(ApproximateAverage);
+
+            for (int i = 1; i < Player.transform.Find("PlayerField").childCount; i++)
+            {
+                for (int j = 0; j < Player.transform.Find("PlayerField").GetChild(i).GetChild(0).childCount; j++)
+                {
+                    Debug.Log("i=" + i);
+                    Debug.Log("j=" + j);
+                    Debug.Log(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).name);
+
+                    if (!(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+                    }
+                }
+                Player.transform.Find("PlayerField").GetChild(i).GetComponentInChildren<SumPower>();
             }
+
+
+            for (int i = 1; i < Enemy.transform.Find("EnemyField").childCount; i++)
+            {
+                for (int j = 0; j < Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).childCount; j++)
+                {
+                    Debug.Log("i=" + i);
+                    Debug.Log("j=" + j);
+                    Debug.Log(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).name);
+                    if (!(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+                    }
+
+                }
+                Enemy.transform.Find("EnemyField").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
+            }
+
+            if(!(unitCard is HeroUnit))
+            {
+                unit.GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+                unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower(); 
+            }
+
+
         }
         else if (unitCard.Skill == Global.Effects["ClearRow"])
         {
@@ -193,9 +275,6 @@ public class GameController : MonoBehaviour
                     indexRow = i;
                 }
             }
-            Debug.Log(indexRow);
-            Debug.Log(countUnit);
-            Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name);
 
             if (indexRow != -1)
             {
@@ -207,11 +286,13 @@ public class GameController : MonoBehaviour
                         {
                             Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject);
 
+
                         }
 
                     }
                     else if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name == "RangedRow")
                     {
+                        Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangeZone").GetChild(i).name);
                         if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
                         {
                             Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).gameObject);
@@ -225,6 +306,8 @@ public class GameController : MonoBehaviour
                             Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).gameObject);
                         }
                     }
+
+                    notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
                 }
                 Debug.Log(notCurrentTurn);
                 Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count);
@@ -236,16 +319,32 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["MultiplyPower"])
         {
             Debug.Log("MultiplyPower");
-            if (currentTurn.name == "Player")
+            int count = 0;
+            for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
             {
+                for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+                {
+                    Debug.Log("i=" + i);
+                    Debug.Log("j=" + j);
+                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
 
+                    if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard == unitCard)
+                    {
+                        count++;
+                    }
+
+
+                }
             }
-            else
+
+            if (count != 0)
             {
-
+                Debug.Log(unit.GetComponent<Drag>().parentToReturnTo.parent.name);
+                unit.GetComponent<ThisCard>().powerText.text = (int.Parse(unit.GetComponent<ThisCard>().powerText.text) * count).ToString();
+                unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower();
             }
+
         }
-
     }
 
     public void Improve(GameObject eventData, string zone)
