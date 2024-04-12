@@ -6,7 +6,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
-    public string Nick{ get; set; }
+    public string Nick { get; set; }
     //public Sprite Avatar;
     public int CardsInHand = 10;
     public bool IsYourTurn = false;
@@ -22,8 +22,8 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        if(this.name.StartsWith("Enemy"))
+
+        if (this.name.StartsWith("Enemy"))
         {
             Nick = "Enemy";
         }
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!IsYourTurn)
+        if (!IsYourTurn)
         {
             Turn.SetActive(false);
             PlayerBoard.SetActive(false);
@@ -53,24 +53,30 @@ public class PlayerController : MonoBehaviour
             PlayerBoard.SetActive(true);
         }
 
-        if(this.name == "PlayerInfo")
+        if (this.name == "PlayerInfo")
         {
-            if(GameObject.Find("PlayerBoard") != null)
+            if (GameObject.Find("PlayerBoard") != null)
             {
-            CardsInHand = GameObject.Find("PlayerBoard").transform.Find("Hand").childCount;
-            countCards.text = CardsInHand.ToString();
+                CardsInHand = GameObject.Find("PlayerBoard").transform.Find("Hand").childCount;
+                countCards.text = CardsInHand.ToString();
 
             }
         }
-        else if(this.name == "EnemyInfo")
+        else if (this.name == "EnemyInfo")
         {
-            if(GameObject.Find("EnemyBoard") != null)
+            if (GameObject.Find("EnemyBoard") != null)
             {
-            CardsInHand = GameObject.Find("EnemyBoard").transform.Find("Hand").childCount;
-            countCards.text = CardsInHand.ToString();
+                CardsInHand = GameObject.Find("EnemyBoard").transform.Find("Hand").childCount;
+                countCards.text = CardsInHand.ToString();
 
             }
         }
-        
+
+    }
+
+    public void UpdatePass()
+    {
+        Pass = true;
+        GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
     }
 }

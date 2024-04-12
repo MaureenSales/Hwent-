@@ -10,13 +10,12 @@ using System;
 
 public class GameController : MonoBehaviour
 {
-    public GameObject Player;
-    public GameObject Enemy;
     public GameObject Message;
     public GameObject HandPlayer;
     public GameObject HandEnemy;
     public GameObject DeckPlayer;
     public GameObject DeckEnemy;
+    public GameObject GraveyardPlayer;
     public GameObject currentTurn;
     public GameObject notCurrentTurn;
 
@@ -24,14 +23,14 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Debug.Log("Start");
-        Player.GetComponentInChildren<PlayerController>().IsYourTurn = true;
+        currentTurn.GetComponentInChildren<PlayerController>().IsYourTurn = true;
         Message.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateWinner(Player.transform.Find("PlayerField").GetComponentInChildren<SumTotalPower>().total, Enemy.transform.Find("EnemyField").GetComponentInChildren<SumTotalPower>().total);
+        UpdateWinner(currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total);
     }
 
     async public void Effects(GameObject unit)
@@ -85,38 +84,38 @@ public class GameController : MonoBehaviour
             int indexInRowZone = -1;
             string owner = "";
 
-            for (int i = 1; i < Player.transform.Find("PlayerField").childCount; i++)
+            for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
             {
-                for (int j = 0; j < Player.transform.Find("PlayerField").GetChild(i).GetChild(0).childCount; j++)
+                for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
                 {
                     Debug.Log("i=" + i);
                     Debug.Log("j=" + j);
-                    Debug.Log(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).name);
+                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
 
-                    if (int.Parse(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower && !(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    if (int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower && !(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
                     {
-                        maxPower = int.Parse(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                        maxPower = int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
                         indexRow = i;
                         indexInRowZone = j;
-                        owner = "Player";
+                        owner = currentTurn.name;
                     }
 
 
                 }
             }
 
-            for (int i = 1; i < Enemy.transform.Find("EnemyField").childCount; i++)
+            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
             {
-                for (int j = 0; j < Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).childCount; j++)
+                for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
                 {
 
-
-                    if (int.Parse(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower && !(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    //eliminar la carta con mas poder del campo dio error aqui
+                    if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower && !(notCurrentTurn.transform.Find(notCurrentTurn + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
                     {
-                        maxPower = int.Parse(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                        maxPower = int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
                         indexRow = i;
                         indexInRowZone = j;
-                        owner = "Enemy";
+                        owner = notCurrentTurn.name;
                     }
 
                 }
@@ -124,13 +123,13 @@ public class GameController : MonoBehaviour
 
             if (indexRow != -1)
             {
-                if (owner == "Enemy")
+                if (owner == notCurrentTurn.name)
                 {
-                    if (int.Parse(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
+                    if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
                     {
-                        Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                        Destroy(Enemy.transform.Find("EnemyField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                        Enemy.transform.Find("EnemyField").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+                        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
                     }
                     else
                     {
@@ -141,11 +140,11 @@ public class GameController : MonoBehaviour
                 }
                 else
                 {
-                    if (int.Parse(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
+                    if (int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
                     {
-                        Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                        Destroy(Player.transform.Find("PlayerField").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                        Player.transform.Find("PlayerField").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+                        currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        Destroy(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
                     }
                     else
                     {
@@ -203,69 +202,69 @@ public class GameController : MonoBehaviour
             int totalPowerField = 0;
             int countCardInField = 0;
 
-            totalPowerField += Player.transform.Find("PlayerField").GetComponentInChildren<SumTotalPower>().total;
-            totalPowerField += Enemy.transform.Find("EnemyField").GetComponentInChildren<SumTotalPower>().total;
+            totalPowerField += currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total;
+            totalPowerField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total;
 
-            countCardInField += Player.transform.Find("PlayerField").Find("MeleeRow").GetChild(0).childCount;
-            countCardInField += Player.transform.Find("PlayerField").Find("RangedRow").GetChild(0).childCount;
-            countCardInField += Player.transform.Find("PlayerField").Find("SiegeRow").GetChild(0).childCount;
+            countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetChild(0).childCount;
+            countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetChild(0).childCount;
+            countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetChild(0).childCount;
 
-            countCardInField += Enemy.transform.Find("EnemyField").Find("MeleeRow").GetChild(0).childCount;
-            countCardInField += Enemy.transform.Find("EnemyField").Find("RangedRow").GetChild(0).childCount;
-            countCardInField += Enemy.transform.Find("EnemyField").Find("SiegeRow").GetChild(0).childCount;
+            countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetChild(0).childCount;
+            countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetChild(0).childCount;
+            countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetChild(0).childCount;
 
             int ApproximateAverage = totalPowerField / (countCardInField + 1);
             Debug.Log(countCardInField);
             Debug.Log(totalPowerField);
             Debug.Log(ApproximateAverage);
 
-            for (int i = 1; i < Player.transform.Find("PlayerField").childCount; i++)
+            for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
             {
-                for (int j = 0; j < Player.transform.Find("PlayerField").GetChild(i).GetChild(0).childCount; j++)
+                for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
                 {
                     Debug.Log("i=" + i);
                     Debug.Log("j=" + j);
-                    Debug.Log(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).name);
+                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
 
-                    if (!(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    if (!(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
                     {
-                        Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+                        currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
                     }
                 }
-                Player.transform.Find("PlayerField").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
-                if(Player.transform.Find("PlayerField").GetChild(i).GetChild(2).childCount != 0)
+                currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
+                if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
                 {
-                    ImproveUnits(Player.transform.Find("PlayerField").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+                    ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
                 }
                 if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
                 {
-                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(Player.transform.Find("PlayerField").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, "Player");
+                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, currentTurn.name);
                 }
             }
 
 
-            for (int i = 1; i < Enemy.transform.Find("EnemyField").childCount; i++)
+            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
             {
-                for (int j = 0; j < Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).childCount; j++)
+                for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
                 {
                     Debug.Log("i=" + i);
                     Debug.Log("j=" + j);
-                    Debug.Log(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).name);
-                    if (!(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
+                    if (!(notCurrentTurn.transform.Find(notCurrentTurn + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit))
                     {
-                        Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+                        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
                     }
 
                 }
-                Enemy.transform.Find("EnemyField").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
-                if(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(2).childCount != 0)
+                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
+                if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
                 {
-                    ImproveUnits(Enemy.transform.Find("EnemyField").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+                    ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
                 }
 
                 if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
                 {
-                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(Enemy.transform.Find("EnemyField").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, "Enemy");
+                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, notCurrentTurn.name);
                 }
             }
 
@@ -399,14 +398,14 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("EnterImprove");
         GameObject boost = null;
-        if (owner == "Enemy")
+        if (owner == currentTurn.name)
         {
-            boost = GameObject.Find("EnemyField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+            boost = currentTurn.transform.Find(currentTurn.name + "Field").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
 
         }
         else
         {
-            boost = GameObject.Find("PlayerField").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+            boost = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
         }
 
         if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
@@ -467,131 +466,389 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void UpdateWinner(int? powerPlayer, int? powerEnemy)
+    private void UpdateWinner(int? powerCurrentTurn, int? powerNotCurrentTurn)
     {
-        if (powerPlayer != null && powerEnemy != null)
+        if (powerCurrentTurn != null && powerNotCurrentTurn != null)
         {
-            if (powerPlayer > powerEnemy)
+            if (powerCurrentTurn > powerNotCurrentTurn)
             {
-                Player.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(true);
-                Enemy.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
+                currentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(true);
+                notCurrentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
             }
-            else if (powerPlayer < powerEnemy)
+            else if (powerCurrentTurn < powerNotCurrentTurn)
             {
-                Enemy.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(true);
-                Player.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
+                notCurrentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(true);
+                currentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
             }
             else
             {
-                Player.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
-                Enemy.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
+                currentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
+                notCurrentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.SetActive(false);
             }
 
         }
 
     }
-    public void FinalizedTurn(GameObject thisTurn)
+    public void FinalizedTurn()
     {
         Debug.Log("FinalizedTurn");
-        StartCoroutine(ChangeTurn(thisTurn));
+        StartCoroutine(ChangeTurn());
 
     }
 
-    private IEnumerator ChangeTurn(GameObject thisPlayerTurn)
+    private IEnumerator ChangeTurn()
     {
         yield return new WaitForSeconds(2f);
         yield return new WaitForEndOfFrame();
 
-        if(!thisPlayerTurn.transform.GetComponentInChildren<PlayerController>().Pass)
-        thisPlayerTurn.transform.GetComponentInChildren<PlayerController>().IsYourTurn = false;
-        
-        if (thisPlayerTurn.name == "Player")
+        if (currentTurn.transform.GetComponentInChildren<PlayerController>().Pass && !notCurrentTurn.transform.GetComponentInChildren<PlayerController>().Pass)
         {
-            currentTurn = Enemy;
-            notCurrentTurn = Player;
-            GameObject.Find("Enemy").GetComponentInChildren<PlayerController>().IsYourTurn = true;
             Message.gameObject.SetActive(true);
-            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + GameObject.Find("Enemy").GetComponentInChildren<PlayerController>().Nick;
+            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " a pasado turno";
+            yield return new WaitForSeconds(1f);
+            Message.gameObject.SetActive(false);
         }
-        else if (thisPlayerTurn.name == "Enemy")
+        else if (currentTurn.transform.GetComponentInChildren<PlayerController>().Pass && notCurrentTurn.transform.GetComponentInChildren<PlayerController>().Pass)
         {
-            currentTurn = Player;
-            notCurrentTurn = Enemy;
-            GameObject.Find("Player").GetComponentInChildren<PlayerController>().IsYourTurn = true;
             Message.gameObject.SetActive(true);
-            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + GameObject.Find("Player").GetComponentInChildren<PlayerController>().Nick;
+            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " a pasado turno";
+            yield return new WaitForSeconds(1f);
+            Message.gameObject.SetActive(false);
+            if (currentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.activeSelf)
+            {
+                Message.gameObject.SetActive(true);
+                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " a ganado la ronda";
+                yield return new WaitForSeconds(1f);
+                Message.gameObject.SetActive(false);
+                if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
+                {
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
+                }
+                else if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
+                {
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else if (notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf && notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
+                {
+                    Message.gameObject.SetActive(true);
+                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " y " + notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " han ganado el juego";
+                    yield return new WaitForSeconds(1f);
+                    Message.gameObject.SetActive(false);
+                    ClearField();
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    yield break;
+                }
+                else
+                {
+                    Message.gameObject.SetActive(true);
+                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " a ganado el juego";
+                    yield return new WaitForSeconds(1f);
+                    Message.gameObject.SetActive(false);
+                    ClearField();
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    yield break;
+                }
+
+                ClearField();
+                notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                Message.gameObject.SetActive(true);
+                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick;
+                yield return new WaitForSeconds(1f);
+                Message.gameObject.SetActive(false);
+                yield break;
+
+            }
+            else if (notCurrentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.activeSelf)
+            {
+                Message.gameObject.SetActive(true);
+                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " a ganado la ronda";
+                yield return new WaitForSeconds(1f);
+                Message.gameObject.SetActive(false);
+                if (!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
+                {
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
+                }
+                else if (!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
+                {
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else if (currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf && currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
+                {
+                    Message.gameObject.SetActive(true);
+                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " y " + notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " han ganado el juego";
+                    yield return new WaitForSeconds(1f);
+                    Message.gameObject.SetActive(false);
+                    ClearField();
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    yield break;
+                }
+                else
+                {
+                    Message.gameObject.SetActive(true);
+                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " a ganado el juego";
+                    yield return new WaitForSeconds(1f);
+                    Message.gameObject.SetActive(false);
+                    ClearField();
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    yield break;
+                }
+
+                ClearField();
+                notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+
+            }
+            else
+            {
+                Message.gameObject.SetActive(true);
+                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Ha ocurrido un empate";
+                yield return new WaitForSeconds(1f);
+                Message.gameObject.SetActive(false);
+
+                if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
+                {
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
+                }
+                else if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1))
+                {
+                    currentTurn.GetComponentInChildren<PlayerController>().transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else if (notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf && notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
+                {
+                    Message.gameObject.SetActive(true);
+                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " y " + notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " han ganado el juego";
+                    yield return new WaitForSeconds(1f);
+                    Message.gameObject.SetActive(false);
+                    ClearField();
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    yield break;
+                }
+                else
+                {
+                    Message.gameObject.SetActive(true);
+                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego";
+                    yield return new WaitForSeconds(1f);
+                    Message.gameObject.SetActive(false);
+                    ClearField();
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    yield break;
+                }
+
+                if(!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
+                {
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
+                }
+                else if(!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
+                {
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else
+                {
+                    Message.gameObject.SetActive(true);
+                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego";
+                    yield return new WaitForSeconds(1f);
+                    Message.gameObject.SetActive(false);
+                    ClearField();
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    yield break;
+                }
+                
+                ClearField();
+                notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+                Message.gameObject.SetActive(true);
+                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick;
+                yield return new WaitForSeconds(1f);
+                Message.gameObject.SetActive(false);
+                yield break;
+            }
         }
-        yield return new WaitForSeconds(0.5f);
-        SwapObjects();
-        yield return new WaitForSeconds(1.2f);
-        Message.gameObject.SetActive(false);
+
+        if (!notCurrentTurn.transform.GetComponentInChildren<PlayerController>().Pass)
+        {
+            currentTurn.transform.GetComponentInChildren<PlayerController>().IsYourTurn = false;
+            GameObject temp = currentTurn;
+            currentTurn = notCurrentTurn;
+            notCurrentTurn = temp;
+            currentTurn.GetComponentInChildren<PlayerController>().IsYourTurn = true;
+            Message.gameObject.SetActive(true);
+            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick;
+            yield return new WaitForSeconds(0.5f);
+            SwapObjects();
+            yield return new WaitForSeconds(1.2f);
+            Message.gameObject.SetActive(false);
+        }
+    }
+
+    private void ClearField()
+    {
+        Debug.Log("ClearField");
+        currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total = 0;
+        currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().totalText.text = "0";
+
+        for (int i = 1; i < 4; i++)
+        {
+            for (int j = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount - 1; j >= 0; j--)
+            {
+                GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).gameObject;
+                Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
+                LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
+
+            }
+            currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects = new List<GameObject>();
+            currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitsInRow = new List<UnitCard>();
+            currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().power = 0;
+            currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().powerText.text = "0";
+            if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount > 0)
+            {
+                Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).name);
+                GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).GetChild(0).gameObject;
+                Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
+                LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
+
+            }
+
+        }
+
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total = 0;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().totalText.text = "0";
+
+        for (int i = 1; i < 4; i++)
+        {
+            for (int j = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount - 1; j >= 0; j--)
+            {
+                GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).gameObject;
+                Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
+                LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
+            }
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects = new List<GameObject>();
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitsInRow = new List<UnitCard>();
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().power = 0;
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().powerText.text = "0";
+            if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).childCount > 0)
+            {
+                GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).GetChild(0).gameObject;
+                Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
+                LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
+            }
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i])
+            {
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherImagesPlayer[i].SetActive(false);
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherImagesEnemy[i].SetActive(false);
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i] = false;
+                GameObject toDestroy = GameObject.Find("WeatherZone").transform.GetChild(i).GetChild(0).gameObject;
+                LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
+            }
+        }
+
+
     }
 
     private void SwapObjects()
     {
-        Vector3 positionPlayerSumTotalPower = Player.transform.Find("PlayerField").Find("SumTotalPower").position;
-        Vector3 positionPlayerMeleeRow = Player.transform.Find("PlayerField").Find("MeleeRow").position;
-        Vector3 positionPlayerFrost = Player.transform.Find("PlayerField").Find("MeleeRow").Find("Frost").position;
-        Vector3 positionPlayerRangedRow = Player.transform.Find("PlayerField").Find("RangedRow").position;
-        Vector3 positionPlayerFog = Player.transform.Find("PlayerField").Find("RangedRow").Find("Fog").position;
-        Vector3 positionPlayerSiegeRow = Player.transform.Find("PlayerField").Find("SiegeRow").position;
-        Vector3 positionPlayerRain = Player.transform.Find("PlayerField").Find("SiegeRow").Find("Rain").position;
+        Vector3 positionCurrentTurnSumTotalPower = currentTurn.transform.Find(currentTurn.name + "Field").Find("SumTotalPower").position;
+        Vector3 positionCurrentTurnMeleeRow = currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").position;
+        Vector3 positionCurrentTurnFrost = currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("Frost").position;
+        Vector3 positionCurrentTurnRangedRow = currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").position;
+        Vector3 positionCurrentTurnFog = currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").Find("Fog").position;
+        Vector3 positionCurrentTurnSiegeRow = currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").position;
+        Vector3 positionCurrentTurnRain = currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").Find("Rain").position;
 
-        Vector3 positionEnemySumTotalPower = Enemy.transform.Find("EnemyField").Find("SumTotalPower").position;
-        Vector3 positionEnemyMeleeRow = Enemy.transform.Find("EnemyField").Find("MeleeRow").position;
-        Vector3 positionEnemyFrost = Enemy.transform.Find("EnemyField").Find("MeleeRow").Find("Frost").position;
-        Vector3 positionEnemyRangedRow = Enemy.transform.Find("EnemyField").Find("RangedRow").position;
-        Vector3 positionEnemyFog = Enemy.transform.Find("EnemyField").Find("RangedRow").Find("Fog").position;
-        Vector3 positionEnemySiegeRow = Enemy.transform.Find("EnemyField").Find("SiegeRow").position;
-        Vector3 positionEnemyRain = Enemy.transform.Find("EnemyField").Find("SiegeRow").Find("Rain").position;
+        Vector3 positionNotCurrentTurnSumTotalPower = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SumTotalPower").position;
+        Vector3 positionNotCurrentTurnMeleeRow = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").position;
+        Vector3 positionNotCurrentTurnFrost = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").Find("Frost").position;
+        Vector3 positionNotCurrentTurnRangedRow = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").position;
+        Vector3 positionNotCurrentTurnFog = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").Find("Fog").position;
+        Vector3 positionNotCurrentTurnSiegeRow = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").position;
+        Vector3 positionNotCurrentTurnRain = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").Find("Rain").position;
 
-        Player.transform.Find("PlayerField").Find("SumTotalPower").position = positionEnemySumTotalPower;
-        Player.transform.Find("PlayerField").Find("MeleeRow").position = positionEnemyMeleeRow;
-        Player.transform.Find("PlayerField").Find("MeleeRow").Find("Frost").position = positionEnemyFrost;
-        Player.transform.Find("PlayerField").Find("RangedRow").position = positionEnemyRangedRow;
-        Player.transform.Find("PlayerField").Find("RangedRow").Find("Fog").position = positionEnemyFog;
-        Player.transform.Find("PlayerField").Find("SiegeRow").position = positionEnemySiegeRow;
-        Player.transform.Find("PlayerField").Find("SiegeRow").Find("Rain").position = positionEnemyRain;
+        currentTurn.transform.Find(currentTurn.name + "Field").Find("SumTotalPower").position = positionNotCurrentTurnSumTotalPower;
+        currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").position = positionNotCurrentTurnMeleeRow;
+        currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("Frost").position = positionNotCurrentTurnFrost;
+        currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").position = positionNotCurrentTurnRangedRow;
+        currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").Find("Fog").position = positionNotCurrentTurnFog;
+        currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").position = positionNotCurrentTurnSiegeRow;
+        currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").Find("Rain").position = positionNotCurrentTurnRain;
 
-        Enemy.transform.Find("EnemyField").Find("SumTotalPower").position = positionPlayerSumTotalPower;
-        Enemy.transform.Find("EnemyField").Find("MeleeRow").position = positionPlayerMeleeRow;
-        Enemy.transform.Find("EnemyField").Find("MeleeRow").Find("Frost").position = positionPlayerFrost;
-        Enemy.transform.Find("EnemyField").Find("RangedRow").position = positionPlayerRangedRow;
-        Enemy.transform.Find("EnemyField").Find("RangedRow").Find("Fog").position = positionPlayerFog;
-        Enemy.transform.Find("EnemyField").Find("SiegeRow").position = positionPlayerSiegeRow;
-        Enemy.transform.Find("EnemyField").Find("SiegeRow").Find("Rain").position = positionPlayerRain;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SumTotalPower").position = positionCurrentTurnSumTotalPower;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").position = positionCurrentTurnMeleeRow;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").Find("Frost").position = positionCurrentTurnFrost;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").position = positionCurrentTurnRangedRow;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").Find("Fog").position = positionCurrentTurnFog;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").position = positionCurrentTurnSiegeRow;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").Find("Rain").position = positionCurrentTurnRain;
 
-        Vector3 positionPlayerInfo = Player.transform.Find("PlayerInfo").position;
-        Vector3 positionPlayerNick = Player.transform.Find("PlayerInfo").Find("Nick").position;
-        Vector3 positionPlayerAvatar = Player.transform.Find("PlayerInfo").Find("Avatar").position;
-        Vector3 positionPlayerTurn = Player.transform.Find("PlayerInfo").Find("Turn").position;
-        Vector3 positionPlayerCards = Player.transform.Find("PlayerInfo").Find("Cards").position;
-        Vector3 positionPlayerWinnerIndicator = Player.transform.Find("PlayerInfo").Find("WinnerIndicator").position;
-        Vector3 positionPlayerRoundWon = Player.transform.Find("PlayerInfo").Find("RoundWon").position;
+        Vector3 positionCurrentTurnInfo = currentTurn.transform.Find(currentTurn.name + "Info").position;
+        Vector3 positionCurrentTurnNick = currentTurn.transform.Find(currentTurn.name + "Info").Find("Nick").position;
+        Vector3 positionCurrentTurnAvatar = currentTurn.transform.Find(currentTurn.name + "Info").Find("Avatar").position;
+        Vector3 positionCurrentTurn = currentTurn.transform.Find(currentTurn.name + "Info").Find("Turn").position;
+        Vector3 positionCurrentTurnCards = currentTurn.transform.Find(currentTurn.name + "Info").Find("Cards").position;
+        Vector3 positionCurrentTurnWinnerIndicator = currentTurn.transform.Find(currentTurn.name + "Info").Find("WinnerIndicator").position;
+        Vector3 positionCurrentTurnRoundWon = currentTurn.transform.Find(currentTurn.name + "Info").Find("RoundWon").position;
 
-        Vector3 positionEnemyInfo = Enemy.transform.Find("EnemyInfo").position;
-        Vector3 positionEnemyNick = Enemy.transform.Find("EnemyInfo").Find("Nick").position;
-        Vector3 positionEnemyAvatar = Enemy.transform.Find("EnemyInfo").Find("Avatar").position;
-        Vector3 positionEnemyTurn = Enemy.transform.Find("EnemyInfo").Find("Turn").position;
-        Vector3 positionEnemyCards = Enemy.transform.Find("EnemyInfo").Find("Cards").position;
-        Vector3 positionEnemyWinnerIndicator = Enemy.transform.Find("EnemyInfo").Find("WinnerIndicator").position;
-        Vector3 positionEnemyRoundWon = Enemy.transform.Find("EnemyInfo").Find("RoundWon").position;
+        Vector3 positionNotCurrentTurnInfo = notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").position;
+        Vector3 positionNotCurrentTurnNick = notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Nick").position;
+        Vector3 positionNotCurrentTurnAvatar = notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Avatar").position;
+        Vector3 positionNotCurrentTurn = notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Turn").position;
+        Vector3 positionNotCurrentTurnCards = notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Cards").position;
+        Vector3 positionNotCurrentTurnWinnerIndicator = notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("WinnerIndicator").position;
+        Vector3 positionNotCurrentTurnRoundWon = notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("RoundWon").position;
 
-        Player.transform.Find("PlayerInfo").position = positionEnemyInfo;
-        Player.transform.Find("PlayerInfo").Find("Nick").position = positionEnemyNick;
-        Player.transform.Find("PlayerInfo").Find("Avatar").position = positionEnemyAvatar;
-        Player.transform.Find("PlayerInfo").Find("Turn").position = positionEnemyTurn;
-        Player.transform.Find("PlayerInfo").Find("Cards").position = positionEnemyCards;
-        Player.transform.Find("PlayerInfo").Find("WinnerIndicator").position = positionEnemyWinnerIndicator;
-        Player.transform.Find("PlayerInfo").Find("RoundWon").position = positionEnemyRoundWon;
+        currentTurn.transform.Find(currentTurn.name + "Info").position = positionNotCurrentTurnInfo;
+        currentTurn.transform.Find(currentTurn.name + "Info").Find("Nick").position = positionNotCurrentTurnNick;
+        currentTurn.transform.Find(currentTurn.name + "Info").Find("Avatar").position = positionNotCurrentTurnAvatar;
+        currentTurn.transform.Find(currentTurn.name + "Info").Find("Turn").position = positionNotCurrentTurn;
+        currentTurn.transform.Find(currentTurn.name + "Info").Find("Cards").position = positionNotCurrentTurnCards;
+        currentTurn.transform.Find(currentTurn.name + "Info").Find("WinnerIndicator").position = positionNotCurrentTurnWinnerIndicator;
+        currentTurn.transform.Find(currentTurn.name + "Info").Find("RoundWon").position = positionNotCurrentTurnRoundWon;
 
-        Enemy.transform.Find("EnemyInfo").position = positionPlayerInfo;
-        Enemy.transform.Find("EnemyInfo").Find("Nick").position = positionPlayerNick;
-        Enemy.transform.Find("EnemyInfo").Find("Avatar").position = positionPlayerAvatar;
-        Enemy.transform.Find("EnemyInfo").Find("Turn").position = positionPlayerTurn;
-        Enemy.transform.Find("EnemyInfo").Find("Cards").position = positionPlayerCards;
-        Enemy.transform.Find("EnemyInfo").Find("WinnerIndicator").position = positionPlayerWinnerIndicator;
-        Enemy.transform.Find("EnemyInfo").Find("RoundWon").position = positionPlayerRoundWon;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").position = positionCurrentTurnInfo;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Nick").position = positionCurrentTurnNick;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Avatar").position = positionCurrentTurnAvatar;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Turn").position = positionCurrentTurn;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Cards").position = positionCurrentTurnCards;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("WinnerIndicator").position = positionCurrentTurnWinnerIndicator;
+        notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("RoundWon").position = positionCurrentTurnRoundWon;
 
 
     }

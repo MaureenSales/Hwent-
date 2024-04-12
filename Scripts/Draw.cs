@@ -18,7 +18,7 @@ public class Draw : MonoBehaviour
     {
         CardsInHand = new();
         Debug.Log(GameData.playerDeck is null);
-        if(Hand.transform.parent.name == "PlayerBoard")
+        if (Hand.transform.parent.name == "PlayerBoard")
         {
             deck = GameData.playerDeck;
         }
@@ -37,13 +37,16 @@ public class Draw : MonoBehaviour
 
     public void DrawCard()
     {
-        GameObject drawCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        int index = Random.Range(0, deck.cards.Count - 1) ;
-        drawCard.GetComponent<ThisCard>().PrintCard(deck.cards[index]);
-        deck.cards.Remove(deck.cards[index]);
-        drawCard.transform.SetParent(Hand.transform, false);
-        CardsInHand.Add(drawCard);
-        Hand.GetComponent<HandCards>().AddCard(drawCard);
+        if (Hand.transform.childCount < 10)
+        {
+            GameObject drawCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            int index = Random.Range(0, deck.cards.Count - 1);
+            drawCard.GetComponent<ThisCard>().PrintCard(deck.cards[index]);
+            deck.cards.Remove(deck.cards[index]);
+            drawCard.transform.SetParent(Hand.transform, false);
+            CardsInHand.Add(drawCard);
+
+        }
 
     }
 

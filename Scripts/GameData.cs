@@ -5,8 +5,8 @@ using UnityEngine;
 public class GameData : MonoBehaviour
 {
     public static GameData gameData;
-    public static string namePlayer;
-    public static string nameEnemy;
+    public static string namePlayer = "";
+    public static string nameEnemy = "";
     public static Deck playerDeck;
     public static Deck enemyDeck;
     // Start is called before the first frame update

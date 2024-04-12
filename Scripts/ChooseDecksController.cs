@@ -29,6 +29,10 @@ public class ChooseDecksController : MonoBehaviour
             {
                 buttonNext.GetComponent<Button>().interactable = true;
             }
+            else
+            {
+                buttonNext.GetComponent<Button>().interactable = false;
+            }
         }
     }
 

@@ -6,8 +6,8 @@ using UnityEngine;
 public class WeatherController : MonoBehaviour
 {
     //public Transform grid;
-    List<GameObject> WeatherImagesPlayer = new List<GameObject>();
-    List<GameObject> WeatherImagesEnemy = new List<GameObject>();
+    public List<GameObject> WeatherImagesPlayer = new List<GameObject>();
+    public List<GameObject> WeatherImagesEnemy = new List<GameObject>();
     [HideInInspector] public bool[] weather = { false, false, false };
 
     public void Start()
