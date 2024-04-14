@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     //public Image avatar;
     public TextMeshProUGUI countCards;
     public TextMeshProUGUI nick;
+    public TextMeshProUGUI countCardsInDeck;
     public GameObject Gems;
     public GameObject Turn;
     public GameObject PlayerBoard;
@@ -59,8 +60,9 @@ public class PlayerController : MonoBehaviour
             {
                 CardsInHand = GameObject.Find("PlayerBoard").transform.Find("Hand").childCount;
                 countCards.text = CardsInHand.ToString();
-
             }
+
+            countCardsInDeck.text = GameData.playerDeck.cards.Count.ToString();
         }
         else if (this.name == "EnemyInfo")
         {
@@ -70,7 +72,11 @@ public class PlayerController : MonoBehaviour
                 countCards.text = CardsInHand.ToString();
 
             }
+
+            countCardsInDeck.text = GameData.enemyDeck.cards.Count.ToString();
         }
+
+        
 
     }
 

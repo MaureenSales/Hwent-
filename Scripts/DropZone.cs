@@ -231,7 +231,11 @@ public class DropZone : MonoBehaviour, IDropHandler
    private IEnumerator EnableDragScript(Drag drag)
    {
       yield return new WaitForEndOfFrame();
+      if(drag != null)
+      {
       drag.enabled = false;
+
+      }
    }
 
    private void SortingOrdenRender(GameObject card)
