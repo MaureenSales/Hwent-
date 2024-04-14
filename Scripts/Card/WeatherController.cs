@@ -107,7 +107,7 @@ public class WeatherController : MonoBehaviour
     {
         foreach (var unit in units)
         {
-            if (!(unit.GetComponent<ThisCard>().thisCard is HeroUnit))
+            if (!(unit.GetComponent<ThisCard>().thisCard is HeroUnit) && !(unit.GetComponent<ThisCard>().thisCard is DecoyUnit))
             {
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();

@@ -23,6 +23,7 @@ public class ThisCard : MonoBehaviour
     public Image Description;
     public Image imageCardType;
     public Image powerImage;
+    public Image border;
 
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI skillText;
@@ -38,6 +39,7 @@ public class ThisCard : MonoBehaviour
 
     public void PrintCard(Card card)
     {
+        border.gameObject.SetActive(false);
         if (card != null)
         {
             thisCard = card;

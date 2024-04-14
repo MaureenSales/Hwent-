@@ -27,6 +27,25 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
 
                 }
             }
+            else if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is DecoyUnit && eventData.pointerClick.transform.parent.name == "Hand")
+            {
+                GetComponentInParent<Canvas>().GetComponent<GameController>().Panel.gameObject.SetActive(true);
+                GetComponentInParent<Canvas>().GetComponent<GameController>().DecoyFirstPart(eventData.pointerClick.gameObject);
+            }
+
+        }
+        else
+        {
+            if (eventData.pointerClick.GetComponent<ThisCard>().border.gameObject.activeSelf)
+            {
+                GetComponentInParent<Canvas>().GetComponent<GameController>().DecoySecondPart(eventData.pointerClick.gameObject);
+            }
+            GetComponentInParent<Canvas>().GetComponent<GameController>().Panel.gameObject.SetActive(false);
+            if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
+            {
+                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
+
+            }
         }
     }
 
