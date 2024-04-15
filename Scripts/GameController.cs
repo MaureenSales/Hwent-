@@ -98,11 +98,16 @@ public class GameController : MonoBehaviour
                 GameObject boostCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                 boostCard.GetComponent<ThisCard>().PrintCard(boost);
                 boostCard.transform.SetParent(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(2), false);
+                boostCard.GetComponent<Drag>().enabled = false;
                 List<GameObject> units = new();
-                for (int i = 0; i < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count - 1; i++)
+                for (int i = 0; i < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count; i++)
                 {
-                    units.Add(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i]);
+                    if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i].transform.parent.name != "Hand")
+                    {
+                        units.Add(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i]);
+                    }
                 }
+
                 ImproveUnits(units);
 
                 if (currentTurn.name == "Player")
@@ -134,71 +139,82 @@ public class GameController : MonoBehaviour
                 cards = GameData.enemyDeck.cards;
             }
 
+            bool putWeather = false;
             for (int i = 0; i < cards.Count; i++)
             {
                 if (cards[i] is Weather)
                 {
                     weather = (Weather)cards[i];
-                    break;
+                    Debug.Log(weather.Name);
+                    switch (weather.Name)
+                    {
+                        case "Escarcha Heladora":
+                            if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0])
+                            {
+                                putWeather = true;
+                                GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                                weatherCard.GetComponent<ThisCard>().PrintCard(weather);
+                                weatherCard.GetComponent<Drag>().enabled = false;
+                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0), false);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
+                            }
+                            break;
+                        case "Niebla Profunda":
+                            if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1])
+                            {
+                                putWeather = true;
+                                GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                                weatherCard.GetComponent<ThisCard>().PrintCard(weather);
+                                weatherCard.GetComponent<Drag>().enabled = false;
+                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1), false);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
+                            }
+                            break;
+                        case "Diluvio Quidditch":
+                            if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2])
+                            {
+                                putWeather = true;
+                                GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                                weatherCard.GetComponent<ThisCard>().PrintCard(weather);
+                                weatherCard.GetComponent<Drag>().enabled = false;
+                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2), false);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
+                            }
+                            break;
+                    }
+                    if (putWeather)
+                    {
+                        if (weather != null)
+                        {
+                            if (currentTurn.name == "Player")
+                            {
+                                Debug.Log(GameData.playerDeck.cards.Contains(weather));
+                                GameData.playerDeck.cards.Remove(weather);
+                                Debug.Log(GameData.playerDeck.cards.Contains(weather));
+                            }
+                            else
+                            {
+                                Debug.Log(GameData.enemyDeck.cards.Contains(weather));
+                                GameData.enemyDeck.cards.Remove(weather);
+                                Debug.Log(GameData.enemyDeck.cards.Contains(weather));
+                            }
+                        }
+                        break;
+
+                    }
                 }
             }
 
-            if (weather != null)
-            {
-                Debug.Log(weather.Name);
-                switch (weather.Name)
-                {
-                    case "Escarcha Heladora":
-                        if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0])
-                        {
-                            GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                            weatherCard.GetComponent<ThisCard>().PrintCard(weather);
-                            weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0), false);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
-                        }
-                        break;
-                    case "Niebla Profunda":
-                        if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1])
-                        {
-                            GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                            weatherCard.GetComponent<ThisCard>().PrintCard(weather);
-                            weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1), false);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
-                        }
-                        break;
-                    case "Diluvio Quidditch":
-                        if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2])
-                        {
-                            GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                            weatherCard.GetComponent<ThisCard>().PrintCard(weather);
-                            weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2), false);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
-                        }
-                        break;
-                }
 
-                if (currentTurn.name == "Player")
-                {
-                    Debug.Log(GameData.playerDeck.cards.Contains(weather));
-                    GameData.playerDeck.cards.Remove(weather);
-                    Debug.Log(GameData.playerDeck.cards.Contains(weather));
-                }
-                else
-                {
-                    Debug.Log(GameData.enemyDeck.cards.Contains(weather));
-                    GameData.enemyDeck.cards.Remove(weather);
-                    Debug.Log(GameData.enemyDeck.cards.Contains(weather));
-                }
-            }
         }
         else if (unitCard.Skill == Global.Effects["PowerfulCard"])
         {
@@ -605,7 +621,7 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if(!thereCards)
+        if (!thereCards)
         {
             Panel.SetActive(false);
         }
@@ -624,7 +640,8 @@ public class GameController : MonoBehaviour
                 }
             }
         }
-
+        unit.GetComponent<Drag>().enabled = true;
+        DecoyActive.GetComponent<Drag>().enabled = false;
         Vector3 positionUnit = unit.transform.position;
         Transform parentUnit = unit.transform.parent;
         Vector3 positionDecoy = DecoyActive.transform.position;
@@ -635,6 +652,8 @@ public class GameController : MonoBehaviour
         DecoyActive.transform.SetParent(parentUnit);
 
         unit.transform.GetComponent<ThisCard>().powerText.text = unit.transform.GetComponent<ThisCard>().power.ToString();
+        parentUnit.GetComponent<Row>().RemoveFromRow(unit);
+        parentUnit.GetComponent<Row>().AddToRow(DecoyActive);
         parentUnit.parent.GetComponentInChildren<SumPower>().UpdatePower();
     }
 
