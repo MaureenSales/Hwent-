@@ -592,16 +592,22 @@ public class GameController : MonoBehaviour
     public void DecoyFirstPart(GameObject decoyActive)
     {
         DecoyActive = decoyActive;
+        bool thereCards = false;
         for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
         {
             for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
             {
-
                 if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is Unit)
                 {
+                    thereCards = true;
                     currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().border.gameObject.SetActive(true);
                 }
             }
+        }
+
+        if(!thereCards)
+        {
+            Panel.SetActive(false);
         }
     }
 
