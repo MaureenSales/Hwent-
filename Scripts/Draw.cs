@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Transactions;
 
 public class Draw : MonoBehaviour
 {
@@ -43,7 +44,11 @@ public class Draw : MonoBehaviour
         deck.cards.Remove(deck.cards[index]);
         drawCard.transform.SetParent(Hand.transform, false);
         CardsInHand.Add(drawCard);
-
+        GameObject owner = GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn;
+        if (!owner.transform.Find(owner.name + "Info").GetComponent<PlayerController>().ChangeAllowed)
+        {
+            drawCard.GetComponent<ChangeCards>().enabled = false;
+        }
 
     }
 

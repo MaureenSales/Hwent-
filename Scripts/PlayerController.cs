@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using TMPro;
+using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +21,14 @@ public class PlayerController : MonoBehaviour
     public GameObject Turn;
     public GameObject PlayerBoard;
     public GameObject WinnerIndicator;
+    public GameObject CardPrefab;
+    public GameObject LeaderPlayer;
+    public GameObject LeaderEnemy;
+    public bool ChangeAllowed = true;
+    public List<GameObject> cardsToChange = new();
+    public GameObject buttonChange;
+    public GameObject buttonNotChange;
+    public GameObject PanelField;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,17 +36,30 @@ public class PlayerController : MonoBehaviour
         if (this.name.StartsWith("Enemy"))
         {
             Nick = "Enemy";
+            GameObject leaderEnemy = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            leaderEnemy.GetComponent<ThisCard>().PrintCard(GameData.enemyDeck.Leader);
+            leaderEnemy.transform.SetParent(LeaderEnemy.transform);
+            leaderEnemy.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+            leaderEnemy.GetComponent<Drag>().enabled = false;
         }
         else
         {
             Nick = "Player";
+            GameObject leaderPlayer = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            leaderPlayer.GetComponent<ThisCard>().PrintCard(GameData.playerDeck.Leader);
+            leaderPlayer.transform.SetParent(LeaderPlayer.transform);
+            leaderPlayer.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
+            leaderPlayer.GetComponent<Drag>().enabled = false;
+
         }
+
         countCards.text = CardsInHand.ToString();
         //avatar.sprite = Avatar;
         nick.text = Nick;
         Gems.transform.GetChild(0).gameObject.SetActive(false);
         Gems.transform.GetChild(1).gameObject.SetActive(false);
         WinnerIndicator.SetActive(false);
+
     }
 
     // Update is called once per frame
@@ -76,7 +98,7 @@ public class PlayerController : MonoBehaviour
             countCardsInDeck.text = GameData.enemyDeck.cards.Count.ToString();
         }
 
-        
+
 
     }
 
@@ -85,4 +107,58 @@ public class PlayerController : MonoBehaviour
         Pass = true;
         GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
     }
+
+    public void notChange()
+    {
+        PanelField.SetActive(false);
+        buttonChange.SetActive(false);
+        buttonNotChange.SetActive(false);
+        GameObject player = GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn;
+        GameObject hand = player.transform.Find(player.name + "Board").Find("Hand").gameObject;
+
+        for (int i = 0; i < hand.transform.childCount; i++)
+        {
+            hand.transform.GetChild(i).GetComponent<ChangeCards>().enabled = false;
+        }
+
+        ChangeAllowed = false;
+
+    }
+
+    public void Change()
+    {
+        ChangeAllowed = false;
+
+        if (GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.name == "Player")
+        {
+            for (int i = 0; i < cardsToChange.Count; i++)
+            {
+                GameData.playerDeck.AddCard(cardsToChange[i].GetComponent<ThisCard>().thisCard);
+                Destroy(cardsToChange[i]);
+                GameObject.Find("PlayerBoard").transform.Find("Deck").GetComponent<Draw>().DrawCard();
+            }
+
+        }
+        else
+        {
+            for (int i = 0; i < cardsToChange.Count; i++)
+            {
+                GameData.enemyDeck.AddCard(cardsToChange[i].GetComponent<ThisCard>().thisCard);
+                Destroy(cardsToChange[i]);
+                GameObject.Find("EnemyBoard").transform.Find("Deck").GetComponent<Draw>().DrawCard();
+            }
+        }
+
+        PanelField.SetActive(false);
+        buttonChange.SetActive(false);
+        buttonNotChange.SetActive(false);
+        GameObject player = GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn;
+        GameObject hand = player.transform.Find(player.name + "Board").Find("Hand").gameObject;
+
+        for (int i = 0; i < hand.transform.childCount; i++)
+        {
+            hand.transform.GetChild(i).GetComponent<ChangeCards>().enabled = false;
+        }
+    }
+
 }

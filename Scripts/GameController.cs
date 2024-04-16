@@ -20,13 +20,15 @@ public class GameController : MonoBehaviour
     public GameObject notCurrentTurn;
     public GameObject CardPrefab;
     public GameObject Panel;
-    public GameObject PanelField;
     private GameObject DecoyActive = null;
+
+
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Start");
         currentTurn.GetComponentInChildren<PlayerController>().IsYourTurn = true;
+
     }
 
     // Update is called once per frame
@@ -507,6 +509,29 @@ public class GameController : MonoBehaviour
             }
 
         }
+    }
+
+    public void GryffindorEffect()
+    {
+        int countMelee = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").childCount;
+        if(countMelee > 0)
+        {
+            for (int i = 0; i < currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").childCount; i++)
+            {
+                if(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is Unit)
+                {
+                    currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().powerText.text = (int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().powerText.text) + countMelee).ToString();
+                }
+            }
+
+            currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower();
+        }
+    }
+
+    public void SlytherinEffect()
+    {
+        currentTurn.transform.Find(currentTurn.name + "Board").Find("Deck").GetComponent<Draw>().DrawCard();
+        currentTurn.transform.Find(currentTurn.name + "Board").Find("Deck").GetComponent<Draw>().DrawCard();
     }
 
     public void Improve(GameObject eventData, string zone)
