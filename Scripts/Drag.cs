@@ -11,6 +11,7 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public Transform placeHolderParent = null;
     public Vector3 originalScale;
     GameObject placeHolder = null;
+    private AudioSource audioSource;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -73,7 +74,13 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         Destroy(placeHolder);
+        audioSource.Play();
         //Hurt(eventData);
+    }
+
+    private void Start() 
+    {
+        audioSource = this.GetComponent<AudioSource>();
     }
 
 //     private void Hurt(PointerEventData eventData)

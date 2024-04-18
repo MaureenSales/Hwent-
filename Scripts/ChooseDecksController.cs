@@ -5,6 +5,7 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class ChooseDecksController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ChooseDecksController : MonoBehaviour
     public GameObject contentShowCards;
     public TextMeshProUGUI cardsInDeck;
     public GameObject buttonNext;
+    public GameObject buttonBack;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +40,7 @@ public class ChooseDecksController : MonoBehaviour
 
     public void Next()
     {
+        buttonNext.GetComponent<AudioSource>().Play();
         if(GameData.playerDeck != null)
         {
             GameData.enemyDeck = contentShowCards.GetComponent<ShowCards>().newDeck;
@@ -60,8 +63,10 @@ public class ChooseDecksController : MonoBehaviour
         }
     }
 
-    public void Back()
+    async public void Back()
     {
+        buttonBack.GetComponent<AudioSource>().Play();
+        await Task.Delay(80);
         SceneManager.LoadScene("MainMenu");
     }
 

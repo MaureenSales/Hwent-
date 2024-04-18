@@ -24,16 +24,7 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                 if (contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard) >= 1 && !(eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit))
                 {
                     contentShowCards.GetComponent<ShowCards>().newDeck.AddCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
-                    DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text) + 1).ToString();
                     Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
-                    if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is UnitCard)
-                    {
-                        DeckInfo.GetComponent<InfoDeck>().countUnitCards.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countUnitCards.text) + 1).ToString();
-                    }
-                    if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is SpecialCard)
-                    {
-                        DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text) + 1).ToString();
-                    }
                 }
                 else if (!contentShowCards.GetComponent<ShowCards>().newDeck.cards.Contains(eventData.pointerDrag.GetComponent<ThisCard>().thisCard))
                 {
@@ -44,16 +35,7 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                     newCard.GetComponent<CanvasGroup>().blocksRaycasts = true;
                     card.parentToReturnTo = this.transform;
                     contentShowCards.GetComponent<ShowCards>().newDeck.AddCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
-                    DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text) + 1).ToString();
                     Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
-                    if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is UnitCard)
-                    {
-                        DeckInfo.GetComponent<InfoDeck>().countUnitCards.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countUnitCards.text) + 1).ToString();
-                    }
-                    if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is SpecialCard)
-                    {
-                        DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text) + 1).ToString();
-                    }
                 }
             }
             else if (this.name == "Trash")
@@ -61,24 +43,22 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                 Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
                 Debug.Log(card.IsRemove);
                 Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard));
-                if(card.IsRemove && (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit || (contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard) == 0)))
+                if (card.IsRemove)
                 {
-                    Destroy(eventData.pointerDrag.gameObject);
+                    if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit || (contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard) == 0))
+                    {
+                        Destroy(eventData.pointerDrag.gameObject);
+                    }
+                    else
+                    {
+                        Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
+                        contentShowCards.GetComponent<ShowCards>().newDeck.RemoveCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
+                        Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
+                    }
+
                 }
-                else
-                {
-                    contentShowCards.GetComponent<ShowCards>().newDeck.RemoveCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
-                }
-                DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text) - 1).ToString();
                 Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
-                if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is UnitCard)
-                {
-                    DeckInfo.GetComponent<InfoDeck>().countUnitCards.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countUnitCards.text) - 1).ToString();
-                }
-                else if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is SpecialCard)
-                {
-                    DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text = (int.Parse(DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text) - 1).ToString();
-                }
+                GameObject.Find("Trash").GetComponent<AudioSource>().Play();
             }
             Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
 
@@ -94,18 +74,42 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
     // Update is called once per frame
     void Update()
     {
-        if(countCopies != null)
+        if (countCopies != null)
         {
             if (this.transform.childCount > 0)
-        {
-            countCopies.text = contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(this.transform.GetChild(0).GetComponent<ThisCard>().thisCard).ToString();
+            {
+                countCopies.text = contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(this.transform.GetChild(0).GetComponent<ThisCard>().thisCard).ToString();
 
+            }
+            else
+            {
+                countCopies.text = "0";
+            }
         }
-        else
+
+
+        if (contentShowCards.GetComponent<ShowCards>().newDeck != null)
         {
-            countCopies.text = "0";
+            DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text = contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count.ToString();
+            int units = 0;
+            for (int i = 0; i < contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count; i++)
+            {
+                if (contentShowCards.GetComponent<ShowCards>().newDeck.cards[i] is UnitCard)
+                {
+                    units++;
+                }
+            }
+            DeckInfo.GetComponent<InfoDeck>().countUnitCards.text = units.ToString();
+            int specials = 0;
+            for (int i = 0; i < contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count; i++)
+            {
+                if (contentShowCards.GetComponent<ShowCards>().newDeck.cards[i] is SpecialCard)
+                {
+                    specials++;
+                }
+            }
+            DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text = specials.ToString();
         }
-        }
-        
+
     }
 }

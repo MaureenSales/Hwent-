@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Info : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class InfoChooseCards : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject CardInfo = null;
     public Vector3 originalScale;
@@ -15,7 +15,7 @@ public class Info : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             CardInfo = Instantiate(this.gameObject, GameObject.Find("Info").transform);
             CardInfo.transform.position = GameObject.Find("Info").transform.position;
-            CardInfo.transform.localScale = new Vector3(0.4f, 0.9f, 0.4f);
+            CardInfo.transform.localScale = new Vector3(3.6f, 3.6f, 3.6f);
         }
 
 
@@ -23,8 +23,9 @@ public class Info : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerExit(PointerEventData eventData)
     {
         this.transform.localScale = originalScale;
-        if(CardInfo != null) Destroy(CardInfo);
+        if (CardInfo != null) Destroy(CardInfo);
     }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -8,6 +8,7 @@ public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public Transform parentToReturnTo = null;
     public Vector3 originalScale;
     public bool IsRemove = false;
+    private AudioSource audioSource;
     public void OnBeginDrag(PointerEventData eventData)
     {
         parentToReturnTo = this.transform.parent;
@@ -18,9 +19,9 @@ public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         if (parentToReturnTo.parent.parent.name == "MenuCardsDeck")
         {
             IsRemove = true;
-
+            Debug.Log(parentToReturnTo.GetComponent<DropChooseGroup>().contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
             parentToReturnTo.GetComponent<DropChooseGroup>().contentShowCards.GetComponent<ShowCards>().newDeck.RemoveCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
-
+            Debug.Log(parentToReturnTo.GetComponent<DropChooseGroup>().contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
         }
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
@@ -48,6 +49,7 @@ public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             Debug.Log(parentToReturnTo.GetComponent<DropChooseGroup>().contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard));
             IsRemove = false;
         }
+        audioSource.Play();
         GetComponent<CanvasGroup>().blocksRaycasts = true;
 
     }
@@ -55,7 +57,7 @@ public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     // Start is called before the first frame update
     void Start()
     {
-
+        audioSource = this.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

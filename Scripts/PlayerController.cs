@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
     public List<GameObject> cardsToChange = new();
     public GameObject buttonChange;
     public GameObject buttonNotChange;
+    public GameObject buttonPass;
     public GameObject PanelField;
     // Start is called before the first frame update
     void Start()
@@ -104,12 +105,14 @@ public class PlayerController : MonoBehaviour
 
     public void UpdatePass()
     {
+        buttonPass.GetComponent<AudioSource>().Play();
         Pass = true;
         GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
     }
 
     public void notChange()
     {
+        buttonNotChange.GetComponent<AudioSource>().Play();
         PanelField.SetActive(false);
         buttonChange.SetActive(false);
         buttonNotChange.SetActive(false);
@@ -127,6 +130,7 @@ public class PlayerController : MonoBehaviour
 
     public void Change()
     {
+        buttonChange.GetComponent<AudioSource>().Play();
         ChangeAllowed = false;
 
         if (GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.name == "Player")

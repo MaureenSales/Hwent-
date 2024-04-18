@@ -120,7 +120,6 @@ public class WeatherController : MonoBehaviour
                 }
 
                 unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
-                //GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(unit, )
             }
 
         }

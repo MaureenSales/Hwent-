@@ -268,13 +268,14 @@ public class GameController : MonoBehaviour
                     if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
                     {
                         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                        Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
+                        LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
                         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
                     }
                     else
                     {
                         unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
-                        Destroy(unit);
+                        LeanTween.move(unit, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(unit));
                     }
 
                 }
@@ -283,14 +284,17 @@ public class GameController : MonoBehaviour
                     if (int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
                     {
                         currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                        Destroy(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
+                        LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
+
                         currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
                     }
                     else
                     {
                         unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
                         await Task.Delay(800);
-                        Destroy(unit);
+                        LeanTween.move(unit, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(unit));
+
                     }
                 }
             }
@@ -299,7 +303,7 @@ public class GameController : MonoBehaviour
                 Debug.Log("destroy");
                 unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
                 await Task.Delay(800);
-                Destroy(unit);
+                LeanTween.move(unit, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(unit));
             }
 
         }
@@ -331,7 +335,9 @@ public class GameController : MonoBehaviour
             if (indexRow != -1)
             {
                 notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
+                LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
+
                 notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
             }
 
@@ -448,8 +454,8 @@ public class GameController : MonoBehaviour
                     {
                         if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
                         {
-                            Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject);
-
+                            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject;
+                            LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
 
                         }
 
@@ -459,7 +465,8 @@ public class GameController : MonoBehaviour
                         Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangeZone").GetChild(i).name);
                         if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
                         {
-                            Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).gameObject);
+                            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).gameObject;
+                            LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
                         }
                     }
                     else
@@ -467,7 +474,8 @@ public class GameController : MonoBehaviour
                         if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
                         {
                             Debug.Log("EnterDestroySiege");
-                            Destroy(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).gameObject);
+                            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).gameObject;
+                            LeanTween.move(toDestroy, GraveyardPlayer.transform.position, 1f).setOnComplete(() => Destroy(toDestroy));
                         }
                     }
 
@@ -514,11 +522,11 @@ public class GameController : MonoBehaviour
     public void GryffindorEffect()
     {
         int countMelee = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").childCount;
-        if(countMelee > 0)
+        if (countMelee > 0)
         {
             for (int i = 0; i < currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").childCount; i++)
             {
-                if(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is Unit)
+                if (currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is Unit)
                 {
                     currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().powerText.text = (int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().powerText.text) + countMelee).ToString();
                 }
@@ -1066,6 +1074,7 @@ public class GameController : MonoBehaviour
         Vector3 positionCurrentTurnFog = currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").Find("Fog").position;
         Vector3 positionCurrentTurnSiegeRow = currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").position;
         Vector3 positionCurrentTurnRain = currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").Find("Rain").position;
+        Vector3 positionCurrentTurnLeader = currentTurn.transform.Find("Leader").transform.position;
 
         Vector3 positionNotCurrentTurnSumTotalPower = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SumTotalPower").position;
         Vector3 positionNotCurrentTurnMeleeRow = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").position;
@@ -1074,6 +1083,7 @@ public class GameController : MonoBehaviour
         Vector3 positionNotCurrentTurnFog = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").Find("Fog").position;
         Vector3 positionNotCurrentTurnSiegeRow = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").position;
         Vector3 positionNotCurrentTurnRain = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").Find("Rain").position;
+        Vector3 positionNotCurrentTurnLeader = notCurrentTurn.transform.Find("Leader").transform.position;
 
         currentTurn.transform.Find(currentTurn.name + "Field").Find("SumTotalPower").position = positionNotCurrentTurnSumTotalPower;
         currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").position = positionNotCurrentTurnMeleeRow;
@@ -1082,6 +1092,7 @@ public class GameController : MonoBehaviour
         currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").Find("Fog").position = positionNotCurrentTurnFog;
         currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").position = positionNotCurrentTurnSiegeRow;
         currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").Find("Rain").position = positionNotCurrentTurnRain;
+        currentTurn.transform.Find("Leader").transform.position = positionNotCurrentTurnLeader;
 
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SumTotalPower").position = positionCurrentTurnSumTotalPower;
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").position = positionCurrentTurnMeleeRow;
@@ -1090,6 +1101,7 @@ public class GameController : MonoBehaviour
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").Find("Fog").position = positionCurrentTurnFog;
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").position = positionCurrentTurnSiegeRow;
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").Find("Rain").position = positionCurrentTurnRain;
+        notCurrentTurn.transform.Find("Leader").transform.position = positionCurrentTurnLeader;
 
         Vector3 positionCurrentTurnInfo = currentTurn.transform.Find(currentTurn.name + "Info").position;
         Vector3 positionCurrentTurnNick = currentTurn.transform.Find(currentTurn.name + "Info").Find("Nick").position;

@@ -20,6 +20,7 @@ public class ShowCards : MonoBehaviour
     public void ShowTypeCollection()
     {
         Button buttonEvent = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         ClearGridCollection();
 
         if (FactionGryffindor)
@@ -82,6 +83,7 @@ public class ShowCards : MonoBehaviour
     public void ShowCardsDeck()
     {
         Button buttonEvent = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         List<Card> toShow = new List<Card>();
         ClearGridDeck();
         if(newDeck != null)
@@ -250,7 +252,9 @@ public class ShowCards : MonoBehaviour
 
     public void UpdateFaction()
     {
+        
         Button buttonEvent = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         if (buttonEvent.name == "Gryffindor")
         {
             FactionGryffindor = true;

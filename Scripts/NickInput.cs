@@ -10,8 +10,11 @@ public class NickInput : MonoBehaviour
     public string PlayerName = "";
     public TMP_InputField tMP_InputField;
     public GameObject buttonLogin;
+    public AudioClip keySound;
+    private string lastText = "";
     public void PlayerNameInput()
     {
+        UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         PlayerName = tMP_InputField.text;
         
 
@@ -45,6 +48,13 @@ public class NickInput : MonoBehaviour
         else
         {
             buttonLogin.GetComponent<Button>().interactable = false;
+        }
+
+        if(tMP_InputField.text != lastText)
+        {
+            tMP_InputField.GetComponent<AudioSource>().PlayOneShot(keySound);
+
+            lastText = tMP_InputField.text;
         }
     }
 }
