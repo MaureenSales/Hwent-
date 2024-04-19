@@ -59,7 +59,7 @@ public class ChooseDecksController : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("ChooseGroup");
+            SceneManager.LoadScene("Login");
         }
     }
 

@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
 
         if (this.name.StartsWith("Enemy"))
         {
-            Nick = "Enemy";
+            Nick = GameData.nameEnemy;
             GameObject leaderEnemy = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             leaderEnemy.GetComponent<ThisCard>().PrintCard(GameData.enemyDeck.Leader);
             leaderEnemy.transform.SetParent(LeaderEnemy.transform);
@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Nick = "Player";
+            Nick = GameData.namePlayer;
             GameObject leaderPlayer = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             leaderPlayer.GetComponent<ThisCard>().PrintCard(GameData.playerDeck.Leader);
             leaderPlayer.transform.SetParent(LeaderPlayer.transform);

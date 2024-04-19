@@ -48,6 +48,7 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                     if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit || (contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard) == 0))
                     {
                         Destroy(eventData.pointerDrag.gameObject);
+                        GameObject.Find("Trash").GetComponent<AudioSource>().Play();
                     }
                     else
                     {
@@ -58,7 +59,6 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
 
                 }
                 Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
-                GameObject.Find("Trash").GetComponent<AudioSource>().Play();
             }
             Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
 
