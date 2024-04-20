@@ -1075,6 +1075,9 @@ public class GameController : MonoBehaviour
         Vector3 positionCurrentTurnSiegeRow = currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").position;
         Vector3 positionCurrentTurnRain = currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").Find("Rain").position;
         Vector3 positionCurrentTurnLeader = currentTurn.transform.Find("Leader").transform.position;
+        Vector3 positionCurrentTurnDeck = currentTurn.transform.Find("Deck").transform.position;
+        Vector3 positionCurrentTurnGraveyard = currentTurn.transform.Find("Graveyard").transform.position;
+
 
         Vector3 positionNotCurrentTurnSumTotalPower = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SumTotalPower").position;
         Vector3 positionNotCurrentTurnMeleeRow = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").position;
@@ -1084,6 +1087,9 @@ public class GameController : MonoBehaviour
         Vector3 positionNotCurrentTurnSiegeRow = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").position;
         Vector3 positionNotCurrentTurnRain = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").Find("Rain").position;
         Vector3 positionNotCurrentTurnLeader = notCurrentTurn.transform.Find("Leader").transform.position;
+        Vector3 positionNotCurrentTurDeck = notCurrentTurn.transform.Find("Deck").transform.position;
+        Vector3 positionNotCurrentTurnGraveyard = notCurrentTurn.transform.Find("Graveyard").transform.position;
+
 
         currentTurn.transform.Find(currentTurn.name + "Field").Find("SumTotalPower").position = positionNotCurrentTurnSumTotalPower;
         currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").position = positionNotCurrentTurnMeleeRow;
@@ -1093,6 +1099,8 @@ public class GameController : MonoBehaviour
         currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").position = positionNotCurrentTurnSiegeRow;
         currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").Find("Rain").position = positionNotCurrentTurnRain;
         currentTurn.transform.Find("Leader").transform.position = positionNotCurrentTurnLeader;
+        currentTurn.transform.Find("Deck").transform.position = positionNotCurrentTurDeck;
+        currentTurn.transform.Find("Graveyard").transform.position = positionNotCurrentTurnGraveyard;
 
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SumTotalPower").position = positionCurrentTurnSumTotalPower;
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").position = positionCurrentTurnMeleeRow;
@@ -1102,6 +1110,8 @@ public class GameController : MonoBehaviour
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").position = positionCurrentTurnSiegeRow;
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").Find("Rain").position = positionCurrentTurnRain;
         notCurrentTurn.transform.Find("Leader").transform.position = positionCurrentTurnLeader;
+        notCurrentTurn.transform.Find("Deck").transform.position = positionCurrentTurnDeck;
+        notCurrentTurn.transform.Find("Graveyard").transform.position = positionCurrentTurnGraveyard;
 
         Vector3 positionCurrentTurnInfo = currentTurn.transform.Find(currentTurn.name + "Info").position;
         Vector3 positionCurrentTurnNick = currentTurn.transform.Find(currentTurn.name + "Info").Find("Nick").position;
@@ -1134,12 +1144,6 @@ public class GameController : MonoBehaviour
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("Cards").position = positionCurrentTurnCards;
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("WinnerIndicator").position = positionCurrentTurnWinnerIndicator;
         notCurrentTurn.transform.Find(notCurrentTurn.name + "Info").Find("RoundWon").position = positionCurrentTurnRoundWon;
-
-
-    }
-
-    private void TransitionChangeTurn()
-    {
 
     }
 }
