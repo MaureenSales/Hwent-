@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -90,6 +89,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             {
                if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Unit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Siege))
                {
+                  Debug.Log(eventData.pointerDrag.transform.parent.name);
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
@@ -236,11 +236,6 @@ public class DropZone : MonoBehaviour, IDropHandler
       drag.enabled = false;
 
       }
-   }
-
-   private void SortingOrdenRender(GameObject card)
-   {
-
    }
 
 

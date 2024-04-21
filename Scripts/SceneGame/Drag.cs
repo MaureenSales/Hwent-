@@ -75,7 +75,7 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         GetComponent<CanvasGroup>().blocksRaycasts = true;
         Destroy(placeHolder);
         audioSource.Play();
-        //Hurt(eventData);
+
     }
 
     private void Start() 
@@ -83,13 +83,4 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         audioSource = this.GetComponent<AudioSource>();
     }
 
-//     private void Hurt(PointerEventData eventData)
-//    {
-//       Debug.Log("EnterHurt");
-//       if(!(eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit))
-//       {
-//       GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject);
-
-//       }
-//    }
 }

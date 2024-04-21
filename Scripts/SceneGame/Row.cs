@@ -36,31 +36,16 @@ public class Row : MonoBehaviour
         {
             unitsInRow.Add((UnitCard)unit.GetComponent<ThisCard>().thisCard);
         }
-        else
-        {
-
-            //decoy
-        }
 
         powerRow.GetComponent<SumPower>().UpdatePower();
     }
 
-    public void BoostCard(GameObject boost)
-    {
-        BoostRow = boost;
-        boostCard = (Boost)boost.GetComponent<ThisCard>().thisCard;
-        //
-    }
     public void RemoveFromRow(GameObject unit)
     {
         unitObjects.Remove(unit);
         if (unit.GetComponent<ThisCard>().thisCard is UnitCard)
         {
             unitsInRow.Remove((UnitCard)unit.GetComponent<ThisCard>().thisCard);
-        }
-        else
-        {
-            //decoy
         }
     }
 

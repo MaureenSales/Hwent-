@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
             {
                 GameData.playerDeck.AddCard(cardsToChange[i].GetComponent<ThisCard>().thisCard);
                 Destroy(cardsToChange[i]);
-                GameObject.Find("PlayerBoard").transform.Find("Deck").GetComponent<Draw>().DrawCard();
+                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Deck").GetComponent<Draw>().DrawCard();
             }
 
         }
@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
             {
                 GameData.enemyDeck.AddCard(cardsToChange[i].GetComponent<ThisCard>().thisCard);
                 Destroy(cardsToChange[i]);
-                GameObject.Find("EnemyBoard").transform.Find("Deck").GetComponent<Draw>().DrawCard();
+                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Deck").GetComponent<Draw>().DrawCard();
             }
         }
 
