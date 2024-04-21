@@ -32,8 +32,10 @@ public class Row : MonoBehaviour
         unitObjects.Add(unit);
         Debug.Log(unitObjects.Count);
         Debug.Log(this.name);
+        Debug.Log(unit.GetComponent<ThisCard>().thisCard.Name);
         if (unit.GetComponent<ThisCard>().thisCard is UnitCard)
         {
+            Debug.Log(unit.GetComponent<ThisCard>().thisCard is null);
             unitsInRow.Add((UnitCard)unit.GetComponent<ThisCard>().thisCard);
         }
 

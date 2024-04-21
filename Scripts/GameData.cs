@@ -28,6 +28,14 @@ public class GameData : MonoBehaviour
         
     }
 
+    public static void Reset()
+    {
+        namePlayer = "";
+        nameEnemy = "";
+        playerDeck = null;
+        enemyDeck = null;
+    }
+
     // Update is called once per frame
     void Update()
     {
