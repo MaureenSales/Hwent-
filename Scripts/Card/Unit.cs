@@ -15,13 +15,3 @@ public class Unit: UnitCard
     public new int Power {get => (int)base.Power;} 
     
 }
-
-public struct PowerMod
-{
-    public int mod;
-    public PowerMod(int value)
-    {
-        mod = value;
-    }
-
-}
