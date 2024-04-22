@@ -477,7 +477,9 @@ public class GameController : MonoBehaviour
                         if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
                         {
                             GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject;
-                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => Destroy(toDestroy));
+                            toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
+                            await Task.Delay(200);
+                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => Destroy(toDestroy));
 
                         }
 
@@ -488,7 +490,9 @@ public class GameController : MonoBehaviour
                         if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
                         {
                             GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).gameObject;
-                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => Destroy(toDestroy));
+                            toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
+                            await Task.Delay(200);
+                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => Destroy(toDestroy));
                         }
                     }
                     else
@@ -497,7 +501,9 @@ public class GameController : MonoBehaviour
                         {
                             Debug.Log("EnterDestroySiege");
                             GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).gameObject;
-                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => Destroy(toDestroy));
+                            toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
+                            await Task.Delay(200);
+                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => Destroy(toDestroy));
                         }
                     }
 
@@ -672,7 +678,7 @@ public class GameController : MonoBehaviour
                 if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is Unit)
                 {
                     thereCards = true;
-                    currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().border.gameObject.SetActive(true);
+                    currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().borderLight.gameObject.SetActive(true);
                 }
             }
         }
@@ -692,7 +698,7 @@ public class GameController : MonoBehaviour
 
                 if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is Unit)
                 {
-                    currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().border.gameObject.SetActive(false);
+                    currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().borderLight.gameObject.SetActive(false);
                 }
             }
         }

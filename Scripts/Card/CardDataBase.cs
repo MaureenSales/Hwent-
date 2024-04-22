@@ -73,11 +73,11 @@ public class CardDataBase : MonoBehaviour
       1, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("WingardiumLeviosa")));
       Neutral.Add(new Unit("Expelliarmus", Global.Factions.Neutral, Global.Effects["PowerfulCard"], "Es un hechizo de desarme ampliamente utilizado en el mundo mágico, el objetivo es despojado de su arma o varita. El objeto en cuestión sale volando de las manos del oponente y cae al suelo.",
       0, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("Expelliarmus")));
-      Neutral.Add(new Unit("Argus Filch", Global.Factions.Neutral, Global.Effects["ClearRow"], "El cuidador de Hogwarts, inflexible cuando se trata de las normas escolares. Su gato, Mrs. Norris, lo acompaña en sus rondas nocturnas para atrapar a los infractores.",
+      Neutral.Add(new Unit("Argus Filch", Global.Factions.Neutral, Global.Effects["LessPowerCard"], "El cuidador de Hogwarts, inflexible cuando se trata de las normas escolares. Su gato, Mrs. Norris, lo acompaña en sus rondas nocturnas para atrapar a los infractores.",
       0, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("ArgusFilch")));
       Neutral.Add(new Unit("Peter Pettigrew", Global.Factions.Neutral, "", "aunque cobarde y traidor, es un recordatorio de que incluso los personajes más oscuros tienen profundidad y complejidad",
       3, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("PeterPettigrew")));
-      Neutral.Add(new Unit("Fawkes", Global.Factions.Neutral, Global.Effects["LessPowerCard"], "Se cree que Fawkes ha existido durante siglos. Sus lágrimas tienen propiedades curativas y su canto puede inspirar coraje o miedo. Fue el fiel compañero y defensor del director de Hogwarts, Albus Dumbledore.",
+      Neutral.Add(new Unit("Fawkes", Global.Factions.Neutral, Global.Effects["ClearRow"], "Se cree que Fawkes ha existido durante siglos. Sus lágrimas tienen propiedades curativas y su canto puede inspirar coraje o miedo. Fue el fiel compañero y defensor del director de Hogwarts, Albus Dumbledore.",
       3, new List<Global.AttackModes>() { Global.AttackModes.Siege }, Resources.Load<Sprite>("Fawkes")));
       Neutral.Add(new Unit("Avada Kedavra", Global.Factions.Neutral, "", "El hechizo causa una muerte instantánea y sin dolor, sin causar ninguna herida en el cuerpo y sin dejar rastro de violencia.",
       10, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("AvadaKedavra")));

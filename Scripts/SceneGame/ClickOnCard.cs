@@ -36,7 +36,7 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
         }
         else
         {
-            if (eventData.pointerClick.GetComponent<ThisCard>().border.gameObject.activeSelf)
+            if (eventData.pointerClick.GetComponent<ThisCard>().borderLight.gameObject.activeSelf)
             {
                 if (eventData.pointerClick.transform.parent.name != "Hand")
                 {
