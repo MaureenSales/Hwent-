@@ -136,7 +136,6 @@
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_TextSelector_B.cs" />
     <Compile Include="Assets/LeanTweenSamples/Examples/Scripts/GeneralUISpace.cs" />
     <Compile Include="Assets/Scripts/SceneGame/DropZone.cs" />
-    <Compile Include="Assets/Scripts/Card/ThisBoost.cs" />
     <Compile Include="Assets/LeanTweenSamples/Testing/TestingColorTweening.cs" />
     <Compile Include="Assets/LeanTweenSamples/Testing/TestingIssue2.cs" />
     <Compile Include="Assets/LeanTweenSamples/Testing/TestingRotate.cs" />

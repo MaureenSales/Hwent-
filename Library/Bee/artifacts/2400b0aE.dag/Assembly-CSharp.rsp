@@ -401,7 +401,6 @@
 "Assets/Scripts/Card/HeroUnit.cs"
 "Assets/Scripts/Card/Leader.cs"
 "Assets/Scripts/Card/SpecialCard.cs"
-"Assets/Scripts/Card/ThisBoost.cs"
 "Assets/Scripts/Card/ThisCard.cs"
 "Assets/Scripts/Card/Unit.cs"
 "Assets/Scripts/Card/UnitCard.cs"

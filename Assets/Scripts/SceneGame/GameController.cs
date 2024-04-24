@@ -50,19 +50,33 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("EnterEffect");
         Card unitCard = unit.GetComponent<ThisCard>().thisCard;
+        Debug.Log(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount + " countCards");
 
         if (unitCard.Skill == Global.Effects["DrawCard"])
         {
             Debug.Log("EnterDrawCard");
-            if (currentTurn.name == "Player" && currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount < 11)
+            bool destroy = false;
+
+            if (!(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount < 11))
+            {
+                destroy = true;
+            }
+
+            if (currentTurn.name == "Player")
             {
                 await Task.Delay(800);
                 DeckPlayer.GetComponent<Draw>().DrawCard();
             }
-            else if (currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount < 11)
+            else
             {
                 await Task.Delay(800);
                 DeckEnemy.GetComponent<Draw>().DrawCard();
+            }
+
+            if (destroy)
+            {
+                GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").GetChild(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount - 1).gameObject;
+                LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => Destroy(toDestroy));
             }
         }
         else if (unitCard.Skill == Global.Effects["PutBoost"])
