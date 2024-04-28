@@ -205,7 +205,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 281.6604, y: -278.36356}
-  m_SizeDelta: {x: 118.42209, y: 170}
+  m_SizeDelta: {x: 160, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &47047911
 GameObject:
@@ -670,7 +670,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0005493164, y: -2}
+  m_AnchoredPosition: {x: 0.6000061, y: -97.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &121842628
@@ -2641,7 +2641,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.6000061, y: -97.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673196387
@@ -4010,11 +4010,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 217.2779
+      value: 286.4432
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 273.01
+      value: 323.8479
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_LocalScale.x
@@ -4058,11 +4058,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 395.2
+      value: 408.50897
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -278.5
+      value: -277.50183
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4079,7 +4079,7 @@ PrefabInstance:
     - target: {fileID: 2236229459894089405, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 66cabdbe752ba4a1c80f36cd0124cb23, type: 3}
+      objectReference: {fileID: 21300000, guid: be86c4963b502ec40b7ff11b1da8348f, type: 3}
     - target: {fileID: 2857700821567387735, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: Deck
       value: 
@@ -4678,8 +4678,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2.399994}
-  m_SizeDelta: {x: 100, y: 150}
+  m_AnchoredPosition: {x: -0.6, y: 2.399994}
+  m_SizeDelta: {x: 155, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1210922886
 MonoBehaviour:
@@ -4701,7 +4701,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 66cabdbe752ba4a1c80f36cd0124cb23, type: 3}
+  m_Sprite: {fileID: 21300000, guid: be86c4963b502ec40b7ff11b1da8348f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5332,7 +5332,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 283, y: 148.1}
-  m_SizeDelta: {x: 118.42209, y: 170}
+  m_SizeDelta: {x: 160, y: 210}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &1310216961 stripped
 RectTransform:
@@ -6072,11 +6072,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 217.2779
+      value: 286.4432
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 273.01
+      value: 323.8479
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_LocalScale.x
@@ -6120,11 +6120,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 392.5
+      value: 408.509
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 148.7
+      value: -277.5018
       objectReference: {fileID: 0}
     - target: {fileID: 2076620717888636361, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6141,7 +6141,7 @@ PrefabInstance:
     - target: {fileID: 2236229459894089405, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 66cabdbe752ba4a1c80f36cd0124cb23, type: 3}
+      objectReference: {fileID: 21300000, guid: be86c4963b502ec40b7ff11b1da8348f, type: 3}
     - target: {fileID: 2857700821567387735, guid: 608f0ef0de1cdb86fb74f3ad24408bbd, type: 3}
       propertyPath: Deck
       value: 
@@ -8448,8 +8448,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 2.399994}
-  m_SizeDelta: {x: 100, y: 150}
+  m_AnchoredPosition: {x: -0.6, y: 2.399994}
+  m_SizeDelta: {x: 155, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1948779108
 MonoBehaviour:
@@ -8471,7 +8471,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 66cabdbe752ba4a1c80f36cd0124cb23, type: 3}
+  m_Sprite: {fileID: 21300000, guid: be86c4963b502ec40b7ff11b1da8348f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

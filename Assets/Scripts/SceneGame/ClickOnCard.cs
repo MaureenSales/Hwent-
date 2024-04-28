@@ -15,11 +15,11 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
             Debug.Log("EnterOnClickRigth");
             if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is Clear && eventData.pointerClick.transform.parent.name == "Hand")
             {
-                LeanTween.move(eventData.pointerClick.gameObject, new Vector3(549.9293f, 300.0388f, 0f), 2f);
+                LeanTween.move(eventData.pointerClick.gameObject, new Vector3(800f, 400f, 0f), 2f);
                 await Task.Delay(2000);
                 ClearImages.SetActive(true);
                 GetComponentInParent<Canvas>().GetComponent<GameController>().ClearWeatherZone();
-                await Task.Delay(400);
+                await Task.Delay(1000);
                 Destroy(eventData.pointerClick);
                 ClearImages.SetActive(false);
                 if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)

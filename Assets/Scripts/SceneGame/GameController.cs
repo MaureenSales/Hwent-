@@ -190,6 +190,7 @@ public class GameController : MonoBehaviour
                                 weatherCard.GetComponent<ThisCard>().PrintCard(weather);
                                 weatherCard.GetComponent<Drag>().enabled = false;
                                 weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0));
+                                weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
@@ -204,6 +205,7 @@ public class GameController : MonoBehaviour
                                 weatherCard.GetComponent<ThisCard>().PrintCard(weather);
                                 weatherCard.GetComponent<Drag>().enabled = false;
                                 weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1));
+                                weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
@@ -218,6 +220,7 @@ public class GameController : MonoBehaviour
                                 weatherCard.GetComponent<ThisCard>().PrintCard(weather);
                                 weatherCard.GetComponent<Drag>().enabled = false;
                                 weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2));
+                                weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
@@ -784,7 +787,7 @@ public class GameController : MonoBehaviour
             if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i] == true)
             {
                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i] = false;
-                GameObject toDestroy = GameObject.Find("WeatherZone").transform.GetChild(i).gameObject;
+                GameObject toDestroy = GameObject.Find("WeatherZone").transform.GetChild(i).GetChild(0).gameObject;
                 LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => Destroy(toDestroy));
 
                 switch (i)

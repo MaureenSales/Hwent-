@@ -12,7 +12,7 @@ public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnBeginDrag(PointerEventData eventData)
     {
         parentToReturnTo = this.transform.parent;
-        originalScale = this.transform.localScale;
+        originalScale = new Vector3( 1f, 1f, 1f);
         this.transform.SetParent(this.transform.parent.parent);
         this.transform.localScale = new Vector3(1.2f, 1.2f, 0f);
 

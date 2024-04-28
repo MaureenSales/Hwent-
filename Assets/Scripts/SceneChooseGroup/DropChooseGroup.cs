@@ -25,6 +25,7 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                 {
                     contentShowCards.GetComponent<ShowCards>().newDeck.AddCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                     Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
+                    card.originalScale = new Vector3( 1f, 1f, 1f);
                 }
                 else if (!contentShowCards.GetComponent<ShowCards>().newDeck.cards.Contains(eventData.pointerDrag.GetComponent<ThisCard>().thisCard))
                 {
@@ -34,6 +35,7 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                     newCard.transform.localScale = new Vector3(1f, 1f, 1f);
                     newCard.GetComponent<CanvasGroup>().blocksRaycasts = true;
                     card.parentToReturnTo = this.transform;
+                    card.originalScale = new Vector3(1f, 1f, 1f);
                     contentShowCards.GetComponent<ShowCards>().newDeck.AddCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                     Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
                 }
@@ -55,9 +57,11 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                         Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
                         contentShowCards.GetComponent<ShowCards>().newDeck.RemoveCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                         Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
+                        GameObject.Find("Trash").GetComponent<AudioSource>().Play();
                     }
 
                 }
+                card.originalScale = new Vector3( 1f, 1f, 1f);
                 Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
             }
             Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
