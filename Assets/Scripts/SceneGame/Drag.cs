@@ -7,8 +7,8 @@ using UnityEngine.UI;
 
 public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Transform parentToReturnTo = null;
-    public Transform placeHolderParent = null;
+    public Transform parentToReturnTo = null; //Transform del objeto padre al que devolver la carta arrastrada
+    public Transform placeHolderParent = null; //Transform del objeto temporal para mover las cartas al organizarlas
     public Vector3 originalScale;
     GameObject placeHolder = null;
     private AudioSource audioSource;

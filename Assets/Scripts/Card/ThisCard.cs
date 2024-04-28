@@ -8,36 +8,34 @@ using TMPro;
 public class ThisCard : MonoBehaviour
 {
     public Card thisCard = null;
-    public string cardName;
-    public string skill;
-    public string power;
-    public List<Global.AttackModes> attackType;
-    public Sprite sprite;
-    public Sprite faction;
-    public Sprite cardType;
-    public Sprite descriptionSilver;
-    public Sprite descriptionHero;
-    public Image AttackTypeMelee;
-    public Image AttackTypeRanged;
-    public Image AttackTypeSiege;
-    public Image Description;
-    public Image imageCardType;
-    public Image powerImage;
-    public Image borderLight;
-    public Image borderFire;
+    public string cardName; //nombre
+    public string skill; //habilidad
+    public string power; //poder
+    public List<Global.AttackModes> attackType; //lista con los ataques de las cartas
+    public Sprite sprite; //sprite para imagen de la carta
+    public Sprite faction; //sprite para icono de facción
+    public Sprite cardType; //sprite para icono de tipo de carta
+    public Sprite descriptionSilver; //sprite para imagen de área de descripción de carta de unidad de Plata
+    public Sprite descriptionHero; //sprite para imagen de área de descripción de carta de unidad de Héroe
+    public Image AttackTypeMelee; //icono para ataque cuerpo a cuerpo
+    public Image AttackTypeRanged; //icono para ataque a distancia
+    public Image AttackTypeSiege; //icono para asedio
+    public Image Description; //imagen para área de descripción o habilidad
+    public Image imageCardType; //icono para el tipo de Carta Especial
+    public Image powerImage; //icono para el poder
+    public Image borderLight; //marco de luz para resaltar la carta en casos específicos
+    public Image borderFire; //marco de llamas de fuego para eliminar la carta
 
-    public TextMeshProUGUI nameText;
-    public TextMeshProUGUI skillText;
-    public TextMeshProUGUI powerText;
-    public Image image;
-    public Image factionImage;
+    public TextMeshProUGUI nameText; //texto UI para el nombre de la carta
+    public TextMeshProUGUI skillText; //texto UI para la habilidad
+    public TextMeshProUGUI powerText; //texto UI para el poder
+    public Image image; //imagen de la carta
+    public Image factionImage; //imagen del icono la facción
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    
-    }
-
+    /// <summary>
+    /// Imprime en la UI de la carta la información de la misma
+    /// </summary>
+    /// <param name="card">carta a crear</param>
     public void PrintCard(Card card)
     {
         borderLight.gameObject.SetActive(false);
@@ -109,10 +107,6 @@ public class ThisCard : MonoBehaviour
                 powerText.gameObject.SetActive(false);
                 powerImage.gameObject.SetActive(false);
                 imageCardType.gameObject.SetActive(false);
-            }
-            if(card is DecoyUnit)
-            {
-                
             }
             if (card is HeroUnit)
             {

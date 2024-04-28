@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 public class ClickOnCard : MonoBehaviour, IPointerClickHandler
 {
-    public GameObject ClearImages;
+    public GameObject ClearImages; //Imgenes de los rayos de sol de despeje
     async public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
+            //Activar efecto de despeje
             Debug.Log("EnterOnClickRigth");
             if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is Clear && eventData.pointerClick.transform.parent.name == "Hand")
             {
                 LeanTween.move(eventData.pointerClick.gameObject, new Vector3(549.9293f, 300.0388f, 0f), 2f);
                 await Task.Delay(2000);
                 ClearImages.SetActive(true);
-                GetComponentInParent<Canvas>().GetComponent<GameController>().Clear();
+                GetComponentInParent<Canvas>().GetComponent<GameController>().ClearWeatherZone();
                 await Task.Delay(400);
                 Destroy(eventData.pointerClick);
                 ClearImages.SetActive(false);
@@ -29,6 +30,7 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
             }
             else if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is DecoyUnit && eventData.pointerClick.transform.parent.name == "Hand")
             {
+                //Activar efecto de señuelo
                 GetComponentInParent<Canvas>().GetComponent<GameController>().Panel.gameObject.SetActive(true);
                 GetComponentInParent<Canvas>().GetComponent<GameController>().DecoyFirstPart(eventData.pointerClick.gameObject);
             }
@@ -36,8 +38,10 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
         }
         else
         {
+
             if (eventData.pointerClick.GetComponent<ThisCard>().borderLight.gameObject.activeSelf)
             {
+                //Escoger la carta a cambiar con el señuelo
                 if (eventData.pointerClick.transform.parent.name != "Hand")
                 {
                     GetComponentInParent<Canvas>().GetComponent<GameController>().DecoySecondPart(eventData.pointerClick.gameObject);
@@ -51,6 +55,7 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
             }
             else if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is Leader && eventData.pointerClick.transform.parent.parent.name == GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.name)
             {
+                //Activar efecto de líder
                 Leader leader = (Leader)eventData.pointerClick.GetComponent<ThisCard>().thisCard;
                 if (leader.Faction == Global.Factions.Gryffindor)
                 {
@@ -73,14 +78,7 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        ClearImages = GetComponentInParent<Canvas>().transform.Find("ClearImages").gameObject;
-        ClearImages.SetActive(false);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        ClearImages = GetComponentInParent<Canvas>().GetComponent<GameController>().ClearImages;
 
     }
 }

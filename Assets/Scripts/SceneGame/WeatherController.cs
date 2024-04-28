@@ -6,9 +6,9 @@ using UnityEngine;
 public class WeatherController : MonoBehaviour
 {
     //public Transform grid;
-    public List<GameObject> WeatherImagesPlayer = new List<GameObject>();
-    public List<GameObject> WeatherImagesEnemy = new List<GameObject>();
-    [HideInInspector] public bool[] weather = { false, false, false };
+    public List<GameObject> WeatherImagesPlayer = new List<GameObject>(); //lista con las imagenes de los efectos clima del objeto jugador
+    public List<GameObject> WeatherImagesEnemy = new List<GameObject>(); //lista con las imagenes de los efectos clima del objeto enemigo
+    [HideInInspector] public bool[] weather = { false, false, false }; //lista para verificar estado de la zona de climas
 
     public void Start()
     {
@@ -30,6 +30,11 @@ public class WeatherController : MonoBehaviour
             image.SetActive(false);
         }
     }
+
+    /// <summary>
+    /// Método para aplicar gráficamente el clima
+    /// </summary>
+    /// <param name="weatherType"></param>
     public void ApplyWeather(string weatherType)
     {
         Debug.Log("EnterApplyWeather");
@@ -49,6 +54,11 @@ public class WeatherController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para aplicar el efecto de un clima a una unidad
+    /// </summary>
+    /// <param name="unit">unidad a aplicar clima</param>
+    /// <param name="unitTransform">Transform de la unidad</param>
     public void WeatherEffect(GameObject unit, Transform unitTransform)
     {
         Debug.Log(unit.transform.parent.parent);
@@ -103,6 +113,11 @@ public class WeatherController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Método para aplicar el efecto de un clima a una lista de unidades
+    /// </summary>
+    /// <param name="units">lista de unidades a aplicar clima</param>
+    /// <param name="owner">jugador dueño de las unidades</param>
     public void WeatherEffect(List<GameObject> units, string owner)
     {
         foreach (var unit in units)

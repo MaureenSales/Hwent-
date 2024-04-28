@@ -5,9 +5,9 @@ using UnityEngine.EventSystems;
 
 public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public Transform parentToReturnTo = null;
+    public Transform parentToReturnTo = null; //Transform del objeto padre al cual retornar la carta arrastrado
     public Vector3 originalScale;
-    public bool IsRemove = false;
+    public bool IsRemove = false; //booleano para saber si la carta fue removida del mazo del jugador
     private AudioSource audioSource;
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -60,9 +60,4 @@ public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         audioSource = this.GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

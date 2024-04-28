@@ -7,11 +7,15 @@ using UnityEngine.UI;
 
 public class NickInput : MonoBehaviour
 {
-    public string PlayerName = "";
-    public TMP_InputField tMP_InputField;
+    public string PlayerName = ""; //nombre del jugador actual
+    public TMP_InputField tMP_InputField; //GameObject para la entrada del nombre
     public GameObject buttonLogin;
     public AudioClip keySound;
-    private string lastText = "";
+    private string lastText = ""; //texto actual de la entrada
+
+    /// <summary>
+    /// Método para guardar el nombre del jugador y continuar a la siguiente escena
+    /// </summary>
     public void PlayerNameInput()
     {
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();

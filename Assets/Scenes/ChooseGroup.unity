@@ -12095,6 +12095,7 @@ MonoBehaviour:
   countCardsInDeck: {fileID: 1472801516}
   countUnitCards: {fileID: 1999583161}
   countSpecialsCards: {fileID: 180339261}
+  contentShowCards: {fileID: 1616664298}
 --- !u!1 &1200102735
 GameObject:
   m_ObjectHideFlags: 0

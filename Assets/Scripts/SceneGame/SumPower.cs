@@ -7,10 +7,11 @@ using TMPro;
 
 public class SumPower : MonoBehaviour
 {
-    public GameObject row;
-    public int power;
+    public GameObject row; //fila correspondiente al sumador de poder de la zona
+    public int power; //poder de la fila
 
-    public TextMeshProUGUI powerText;
+    public TextMeshProUGUI powerText; //poder de la fila 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,9 @@ public class SumPower : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Método para actualizar poder de la fila
+    /// </summary>
     public void UpdatePower()
     {
         Debug.Log("UpdatePower enter");

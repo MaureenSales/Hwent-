@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class Info : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject CardInfo = null;
+    public GameObject CardInfo = null; //objeto donde se va ha ubicar la carta ampliada
     public Vector3 originalScale;
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -25,15 +25,5 @@ public class Info : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         this.transform.localScale = originalScale;
         if(CardInfo != null) Destroy(CardInfo);
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+    
 }

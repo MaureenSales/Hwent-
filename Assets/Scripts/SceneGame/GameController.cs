@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
-    public GameObject Message;
-    public GameObject HandPlayer;
-    public GameObject HandEnemy;
-    public GameObject DeckPlayer;
-    public GameObject DeckEnemy;
-    // public GameObject GraveyardPlayer;
-    // public GameObject GraveyardEnemy;
-    public GameObject currentTurn;
-    public GameObject notCurrentTurn;
-    public GameObject CardPrefab;
-    public GameObject Panel;
-    private GameObject DecoyActive = null;
+    public GameObject Message; //Mensaje para actualizar estado del juego
+    public GameObject HandPlayer; //Mano del objeto jugador en la jerarquía de la escena
+    public GameObject HandEnemy; //Mano del objeto enemigo en la jerarquía de la escena
+    public GameObject DeckPlayer; //Mazo del objeto jugador en la jerarquía de la escena
+    public GameObject DeckEnemy; //Mazo del objeto enemigo en la jerarquía de la escena
+    public GameObject currentTurn; //Jugador actual
+    public GameObject notCurrentTurn; //Jugador no actual
+    public GameObject CardPrefab; //Prefab de las cartas
+    public GameObject Panel; //Panel para no jugar cartas en ese estado del juego
+    private GameObject DecoyActive = null; //Señuelo activo en el juego
     public GameObject buttonMainMenu;
+    public GameObject ClearImages; //Imagenes de rayos de sol de despeje
 
 
     // Start is called before the first frame update
@@ -26,6 +25,8 @@ public class GameController : MonoBehaviour
     {
         Debug.Log("Start");
         currentTurn.GetComponentInChildren<PlayerController>().IsYourTurn = true;
+
+        ClearImages.SetActive(false);
 
     }
 
@@ -35,6 +36,9 @@ public class GameController : MonoBehaviour
         UpdateWinner(currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total);
     }
 
+/// <summary>
+/// Regresar al Menú Principal
+/// </summary>
     async public void MainMenu()
     {
         if (!(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject is null))
@@ -46,6 +50,10 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+/// <summary>
+/// Método para verificar si una unidad posee efecto y si es así activarlo
+/// </summary>
+/// <param name="unit">unidad a verificar efecto</param>
     async public void Effects(GameObject unit)
     {
         Debug.Log("EnterEffect");
@@ -181,7 +189,7 @@ public class GameController : MonoBehaviour
                                 GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                                 weatherCard.GetComponent<ThisCard>().PrintCard(weather);
                                 weatherCard.GetComponent<Drag>().enabled = false;
-                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0), false);
+                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0));
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
@@ -195,7 +203,7 @@ public class GameController : MonoBehaviour
                                 GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                                 weatherCard.GetComponent<ThisCard>().PrintCard(weather);
                                 weatherCard.GetComponent<Drag>().enabled = false;
-                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1), false);
+                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1));
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
@@ -209,7 +217,7 @@ public class GameController : MonoBehaviour
                                 GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
                                 weatherCard.GetComponent<ThisCard>().PrintCard(weather);
                                 weatherCard.GetComponent<Drag>().enabled = false;
-                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2), false);
+                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2));
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
                                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
@@ -562,6 +570,9 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para activar efecto de la facción Gryffindor
+    /// </summary>
     public void GryffindorEffect()
     {
         int countMelee = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").Find("MeleeZone").childCount;
@@ -579,12 +590,20 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para activar efecto de la facción Slytherin
+    /// </summary>
     public void SlytherinEffect()
     {
         currentTurn.transform.Find("Deck").GetComponent<Draw>().DrawCard();
         currentTurn.transform.Find("Deck").GetComponent<Draw>().DrawCard();
     }
 
+    /// <summary>
+    /// Método para verificar si hay aumento en la fila donde es soltada la unidad
+    /// </summary>
+    /// <param name="eventData">unidad soltada</param>
+    /// <param name="zone">nombre de la zona de ataque</param>
     public void Improve(GameObject eventData, string zone)
     {
         Debug.Log("EnterImprove");
@@ -609,6 +628,12 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para verificar si hay un aumento en la fila donde hay un clima activo
+    /// </summary>
+    /// <param name="unit">unidad afectada</param>
+    /// <param name="zone">zona donde se encuentra la unidad</param>
+    /// <param name="owner">jugador dueño de la unidad</param>
     public void ImproveAfterWeather(GameObject unit, string zone, string owner)
     {
         Debug.Log("EnterImprove");
@@ -641,7 +666,11 @@ public class GameController : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// Método para bonificar a la unidad soltada en una fila donde hay aumento
+    /// </summary>
+    /// <param name="unit">unidad a bonificar</param>
+    /// <param name="zone">zona de ataque donde fue soltada</param>
     public void ImproveUnits(GameObject unit, string zone)
     {
         Debug.Log("EnterImproveUnit");
@@ -661,6 +690,10 @@ public class GameController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Método para bonificar a una lista de unidades al colocar un aumento
+    /// </summary>
+    /// <param name="units">lista de unidades a bonificar</param>
     public void ImproveUnits(List<GameObject> units)
     {
         Debug.Log("EnterImproveUnitsList");
@@ -681,6 +714,10 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para iluminar cartas del campo que se pueden cambiar con el señuelo
+    /// </summary>
+    /// <param name="decoyActive">objeto causante del evento (señuelo activo)</param>
     public void DecoyFirstPart(GameObject decoyActive)
     {
         DecoyActive = decoyActive;
@@ -703,6 +740,10 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para intercambiar el señuelo activo con la unidad seleccionada del campo
+    /// </summary>
+    /// <param name="unit">unidad seleccionada</param>
     public void DecoySecondPart(GameObject unit)
     {
         for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
@@ -733,7 +774,10 @@ public class GameController : MonoBehaviour
         parentUnit.parent.GetComponentInChildren<SumPower>().UpdatePower();
     }
 
-    public void Clear()
+    /// <summary>
+    /// Método para limpiar la zona de clima
+    /// </summary>
+    public void ClearWeatherZone()
     {
         for (int i = 0; i < 3; i++)
         {
@@ -799,6 +843,12 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para limpiar poder al despejar climas
+    /// </summary>
+    /// <param name="units"> lista de unidades de una fila</param>
+    /// <param name="owner">jugador al que pertenece la fila</param>
+    /// <param name="zone">zona de ataque</param>
     private void ClearPower(List<GameObject> units, GameObject owner, string zone)
     {
         for (int i = 0; i < units.Count; i++)
@@ -808,6 +858,11 @@ public class GameController : MonoBehaviour
         owner.transform.Find(owner.name + "Field").Find(zone + "Row").GetComponentInChildren<SumPower>().UpdatePower();
     }
 
+    /// <summary>
+    /// Método para actualizar el ganador actual
+    /// </summary>
+    /// <param name="powerCurrentTurn">poder total en campo del jugador actual</param>
+    /// <param name="powerNotCurrentTurn">poder total en campo del jugador no actual</param>
     private void UpdateWinner(int? powerCurrentTurn, int? powerNotCurrentTurn)
     {
         if (powerCurrentTurn != null && powerNotCurrentTurn != null)
@@ -831,6 +886,10 @@ public class GameController : MonoBehaviour
         }
 
     }
+
+    /// <summary>
+    /// Método para finalizar turno
+    /// </summary>
     public void FinalizedTurn()
     {
         Debug.Log("FinalizedTurn");
@@ -838,6 +897,10 @@ public class GameController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Corutina para cambiar turno
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator ChangeTurn()
     {
         yield return new WaitForSeconds(2f);
@@ -858,20 +921,20 @@ public class GameController : MonoBehaviour
             Message.gameObject.SetActive(false);
             if (currentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.activeSelf)
             {
-                Debug.Log("current gano la ronda");
+                Debug.Log("el actual jugdor ganó la ronda");
                 Message.gameObject.SetActive(true);
                 Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado la ronda";
                 yield return new WaitForSeconds(1f);
                 Message.gameObject.SetActive(false);
                 if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                 {
-                    Debug.Log("current gano su primera gema");
+                    Debug.Log("el actual jugador ganó su primera gema");
                     currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
 
                 }
                 else if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
                 {
-                    Debug.Log("current gano su segunga gema y el juego");
+                    Debug.Log("el actual jugador ganó su segunga gema y el juego");
                     currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
 
                     Message.gameObject.SetActive(true);
@@ -890,7 +953,7 @@ public class GameController : MonoBehaviour
                     yield break;
                 }
 
-                Debug.Log("current gano una ronda y le toca empezar");
+                Debug.Log("el actual jugador ganó una ronda y le toca empezar");
                 ClearField();
                 notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
                 currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
@@ -907,19 +970,19 @@ public class GameController : MonoBehaviour
             }
             else if (notCurrentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.activeSelf)
             {
-                Debug.Log("notcurrent ha ganado la ronda");
+                Debug.Log("el jugador en descanso ha ganado la ronda");
                 Message.gameObject.SetActive(true);
                 Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado la ronda";
                 yield return new WaitForSeconds(1f);
                 Message.gameObject.SetActive(false);
                 if (!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                 {
-                    Debug.Log("notcurrent gana su primera gema");
+                    Debug.Log("el jugador en descanso gana su primera gema");
                     notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
                 }
                 else if (!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.activeSelf)
                 {
-                    Debug.Log("notcurrent gana su segunda gema y el juego");
+                    Debug.Log("el jugador en descanso gana su segunda gema y el juego");
                     notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
 
                     Message.gameObject.SetActive(true);
@@ -939,7 +1002,7 @@ public class GameController : MonoBehaviour
 
                 }
 
-                Debug.Log("notcurrent la ronda se limpia el tablero");
+                Debug.Log("el jugador actual gana la ronda y se limpia el tablero");
                 ClearField();
                 notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
                 currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
@@ -960,7 +1023,7 @@ public class GameController : MonoBehaviour
                 if (currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf &&
                 notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                 {
-                    Debug.Log("ya habian ganado una ronda cada uno y ahora ganan juntos el juego");
+                    Debug.Log("ya habían ganado una ronda cada uno y ahora ganan juntos el juego");
                     Message.gameObject.SetActive(true);
                     Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " y " + notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " han ganado el juego";
                     yield return new WaitForSeconds(1f);
@@ -981,12 +1044,12 @@ public class GameController : MonoBehaviour
                     Debug.Log("uno de los dos no ha ganado su primera ronda o ambos");
                     if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                     {
-                        Debug.Log("current gana su primera gema");
+                        Debug.Log("el jugador actual gana su primera gema");
                         currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     else
                     {
-                        Debug.Log("current gana segunda ronda y el juego");
+                        Debug.Log("el jugador actual gana segunda ronda y el juego");
                         currentTurn.GetComponentInChildren<PlayerController>().transform.GetChild(1).gameObject.SetActive(true);
                         Message.gameObject.SetActive(true);
                         Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego";
@@ -1006,12 +1069,12 @@ public class GameController : MonoBehaviour
 
                     if (!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                     {
-                        Debug.Log("notcurrent gana su primera gema");
+                        Debug.Log("el jugador en descanso gana su primera gema");
                         notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(true);
                     }
                     else
                     {
-                        Debug.Log("notcurrent gana su segunda gema y el juego");
+                        Debug.Log("el jugador en descanso gana su segunda gema y el juego");
                         notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
 
                         Message.gameObject.SetActive(true);
@@ -1064,6 +1127,9 @@ public class GameController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Método para limpiar el tablero
+    /// </summary>
     private void ClearField()
     {
         Debug.Log("ClearField");
@@ -1132,6 +1198,9 @@ public class GameController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Método para intercambiar la posición de los jugadores
+    /// </summary>
     private void SwapObjects()
     {
         Vector3 positionCurrentTurnSumTotalPower = currentTurn.transform.Find(currentTurn.name + "Field").Find("SumTotalPower").position;

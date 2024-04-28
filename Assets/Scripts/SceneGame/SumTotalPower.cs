@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class SumTotalPower : MonoBehaviour
 {
-    public int total;
+    public int total; //poder total del campo del jugador
 
-    public TextMeshProUGUI totalText;
+    public TextMeshProUGUI totalText; // poder total del campo del jugador
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,6 +19,9 @@ public class SumTotalPower : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Método para actualizar el poder total del campo del jugador
+    /// </summary>
     public void UpdateTotalPower()
     {
         int updatePower = 0;
@@ -36,9 +40,5 @@ public class SumTotalPower : MonoBehaviour
         totalText.text = total.ToString();
 
     }
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+ 
 }

@@ -7,33 +7,33 @@ using Unity.VisualScripting;
 
 public class PlayerController : MonoBehaviour
 {
-    public string Nick { get; set; }
+    public string Nick { get; set; } //nombre del jugador
     //public Sprite Avatar;
-    public int CardsInHand = 10;
-    public bool IsYourTurn = false;
-    public bool Pass = false;
+    public int CardsInHand = 10; //cantidad de cartas en la mano del jugador
+    public bool IsYourTurn = false; //turno del jugador
+    public bool Pass = false; //pase del jugador
 
     //public Image avatar;
-    public TextMeshProUGUI countCards;
-    public TextMeshProUGUI nick;
-    public TextMeshProUGUI countCardsInDeck;
-    public GameObject Gems;
-    public GameObject Turn;
-    public GameObject PlayerBoard;
-    public GameObject WinnerIndicator;
-    public GameObject CardPrefab;
-    public GameObject LeaderPlayer;
-    public GameObject LeaderEnemy;
-    public bool ChangeAllowed = true;
-    public List<GameObject> cardsToChange = new();
+    public TextMeshProUGUI countCards; //contador de cartas actuales en la mano
+    public TextMeshProUGUI nick; 
+    public TextMeshProUGUI countCardsInDeck; //contador de cartas actuales en el mazo
+    public GameObject Gems; //gemas del jugador
+    public GameObject Turn; //indicador de turno del jugador
+    public GameObject PlayerBoard; //objeto que conntiene la mano, el botón de pase e intercambio del jugador
+    public GameObject WinnerIndicator; //indicador de gandor del jugador
+    public GameObject CardPrefab; //Prefab de las cartas
+    public GameObject LeaderPlayer; //líder del jugador asignado al objeto Player
+    public GameObject LeaderEnemy; //líder del jugador asignado al objeto Enemy
+    public bool ChangeAllowed = true; //disponibilidad para intercambio de cartas
+    public List<GameObject> cardsToChange = new(); //lista de cartas a intercambiar
     public GameObject buttonChange;
     public GameObject buttonNotChange;
     public GameObject buttonPass;
-    public GameObject PanelField;
+    public GameObject PanelField; //Panel para no jugar si no has seleccionado si cambiar cartas o no
     // Start is called before the first frame update
     void Start()
     {
-
+        //Asignación de los líderes a cada jugador
         if (this.name.StartsWith("Enemy"))
         {
             Nick = GameData.nameEnemy;
@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
+        //Inicializar información del jugador
         countCards.text = CardsInHand.ToString();
         //avatar.sprite = Avatar;
         nick.text = Nick;
@@ -103,6 +104,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Método para pasar turno
+    /// </summary>
     public void UpdatePass()
     {
         buttonPass.GetComponent<AudioSource>().Play();
@@ -110,6 +114,9 @@ public class PlayerController : MonoBehaviour
         GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
     }
 
+    /// <summary>
+    /// Método para no intercambiar cartas
+    /// </summary>
     public void notChange()
     {
         buttonNotChange.GetComponent<AudioSource>().Play();
@@ -128,6 +135,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Método para intercambiar cartas
+    /// </summary>
     public void Change()
     {
         buttonChange.GetComponent<AudioSource>().Play();

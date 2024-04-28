@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public static class Global
 {
+    /// <summary>
+    /// Efectos
+    /// </summary>
     public static Dictionary<string, string> Effects = new Dictionary<string, string>
     {
         {"PutBoost", "Poner un aumento en una fila propia"},
@@ -17,6 +20,10 @@ public static class Global
         {"ClearRow", "Limpia la fila, no vacia, con menos unidades del rival"},
         {"Average", "Calcula el promedio de poder entre todas las carta del campo e iguala el poder de cada una a este promedio"},
     };
+
+    /// <summary>
+    /// Facciones
+    /// </summary>
     public enum Factions
     {
         Gryffindor,
@@ -24,21 +31,13 @@ public static class Global
         Neutral
     }
 
+    /// <summary>
+    /// Formas de ataque, filas correspondientes
+    /// </summary>
     public enum AttackModes
     {
         Melee,
         Ranged,
         Siege
     }
-
-    public static void HideImage(UnityEngine.UI.Image image)
-    {
-        image.color = new Color(image.color.r, image.color.g, image.color.b, 0);
-    }
-
-    public static void ShowImage(UnityEngine.UI.Image image)
-    {
-        image.color = new Color(image.color.r, image.color.g, image.color.b, 1);
-    }
-
 }

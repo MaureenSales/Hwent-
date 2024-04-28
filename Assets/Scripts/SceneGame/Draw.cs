@@ -6,13 +6,10 @@ using System.Transactions;
 
 public class Draw : MonoBehaviour
 {
-    public GameObject Card;
-    public GameObject Hand;
-    public GameObject Deck;
-    public GameObject CardPrefab;
-    public Deck deck = null;
-    public GameObject contentGameData;
-    private List<GameObject> CardsInHand { get; set; }
+    public GameObject Hand; //mano del jugador
+    public GameObject CardPrefab; //Prefab de las  cartas
+    public Deck deck = null; //mazo del jugador
+    private List<GameObject> CardsInHand { get; set; } //lista de cartas en la mano
 
     // Start is called before the first frame update
     async void Start()
@@ -35,7 +32,9 @@ public class Draw : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Método para robar una carta
+    /// </summary>
     public void DrawCard()
     {
         GameObject drawCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);

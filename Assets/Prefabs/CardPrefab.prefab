@@ -848,10 +848,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Description
+  m_text: Skill
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 4dbf19a62148888abb457b04986206e7, type: 2}
-  m_sharedMaterial: {fileID: -5785774099810482633, guid: 4dbf19a62148888abb457b04986206e7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 216cb879b3742b43990deaedefc68f06, type: 2}
+  m_sharedMaterial: {fileID: 2338239592384197902, guid: 216cb879b3742b43990deaedefc68f06, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -875,8 +875,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 6
+  m_fontSizeBase: 6
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

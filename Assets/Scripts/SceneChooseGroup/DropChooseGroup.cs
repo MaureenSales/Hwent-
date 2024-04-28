@@ -8,10 +8,10 @@ using UnityEngine.UI;
 
 public class DropChooseGroup : MonoBehaviour, IDropHandler
 {
-    public GameObject CardPrefab;
-    public TextMeshProUGUI countCopies = null;
-    public GameObject contentShowCards;
-    public GameObject DeckInfo;
+    public GameObject CardPrefab; //Prefab de las cartas
+    public TextMeshProUGUI countCopies = null; //copias de las cartas en el mazo en creación
+    public GameObject contentShowCards; //GameObject que contiene como componente el script ShowCards
+    public GameObject DeckInfo; //GameObject que contiene los objetos que muestran la información del mazo del jugador
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -65,12 +65,6 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -85,30 +79,6 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
             {
                 countCopies.text = "0";
             }
-        }
-
-
-        if (contentShowCards.GetComponent<ShowCards>().newDeck != null)
-        {
-            DeckInfo.GetComponent<InfoDeck>().countCardsInDeck.text = contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count.ToString();
-            int units = 0;
-            for (int i = 0; i < contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count; i++)
-            {
-                if (contentShowCards.GetComponent<ShowCards>().newDeck.cards[i] is UnitCard)
-                {
-                    units++;
-                }
-            }
-            DeckInfo.GetComponent<InfoDeck>().countUnitCards.text = units.ToString();
-            int specials = 0;
-            for (int i = 0; i < contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count; i++)
-            {
-                if (contentShowCards.GetComponent<ShowCards>().newDeck.cards[i] is SpecialCard)
-                {
-                    specials++;
-                }
-            }
-            DeckInfo.GetComponent<InfoDeck>().countSpecialsCards.text = specials.ToString();
         }
 
     }

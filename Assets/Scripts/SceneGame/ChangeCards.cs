@@ -7,6 +7,7 @@ public class ChangeCards : MonoBehaviour, IPointerClickHandler
 {
     public void OnPointerClick(PointerEventData eventData)
     {
+        //selecionar las cartas a cambiar al inicio de la primera ronda
         if (eventData.button == PointerEventData.InputButton.Left)
         {
             GameObject owner = GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn;
@@ -16,15 +17,5 @@ public class ChangeCards : MonoBehaviour, IPointerClickHandler
             }
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

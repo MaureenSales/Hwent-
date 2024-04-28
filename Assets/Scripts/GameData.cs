@@ -9,11 +9,6 @@ public class GameData : MonoBehaviour
     public static string nameEnemy = "";
     public static Deck playerDeck;
     public static Deck enemyDeck;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
     private void Awake()
     {
         if(gameData == null)
@@ -28,6 +23,9 @@ public class GameData : MonoBehaviour
         
     }
 
+/// <summary>
+/// Poner en valores iniciales la información de los jugadores
+/// </summary>
     public static void Reset()
     {
         namePlayer = "";
@@ -36,9 +34,4 @@ public class GameData : MonoBehaviour
         enemyDeck = null;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

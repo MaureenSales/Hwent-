@@ -6,32 +6,38 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CardDataBase : MonoBehaviour
 {
+   /// <summary>
+   /// Diccionario donde a cada facción se le hace corresponder su mazo
+   /// </summary>
    public Dictionary<Global.Factions, Deck> Decks = new Dictionary<Global.Factions, Deck>();
-   public Deck Gryffindor;
-   public Deck Slytherin;
-   public List<UnitCard> Neutral = new List<UnitCard>();
-   public List<SpecialCard> Specials = new List<SpecialCard>();
+   public Deck Gryffindor; //mazo de la facción Gryffindor
+   public Deck Slytherin; //mazo de la facción Slytherin
+   public List<UnitCard> Neutral = new List<UnitCard>(); //lista de unidades neutrales
+   public List<SpecialCard> Specials = new List<SpecialCard>(); //lista de cartas especiales neutrales
+   /// <summary>
+   /// Diccionario donde a cada facción se le hace corresponder su líder
+   /// </summary>
    public Dictionary<Global.Factions, Leader> Leaders = new Dictionary<Global.Factions, Leader>();
    public void Start()
    {
       //Leaders
       Debug.Log("Enter dataBase");
-      Leaders.Add(Global.Factions.Gryffindor, new Leader("Harry Potter", Global.Factions.Gryffindor, "Aun no se",
+      Leaders.Add(Global.Factions.Gryffindor, new Leader("Harry Potter", Global.Factions.Gryffindor, "Aumenta en el número de unidades cuerpo a cuerpo del rival cada unidad cuerpo a cuerpo propia",
      "El niño que vivió. El elegido para derrotar al señor tenebroso", Resources.Load<Sprite>("HarryPotter")));
-      Leaders.Add(Global.Factions.Slytherin, new Leader("Lord Voldemort", Global.Factions.Slytherin, "Aun no se",
+      Leaders.Add(Global.Factions.Slytherin, new Leader("Lord Voldemort", Global.Factions.Slytherin, "Robar dos cartas",
       "Un ser cuya ambición y sed de poder trascienden los límites de la cordura. Su nombre, susurrado con temor y evitado como una maldición.",
       Resources.Load<Sprite>("LordVoldemort")));
 
       //Specials
 
       //Weathers
-      Specials.Add(new Weather("Escarcha Heladora", "Iguala a 1 punto el valor de cada unidad cuerpo a cuerpo en el campo.",
+      Specials.Add(new Weather("Escarcha Heladora", "Iguala a 2 punto el valor de cada unidad cuerpo a cuerpo en el campo.",
       "En los confines más gélidos de la Escuela de Magia y Hechicería de Hogwarts, un fenómeno mágico sin igual se desencadena: la Escarcha Heladora. Evoca la esencia misma del invierno, transformando el majestuoso Castillo de Hogwarts en una fortaleza de hielo.",
       Resources.Load<Sprite>("EscarchaHeladora"), Resources.Load<Sprite>("Frost")));
-      Specials.Add(new Weather("Niebla Profunda", "Iguala a 1 punto el valor de cada unidad de ataque a distancia en el campo.",
+      Specials.Add(new Weather("Niebla Profunda", "Iguala a 2 punto el valor de cada unidad de ataque a distancia en el campo.",
       "En los rincones más oscuros y misteriosos del Bosque Prohibido de Hogwarts, una niebla densa y profunda se alza como un velo entre los árboles retorcidos. Envuelve el bosque en un abrazo etéreo, ocultando secretos ancestrales y criaturas inimaginables.",
       Resources.Load<Sprite>("NieblaProfunda"), Resources.Load<Sprite>("Fog")));
-      Specials.Add(new Weather("Diluvio Quidditch", "Iguala a 1 punto el valor de cada unidad de asedio en el campo.",
+      Specials.Add(new Weather("Diluvio Quidditch", "Iguala a 2 punto el valor de cada unidad de asedio en el campo.",
       "En el corazón del Estadio de Quidditch, donde los sueños de los magos y brujas se elevan junto con las escobas, se desata un diluvio mágico sin igual: el Diluvio Quidditch. Sumerge el campo de juego en una tormenta desenfrenada, desafiando a los jugadores a luchar contra las ráfagas de viento y las gotas de lluvia que caen como saetas.",
       Resources.Load<Sprite>("DiluvioQuidditch"), Resources.Load<Sprite>("Rain")));
 
@@ -47,7 +53,7 @@ public class CardDataBase : MonoBehaviour
       Specials.Add(new Boost("Expecto Patronum", " +2 Aumenta el poder de las unidades de una fila",
       "Invocar un Patronus es un acto de gran poder. El Patronus repele a los Dementores y las fuerzas oscuras, brindando protección y fortaleza.",
       Resources.Load<Sprite>("ExpectoPatronum")));
-      Specials.Add(new Boost("Dobby", " +1 Aumenta el poder de las unidades de una fila",
+      Specials.Add(new Boost("Dobby", " +2 Aumenta el poder de las unidades de una fila",
       "El elfo doméstico liberado por Harry. Aunque inicialmente sirve a la familia Malfoy, luego se convierte en un aliado leal de Harry y lucha por la libertad de los elfos domésticos",
       Resources.Load<Sprite>("Dobby")));
 
@@ -66,8 +72,7 @@ public class CardDataBase : MonoBehaviour
       Resources.Load<Sprite>("Hagrid")));
 
       //Neutral
-      //Albus es hero arreglar
-      Neutral.Add(new Unit("Albus Dumbledore", Global.Factions.Neutral, Global.Effects["DrawCard"], "El Gran Hechicero, director de Hogwarts, el mago más grande de su tiempo. Su sombra se alza como un faro, guiando a las generaciones futuras hacia la luz.",
+      Neutral.Add(new HeroUnit("Albus Dumbledore", Global.Factions.Neutral, Global.Effects["DrawCard"], "El Gran Hechicero, director de Hogwarts, el mago más grande de su tiempo. Su sombra se alza como un faro, guiando a las generaciones futuras hacia la luz.",
       12, new List<Global.AttackModes>() { Global.AttackModes.Ranged }, Resources.Load<Sprite>("AlbusDumbledore")));
       Neutral.Add(new Unit("Wingardium Leviosa", Global.Factions.Neutral, Global.Effects["PutWeather"], "Es un encantamiento usado para hacer que los objetos leviten o vuelen. Se enseña en el primer año en la clase de Encantamientos en el Colegio Hogwarts de Magia y Hechicería.",
       1, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("WingardiumLeviosa")));
@@ -146,13 +151,14 @@ public class CardDataBase : MonoBehaviour
       Slytherin.AddCard(new Unit("Vincent Crabbe", Global.Factions.Slytherin, "", "Lacayo de Draco Malfoy, hijo de mortífago y futuro mago oscuro que conjura varios hechizos imperdonables a Hermione",
       4, new List<Global.AttackModes>() { Global.AttackModes.Melee }, Resources.Load<Sprite>("VincentCrabbe")));
 
-
+      //añadiendo unidades neutrales
       foreach (var card in Neutral)
       {
          Gryffindor.AddCard(card);
          Slytherin.AddCard(card);
       }
 
+      //añadiendo especiales neutrales
       foreach (var card in Specials)
       {
          Gryffindor.AddCard(card);

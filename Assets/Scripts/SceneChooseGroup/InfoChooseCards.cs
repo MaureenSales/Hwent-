@@ -5,8 +5,9 @@ using UnityEngine.EventSystems;
 
 public class InfoChooseCards : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject CardInfo = null;
-    public Vector3 originalScale;
+    public GameObject CardInfo = null; //carta a mostrar información
+    public Vector3 originalScale; 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         originalScale = this.transform.localScale;
@@ -26,15 +27,4 @@ public class InfoChooseCards : MonoBehaviour, IPointerEnterHandler, IPointerExit
         if (CardInfo != null) Destroy(CardInfo);
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

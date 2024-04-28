@@ -6564,6 +6564,7 @@ MonoBehaviour:
   CardPrefab: {fileID: 3149766952750225326, guid: fb99eeb1e3132350bb2ce3a16de065ec, type: 3}
   Panel: {fileID: 1668095683}
   buttonMainMenu: {fileID: 2067964702}
+  ClearImages: {fileID: 1804361656}
 --- !u!82 &1626180803
 AudioSource:
   m_ObjectHideFlags: 0

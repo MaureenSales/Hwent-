@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 public class ChooseDecksController : MonoBehaviour
 {
-    public GameObject contentGameData;
-    public GameObject contentShowCards;
-    public TextMeshProUGUI cardsInDeck;
+    public GameObject contentGameData; //GameObject que contiene como componente el script GameData
+    public GameObject contentShowCards; //GameObject que contiene como componente el script ShowCards
     public GameObject buttonNext;
     public GameObject buttonBack;
     // Start is called before the first frame update
@@ -38,6 +37,9 @@ public class ChooseDecksController : MonoBehaviour
         }
     }
 
+/// <summary>
+/// Método para actualizar los datos del jugador y pasar a la escena requerida
+/// </summary>
     public void Next()
     {
         buttonNext.GetComponent<AudioSource>().Play();
@@ -63,6 +65,9 @@ public class ChooseDecksController : MonoBehaviour
         }
     }
 
+/// <summary>
+/// Método para regresar al Menú Principal
+/// </summary>
     async public void Back()
     {
         buttonBack.GetComponent<AudioSource>().Play();

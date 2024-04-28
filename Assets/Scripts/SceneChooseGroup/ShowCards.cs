@@ -7,16 +7,20 @@ using UnityEngine.UI;
 
 public class ShowCards : MonoBehaviour
 {
-    public GameObject CardPrefab;
-    public TextMeshProUGUI typeCardCollection;
-    public TextMeshProUGUI typeCardDeck;
+    public GameObject CardPrefab; //Prefab de las cartas
+    public TextMeshProUGUI typeCardCollection; //tipo de cartas de la colección
+    public TextMeshProUGUI typeCardDeck; //tipo de cartas del mazo
     public bool FactionGryffindor;
     public bool FactionSlytherin;
-    public Deck availableDeckCollection = null;
-    public GameObject GridCollection;
-    public GameObject GridDeck;
-    public GameObject Leader;
-    public Deck newDeck = null;
+    public Deck availableDeckCollection = null; //mazo disponible actualmente para selección
+    public GameObject GridCollection; //matriz UI de la colección 
+    public GameObject GridDeck; //matriz UI del mazo
+    public GameObject Leader; //líder actual 
+    public Deck newDeck = null; //mazo del jugador actual
+
+    /// <summary>
+    /// Método para mostrar las cartas disponibles de la colección seleccionada por el jugador
+    /// </summary>
     public void ShowTypeCollection()
     {
         Button buttonEvent = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
@@ -80,6 +84,9 @@ public class ShowCards : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Método para mostrar las cartas seleccionadas en el mazo del jugador
+    /// </summary>
     public void ShowCardsDeck()
     {
         Button buttonEvent = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
@@ -137,6 +144,9 @@ public class ShowCards : MonoBehaviour
 
     }
 
+/// <summary>
+/// Método para limpiar la matriz que muestra las cartas disponibles de la colección seleccionada
+/// </summary>
     public void ClearGridCollection()
     {
         GridLayoutGroup gridLayout = GridCollection.GetComponent<GridLayoutGroup>();
@@ -150,6 +160,9 @@ public class ShowCards : MonoBehaviour
         }
     }
 
+/// <summary>
+/// Método para limpiar la celda que muestra al líder del mazo en creación
+/// </summary>
     public void ClearLeader()
     {
         GridLayoutGroup gridLayout = Leader.GetComponent<GridLayoutGroup>();
@@ -161,6 +174,9 @@ public class ShowCards : MonoBehaviour
 
     }
 
+/// <summary>
+/// Método para limpiar la matriz que muestra las cartas seleccionadas del mazo en creación
+/// </summary>
     public void ClearGridDeck()
     {
         GridLayoutGroup gridLayout = GridDeck.GetComponent<GridLayoutGroup>();
@@ -174,6 +190,12 @@ public class ShowCards : MonoBehaviour
         }
     }
 
+/// <summary>
+/// Método para pasar filtro a las cartas de un mazo
+/// </summary>
+/// <param name="type">tipo de cartas solicitadas</param>
+/// <param name="deck">mazo de cartas</param>
+/// <returns>lista de cartas del mazo dado y del tipo solicitado</returns>
     private List<Card> Filter(string type, Deck deck)
     {
         List<Card> toShow = new List<Card>();
@@ -237,6 +259,11 @@ public class ShowCards : MonoBehaviour
         return toShow;
     }
 
+/// <summary>
+/// Método para limpiar de repeticiones una lista de cartas
+/// </summary>
+/// <param name="cards">lista de cartas</param>
+/// <returns>lista de cartas sin repetición de elementos</returns>
     private List<Card> withoutRepettition (List<Card> cards)
     {
         List<Card> newList  = new List<Card>();
@@ -250,6 +277,9 @@ public class ShowCards : MonoBehaviour
         return newList;
     }
 
+/// <summary>
+/// Método para actualizar la facción a mostrar
+/// </summary>
     public void UpdateFaction()
     {
         

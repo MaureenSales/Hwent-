@@ -9,11 +9,11 @@ public class DropZone : MonoBehaviour, IDropHandler
    {
       UnityEngine.Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
 
-      Drag card = eventData.pointerDrag.GetComponent<Drag>();
+      Drag card = eventData.pointerDrag.GetComponent<Drag>(); //componente Drag de la carta soltada
       if (card != null)
       {
 
-         if (card.parentToReturnTo.parent.parent == this.transform.parent.parent.parent)
+         if (card.parentToReturnTo.parent.parent == this.transform.parent.parent.parent) //verifica que la carta este siendo soltada en el campo del jugador actual usando la jerarquía del campo en la escena 
          {
             if (this.name == "MeleeZone" && (this.transform.childCount < 10))
             {
@@ -39,7 +39,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-                  //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
@@ -58,7 +57,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-                  //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
                   GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
@@ -75,7 +73,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-                  //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
@@ -94,7 +91,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-                  //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
                   GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
@@ -128,7 +124,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                card.parentToReturnTo = this.transform;
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-               //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
@@ -142,7 +137,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                card.parentToReturnTo = this.transform;
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-               //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
@@ -156,7 +150,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                card.parentToReturnTo = this.transform;
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-               //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
                GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
@@ -174,7 +167,6 @@ public class DropZone : MonoBehaviour, IDropHandler
 
             card.parentToReturnTo = this.transform;
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-            //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
@@ -193,7 +185,6 @@ public class DropZone : MonoBehaviour, IDropHandler
 
             card.parentToReturnTo = this.transform;
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-            //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
@@ -211,7 +202,6 @@ public class DropZone : MonoBehaviour, IDropHandler
 
             card.parentToReturnTo = this.transform;
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-            //eventData.pointerDrag.GetComponent<Info>().enabled = false;
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
@@ -228,12 +218,18 @@ public class DropZone : MonoBehaviour, IDropHandler
 
       }
    }
+
+   /// <summary>
+   /// Corutina para desactivar el arrastre de las cartas
+   /// </summary>
+   /// <param name="drag"></param>
+   /// <returns></returns>
    private IEnumerator EnableDragScript(Drag drag)
    {
       yield return new WaitForEndOfFrame();
-      if(drag != null)
+      if (drag != null)
       {
-      drag.enabled = false;
+         drag.enabled = false;
 
       }
    }
