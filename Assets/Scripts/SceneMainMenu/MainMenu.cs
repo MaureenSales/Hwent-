@@ -24,9 +24,9 @@ public class MainMenu : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
     }
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
-
+        await Task.Delay(2000);
     }
 
     // Update is called once per frame

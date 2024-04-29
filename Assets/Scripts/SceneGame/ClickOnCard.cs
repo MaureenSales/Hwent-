@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class ClickOnCard : MonoBehaviour, IPointerClickHandler
 {
@@ -15,12 +17,24 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
             Debug.Log("EnterOnClickRigth");
             if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is Clear && eventData.pointerClick.transform.parent.name == "Hand")
             {
-                LeanTween.move(eventData.pointerClick.gameObject, new Vector3(800f, 400f, 0f), 2f);
+                GameObject ClearCard = eventData.pointerClick.gameObject;
+                LeanTween.move(ClearCard, new Vector3(800f, 400f, 0f), 2f);
                 await Task.Delay(2000);
+                for (int i = 0; i < ClearImages.transform.childCount; i++)
+                {
+                    Color color = ClearImages.transform.GetChild(i).GetComponent<Image>().color;
+                    color.a = 0f;
+                    ClearImages.transform.GetChild(i).GetComponent<Image>().color = color;
+                }
                 ClearImages.SetActive(true);
+                for (int i = 0; i < ClearImages.transform.childCount; i++)
+                {
+                    LeanTween.alpha(ClearImages.transform.GetChild(i).GetComponent<RectTransform>(), 1, 2f);
+                }
                 GetComponentInParent<Canvas>().GetComponent<GameController>().ClearWeatherZone();
                 await Task.Delay(1000);
-                Destroy(eventData.pointerClick);
+                ClearCard.transform.localScale = new Vector3( 0.9f, 0.9f, 0f);
+                LeanTween.move(ClearCard, GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => ClearCard.transform.SetParent(GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Graveyard")));
                 ClearImages.SetActive(false);
                 if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                 {

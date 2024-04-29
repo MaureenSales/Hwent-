@@ -1134,6 +1134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d75f6d18a8ef32db92637dd6007584, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Letter: {fileID: 902845606}
 --- !u!1 &1064783950
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,6 +1328,7 @@ MonoBehaviour:
   tMP_InputField: {fileID: 1064783952}
   buttonLogin: {fileID: 199703123}
   keySound: {fileID: 8300000, guid: 7764079394d043766808e4ffc3337ddf, type: 3}
+  Letter: {fileID: 902845606}
 --- !u!82 &1064783956
 AudioSource:
   m_ObjectHideFlags: 0

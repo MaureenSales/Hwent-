@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class NickInput : MonoBehaviour
 {
@@ -11,12 +12,13 @@ public class NickInput : MonoBehaviour
     public TMP_InputField tMP_InputField; //GameObject para la entrada del nombre
     public GameObject buttonLogin;
     public AudioClip keySound;
+    public GameObject Letter;
     private string lastText = ""; //texto actual de la entrada
 
     /// <summary>
     /// Método para guardar el nombre del jugador y continuar a la siguiente escena
     /// </summary>
-    public void PlayerNameInput()
+    public async void PlayerNameInput()
     {
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         PlayerName = tMP_InputField.text;
@@ -30,16 +32,25 @@ public class NickInput : MonoBehaviour
         {
             GameData.namePlayer = PlayerName;
         }
+        LeanTween.rotate(Letter, new Vector3(0f, 0f, 360) * 4, 2f).setEase(LeanTweenType.easeInOutQuad);
+        LeanTween.scale(Letter, new Vector3(0f, 0f, 0f), 2f);
 
+        await Task.Delay(2000);
         Debug.Log(GameData.namePlayer);
         SceneManager.LoadScene("ChooseGroup");
 
     }
     // Start is called before the first frame update
-    void Start()
+    async void Start()
     {
+        tMP_InputField.gameObject.SetActive(false);
+        buttonLogin.gameObject.SetActive(false);
         buttonLogin.GetComponent<Button>().interactable = false;
         tMP_InputField.placeholder.GetComponent<TMP_Text>().text = "Introduce tu nombre";
+        await Task.Delay(28200);
+        tMP_InputField.gameObject.SetActive(true);
+        buttonLogin.gameObject.SetActive(true);
+
     }
 
     // Update is called once per frame
