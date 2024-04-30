@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 public class GameController : MonoBehaviour
 {
     public GameObject Message; //Mensaje para actualizar estado del juego
@@ -36,9 +37,9 @@ public class GameController : MonoBehaviour
         UpdateWinner(currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total);
     }
 
-/// <summary>
-/// Regresar al Menú Principal
-/// </summary>
+    /// <summary>
+    /// Regresar al Menú Principal
+    /// </summary>
     async public void MainMenu()
     {
         if (!(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject is null))
@@ -50,10 +51,10 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-/// <summary>
-/// Método para verificar si una unidad posee efecto y si es así activarlo
-/// </summary>
-/// <param name="unit">unidad a verificar efecto</param>
+    /// <summary>
+    /// Método para verificar si una unidad posee efecto y si es así activarlo
+    /// </summary>
+    /// <param name="unit">unidad a verificar efecto</param>
     async public void Effects(GameObject unit)
     {
         Debug.Log("EnterEffect");
@@ -901,34 +902,71 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
+    /// Método para mostrar mensaje de estado del juego
+    /// </summary>
+    /// <param name="message">estado actual del juego</param>
+    private void ShowMessage(string message)
+    {
+        Message.transform.localScale = new Vector3(0f, 0f, 0f);
+        Message.gameObject.SetActive(true);
+        LeanTween.scale(Message, new Vector3(1f, 1f, 1f), 0.3f);
+        Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = message;
+    }
+
+    /// <summary>
+    /// Método para robar cartas al inicio de ronda
+    /// </summary>
+    private void DrawCardsStartRound()
+    {
+        DeckPlayer.GetComponent<Draw>().DrawCard();
+        DeckPlayer.GetComponent<Draw>().DrawCard();
+        DeckEnemy.GetComponent<Draw>().DrawCard();
+        DeckEnemy.GetComponent<Draw>().DrawCard();
+    }
+
+    /// <summary>
+    /// Método para limpiar la información de los jugadores al terminar el juego
+    /// </summary>
+    private void ClearInfoPlayers()
+    {
+        notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+        currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
+        currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+        currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+        notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
+        notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+    }
+
+    /// <summary>
     /// Corutina para cambiar turno
     /// </summary>
     /// <returns></returns>
     private IEnumerator ChangeTurn()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         yield return new WaitForEndOfFrame();
 
         if (currentTurn.transform.GetComponentInChildren<PlayerController>().Pass && !notCurrentTurn.transform.GetComponentInChildren<PlayerController>().Pass)
         {
-            Message.gameObject.SetActive(true);
-            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha pasado turno";
-            yield return new WaitForSeconds(1f);
+            Debug.Log("paso");
+            ShowMessage(currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha pasado turno");
+            yield return new WaitForSeconds(1.2f);
             Message.gameObject.SetActive(false);
         }
         else if (currentTurn.transform.GetComponentInChildren<PlayerController>().Pass && notCurrentTurn.transform.GetComponentInChildren<PlayerController>().Pass)
         {
-            Message.gameObject.SetActive(true);
-            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha pasado turno";
-            yield return new WaitForSeconds(1f);
+            Debug.Log("paso");
+            ShowMessage(currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha pasado turno");
+            yield return new WaitForSeconds(1.2f);
             Message.gameObject.SetActive(false);
+
             if (currentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.activeSelf)
             {
                 Debug.Log("el actual jugdor ganó la ronda");
-                Message.gameObject.SetActive(true);
-                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado la ronda";
-                yield return new WaitForSeconds(1f);
+                ShowMessage(currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado la ronda");
+                yield return new WaitForSeconds(1.2f);
                 Message.gameObject.SetActive(false);
+
                 if (!currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                 {
                     Debug.Log("el actual jugador ganó su primera gema");
@@ -940,17 +978,11 @@ public class GameController : MonoBehaviour
                     Debug.Log("el actual jugador ganó su segunga gema y el juego");
                     currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
 
-                    Message.gameObject.SetActive(true);
-                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego";
-                    yield return new WaitForSeconds(1f);
+                    ShowMessage(currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego");
+                    yield return new WaitForSeconds(1.2f);
                     Message.gameObject.SetActive(false);
                     ClearField();
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    ClearInfoPlayers();
                     yield return new WaitForSeconds(2f);
                     MainMenu();
                     yield break;
@@ -960,23 +992,18 @@ public class GameController : MonoBehaviour
                 ClearField();
                 notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
                 currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                Message.gameObject.SetActive(true);
-                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick;
-                yield return new WaitForSeconds(1f);
+                ShowMessage("Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick);
+                yield return new WaitForSeconds(1.2f);
                 Message.gameObject.SetActive(false);
-                DeckPlayer.GetComponent<Draw>().DrawCard();
-                DeckPlayer.GetComponent<Draw>().DrawCard();
-                DeckEnemy.GetComponent<Draw>().DrawCard();
-                DeckEnemy.GetComponent<Draw>().DrawCard();
+                DrawCardsStartRound();
                 yield break;
 
             }
             else if (notCurrentTurn.GetComponentInChildren<PlayerController>().WinnerIndicator.activeSelf)
             {
                 Debug.Log("el jugador en descanso ha ganado la ronda");
-                Message.gameObject.SetActive(true);
-                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado la ronda";
-                yield return new WaitForSeconds(1f);
+                ShowMessage(notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado la ronda");
+                yield return new WaitForSeconds(1.2f);
                 Message.gameObject.SetActive(false);
                 if (!notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                 {
@@ -988,17 +1015,11 @@ public class GameController : MonoBehaviour
                     Debug.Log("el jugador en descanso gana su segunda gema y el juego");
                     notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
 
-                    Message.gameObject.SetActive(true);
-                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego";
-                    yield return new WaitForSeconds(1f);
+                    ShowMessage(notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego");
+                    yield return new WaitForSeconds(1.2f);
                     Message.gameObject.SetActive(false);
                     ClearField();
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    ClearInfoPlayers();
                     yield return new WaitForSeconds(2f);
                     MainMenu();
                     yield break;
@@ -1009,35 +1030,24 @@ public class GameController : MonoBehaviour
                 ClearField();
                 notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
                 currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                DeckPlayer.GetComponent<Draw>().DrawCard();
-                DeckPlayer.GetComponent<Draw>().DrawCard();
-                DeckEnemy.GetComponent<Draw>().DrawCard();
-                DeckEnemy.GetComponent<Draw>().DrawCard();
+                DrawCardsStartRound();
 
             }
             else
             {
                 Debug.Log("ambos ganan la ronda");
-                Message.gameObject.SetActive(true);
-                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Ha ocurrido un empate";
-                yield return new WaitForSeconds(1f);
+                ShowMessage("Ha ocurrido un empate");
+                yield return new WaitForSeconds(1.2f);
                 Message.gameObject.SetActive(false);
-
                 if (currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf &&
                 notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.activeSelf)
                 {
                     Debug.Log("ya habían ganado una ronda cada uno y ahora ganan juntos el juego");
-                    Message.gameObject.SetActive(true);
-                    Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " y " + notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " han ganado el juego";
-                    yield return new WaitForSeconds(1f);
+                    ShowMessage(currentTurn.GetComponentInChildren<PlayerController>().Nick + " y " + notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " han ganado el juego");
+                    yield return new WaitForSeconds(1.2f);
                     Message.gameObject.SetActive(false);
                     ClearField();
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                    currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                    currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                    notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                    ClearInfoPlayers();
                     yield return new WaitForSeconds(2f);
                     MainMenu();
                     yield break;
@@ -1054,17 +1064,11 @@ public class GameController : MonoBehaviour
                     {
                         Debug.Log("el jugador actual gana segunda ronda y el juego");
                         currentTurn.GetComponentInChildren<PlayerController>().transform.GetChild(1).gameObject.SetActive(true);
-                        Message.gameObject.SetActive(true);
-                        Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego";
-                        yield return new WaitForSeconds(1f);
+                        ShowMessage(currentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego");
+                        yield return new WaitForSeconds(1.2f);
                         Message.gameObject.SetActive(false);
                         ClearField();
-                        notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                        currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                        currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                        currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
-                        notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                        notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                        ClearInfoPlayers();
                         yield return new WaitForSeconds(2f);
                         MainMenu();
                         yield break;
@@ -1080,17 +1084,10 @@ public class GameController : MonoBehaviour
                         Debug.Log("el jugador en descanso gana su segunda gema y el juego");
                         notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(true);
 
-                        Message.gameObject.SetActive(true);
-                        Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego";
-                        yield return new WaitForSeconds(1f);
-                        Message.gameObject.SetActive(false);
+                        ShowMessage(notCurrentTurn.GetComponentInChildren<PlayerController>().Nick + " ha ganado el juego");
+
                         ClearField();
-                        notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                        currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                        currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                        currentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
-                        notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(0).gameObject.SetActive(false);
-                        notCurrentTurn.GetComponentInChildren<PlayerController>().Gems.transform.GetChild(1).gameObject.SetActive(false);
+                        ClearInfoPlayers();
                         yield return new WaitForSeconds(2f);
                         MainMenu();
                         yield break;
@@ -1101,14 +1098,10 @@ public class GameController : MonoBehaviour
                 ClearField();
                 notCurrentTurn.GetComponentInChildren<PlayerController>().Pass = false;
                 currentTurn.GetComponentInChildren<PlayerController>().Pass = false;
-                Message.gameObject.SetActive(true);
-                Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick;
-                yield return new WaitForSeconds(1f);
+                ShowMessage("Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick);
+                yield return new WaitForSeconds(1.2f);
                 Message.gameObject.SetActive(false);
-                DeckPlayer.GetComponent<Draw>().DrawCard();
-                DeckPlayer.GetComponent<Draw>().DrawCard();
-                DeckEnemy.GetComponent<Draw>().DrawCard();
-                DeckEnemy.GetComponent<Draw>().DrawCard();
+                DrawCardsStartRound();
                 yield break;
             }
         }
@@ -1121,11 +1114,10 @@ public class GameController : MonoBehaviour
             currentTurn = notCurrentTurn;
             notCurrentTurn = temp;
             currentTurn.GetComponentInChildren<PlayerController>().IsYourTurn = true;
-            Message.gameObject.SetActive(true);
-            Message.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = "Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick;
+            ShowMessage("Turno de " + currentTurn.GetComponentInChildren<PlayerController>().Nick);
             yield return new WaitForSeconds(0.5f);
             SwapObjects();
-            yield return new WaitForSeconds(1.2f);
+            yield return new WaitForSeconds(2f);
             Message.gameObject.SetActive(false);
         }
     }

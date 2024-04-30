@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class InfoChooseCards : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject CardInfo = null; //carta a mostrar información
-    public Vector3 originalScale; 
+    public Vector3 originalScale;
 
     public void OnPointerEnter(PointerEventData eventData)
     {

@@ -29,9 +29,4 @@ public class MainMenu : MonoBehaviour
         await Task.Delay(2000);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

@@ -36,39 +36,35 @@ public class ShowCards : MonoBehaviour
             availableDeckCollection = GetComponentInParent<Canvas>().GetComponent<CardDataBase>().Slytherin;
         }
 
-
         if (availableDeckCollection != null)
         {
             List<Card> toShow = new List<Card>();
-            if (buttonEvent.name == "Melee")
+            switch (buttonEvent.name)
             {
-                typeCardCollection.text = "Cuerpo a cuerpo";
-                toShow = Filter("Melee", availableDeckCollection);
-            }
-            else if (buttonEvent.name == "Ranged")
-            {
-                typeCardCollection.text = "Ataque a distancia";
-                toShow = Filter("Ranged", availableDeckCollection);
-            }
-            else if (buttonEvent.name == "Siege")
-            {
-                typeCardCollection.text = "Asedio";
-                toShow = Filter("Siege", availableDeckCollection);
-            }
-            else if (buttonEvent.name == "Decoy")
-            {
-                typeCardCollection.text = "Señuelo";
-                toShow = Filter("Decoy", availableDeckCollection);
-            }
-            else if (buttonEvent.name == "Boost")
-            {
-                typeCardCollection.text = "Aumento";
-                toShow = Filter("Boost", availableDeckCollection);
-            }
-            else if (buttonEvent.name == "Weather")
-            {
-                typeCardCollection.text = "Clima";
-                toShow = Filter("Weather", availableDeckCollection);
+                case "Melee":
+                    typeCardCollection.text = "Cuerpo a cuerpo";
+                    toShow = Filter("Melee", availableDeckCollection);
+                    break;
+                case "Ranged":
+                    typeCardCollection.text = "Ataque a distancia";
+                    toShow = Filter("Ranged", availableDeckCollection);
+                    break;
+                case "Siege":
+                    typeCardCollection.text = "Asedio";
+                    toShow = Filter("Siege", availableDeckCollection);
+                    break;
+                case "Decoy":
+                    typeCardCollection.text = "Señuelo";
+                    toShow = Filter("Decoy", availableDeckCollection);
+                    break;
+                case "Boost":
+                    typeCardCollection.text = "Aumento";
+                    toShow = Filter("Boost", availableDeckCollection);
+                    break;
+                case "Weather":
+                    typeCardCollection.text = "Clima";
+                    toShow = Filter("Weather", availableDeckCollection);
+                    break;
             }
 
             for (int i = 0; i < toShow.Count; i++)
@@ -93,60 +89,55 @@ public class ShowCards : MonoBehaviour
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         List<Card> toShow = new List<Card>();
         ClearGridDeck();
-        if(newDeck != null)
+        if (newDeck != null)
         {
-
-        if (buttonEvent.name == "Melee")
-        {
-            typeCardDeck.text = "Cuerpo a cuerpo";
-            toShow = Filter("Melee", newDeck);
-        }
-        else if (buttonEvent.name == "Ranged")
-        {
-            typeCardDeck.text = "Ataque a distancia";
-            toShow = Filter("Ranged", newDeck);
-        }
-        else if (buttonEvent.name == "Siege")
-        {
-            typeCardDeck.text = "Asedio";
-            toShow = Filter("Siege", newDeck);
-        }
-        else if (buttonEvent.name == "Decoy")
-        {
-            typeCardDeck.text = "Señuelo";
-            toShow = Filter("Decoy", newDeck);
-        }
-        else if (buttonEvent.name == "Boost")
-        {
-            typeCardDeck.text = "Aumento";
-            toShow = Filter("Boost", newDeck);
-        }
-        else if (buttonEvent.name == "Weather")
-        {
-            typeCardDeck.text = "Clima";
-            toShow = Filter("Weather", newDeck);
-        }
-        else if (buttonEvent.name == "All")
-        {
-            typeCardDeck.text = "Todas las cartas";
-            toShow = newDeck.cards;
-        }
-        toShow = withoutRepettition(toShow);
-        for (int i = 0; i < toShow.Count; i++)
-        {
-            GameObject newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            newCard.GetComponent<ThisCard>().PrintCard(toShow[i]);
-            newCard.transform.SetParent(GridDeck.transform.GetChild(i).transform);
-            newCard.transform.position = GridDeck.transform.GetChild(i).position;
-            newCard.transform.localScale = new Vector3(1f, 1f, 1f);
-        }
+            switch (buttonEvent.name)
+            {
+                case "Melee":
+                    typeCardDeck.text = "Cuerpo a cuerpo";
+                    toShow = Filter("Melee", newDeck);
+                    break;
+                case "Ranged":
+                    typeCardDeck.text = "Ataque a distancia";
+                    toShow = Filter("Ranged", newDeck);
+                    break;
+                case "Siege":
+                    typeCardDeck.text = "Asedio";
+                    toShow = Filter("Siege", newDeck);
+                    break;
+                case "Decoy":
+                    typeCardDeck.text = "Señuelo";
+                    toShow = Filter("Decoy", newDeck);
+                    break;
+                case "Boost":
+                    typeCardDeck.text = "Aumento";
+                    toShow = Filter("Boost", newDeck);
+                    break;
+                case "Weather":
+                    typeCardDeck.text = "Clima";
+                    toShow = Filter("Weather", newDeck);
+                    break;
+                case "All":
+                    typeCardDeck.text = "Todas las cartas";
+                    toShow = newDeck.cards;
+                    break;
+            }
+            toShow = withoutRepettition(toShow);
+            for (int i = 0; i < toShow.Count; i++)
+            {
+                GameObject newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                newCard.GetComponent<ThisCard>().PrintCard(toShow[i]);
+                newCard.transform.SetParent(GridDeck.transform.GetChild(i).transform);
+                newCard.transform.position = GridDeck.transform.GetChild(i).position;
+                newCard.transform.localScale = new Vector3(1f, 1f, 1f);
+            }
         }
 
     }
 
-/// <summary>
-/// Método para limpiar la matriz que muestra las cartas disponibles de la colección seleccionada
-/// </summary>
+    /// <summary>
+    /// Método para limpiar la matriz que muestra las cartas disponibles de la colección seleccionada
+    /// </summary>
     public void ClearGridCollection()
     {
         GridLayoutGroup gridLayout = GridCollection.GetComponent<GridLayoutGroup>();
@@ -160,9 +151,9 @@ public class ShowCards : MonoBehaviour
         }
     }
 
-/// <summary>
-/// Método para limpiar la celda que muestra al líder del mazo en creación
-/// </summary>
+    /// <summary>
+    /// Método para limpiar la celda que muestra al líder del mazo en creación
+    /// </summary>
     public void ClearLeader()
     {
         GridLayoutGroup gridLayout = Leader.GetComponent<GridLayoutGroup>();
@@ -174,9 +165,9 @@ public class ShowCards : MonoBehaviour
 
     }
 
-/// <summary>
-/// Método para limpiar la matriz que muestra las cartas seleccionadas del mazo en creación
-/// </summary>
+    /// <summary>
+    /// Método para limpiar la matriz que muestra las cartas seleccionadas del mazo en creación
+    /// </summary>
     public void ClearGridDeck()
     {
         GridLayoutGroup gridLayout = GridDeck.GetComponent<GridLayoutGroup>();
@@ -190,86 +181,83 @@ public class ShowCards : MonoBehaviour
         }
     }
 
-/// <summary>
-/// Método para pasar filtro a las cartas de un mazo
-/// </summary>
-/// <param name="type">tipo de cartas solicitadas</param>
-/// <param name="deck">mazo de cartas</param>
-/// <returns>lista de cartas del mazo dado y del tipo solicitado</returns>
+    /// <summary>
+    /// Método para pasar filtro a las cartas de un mazo
+    /// </summary>
+    /// <param name="type">tipo de cartas solicitadas</param>
+    /// <param name="deck">mazo de cartas</param>
+    /// <returns>lista de cartas del mazo dado y del tipo solicitado</returns>
     private List<Card> Filter(string type, Deck deck)
     {
         List<Card> toShow = new List<Card>();
         foreach (var card in deck.cards)
         {
-            if (type == "Melee")
+            switch (type)
             {
-                if (card is UnitCard)
-                {
-                    var unit = (UnitCard)card;
-                    if (unit.AttackTypes.Contains(Global.AttackModes.Melee))
+                case "Melee":
+                    if (card is UnitCard)
                     {
-                        toShow.Add(unit);
+                        var unit = (UnitCard)card;
+                        if (unit.AttackTypes.Contains(Global.AttackModes.Melee))
+                        {
+                            toShow.Add(unit);
+                        }
                     }
-                }
-            }
-            if (type == "Ranged")
-            {
-                if (card is UnitCard)
-                {
-                    var unit = (UnitCard)card;
-                    if (unit.AttackTypes.Contains(Global.AttackModes.Ranged))
+                    break;
+                case "Ranged":
+                    if (card is UnitCard)
                     {
-                        toShow.Add(unit);
+                        var unit = (UnitCard)card;
+                        if (unit.AttackTypes.Contains(Global.AttackModes.Ranged))
+                        {
+                            toShow.Add(unit);
+                        }
                     }
-                }
-            }
-            if (type == "Siege")
-            {
-                if (card is UnitCard)
-                {
-                    var unit = (UnitCard)card;
-                    if (unit.AttackTypes.Contains(Global.AttackModes.Siege))
+                    break;
+                case "Siege":
+                    if (card is UnitCard)
                     {
-                        toShow.Add(unit);
+                        var unit = (UnitCard)card;
+                        if (unit.AttackTypes.Contains(Global.AttackModes.Siege))
+                        {
+                            toShow.Add(unit);
+                        }
                     }
-                }
-            }
-            if (type == "Decoy")
-            {
-                if (card is DecoyUnit)
-                {
-                    toShow.Add(card);
-                }
-            }
-            if (type == "Boost")
-            {
-                if (card is Boost)
-                {
-                    toShow.Add(card);
-                }
-            }
-            if (type == "Weather")
-            {
-                if (card is Weather || card is Clear)
-                {
-                    toShow.Add(card);
-                }
+                    break;
+                case "Decoy":
+                    if (card is DecoyUnit)
+                    {
+                        toShow.Add(card);
+                    }
+                    break;
+                case "Boost":
+                    if (card is Boost)
+                    {
+                        toShow.Add(card);
+                    }
+                    break;
+                case "Weather":
+                    if (card is Weather || card is Clear)
+                    {
+                        toShow.Add(card);
+                    }
+                    break;
             }
         }
         return toShow;
     }
 
-/// <summary>
-/// Método para limpiar de repeticiones una lista de cartas
-/// </summary>
-/// <param name="cards">lista de cartas</param>
-/// <returns>lista de cartas sin repetición de elementos</returns>
-    private List<Card> withoutRepettition (List<Card> cards)
+    /// <summary>
+    /// Método para limpiar de repeticiones una lista de cartas
+    /// </summary>
+    /// <param name="cards">lista de cartas</param>
+    /// <returns>lista de cartas sin repetición de elementos</returns>
+    private List<Card> withoutRepettition(List<Card> cards)
     {
-        List<Card> newList  = new List<Card>();
+        List<Card> newList = new List<Card>();
         foreach (var card in cards)
         {
-            if(!newList.Contains(card))
+            if (!newList.Contains(card))
             {
                 newList.Add(card);
             }
@@ -277,12 +265,12 @@ public class ShowCards : MonoBehaviour
         return newList;
     }
 
-/// <summary>
-/// Método para actualizar la facción a mostrar
-/// </summary>
+    /// <summary>
+    /// Método para actualizar la facción a mostrar
+    /// </summary>
     public void UpdateFaction()
     {
-        
+
         Button buttonEvent = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         if (buttonEvent.name == "Gryffindor")
