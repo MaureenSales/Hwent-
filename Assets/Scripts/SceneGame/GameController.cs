@@ -491,6 +491,7 @@ public class GameController : MonoBehaviour
                     Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count + "count de la fila");
                     countUnit = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count;
                     indexRow = i;
+
                 }
             }
 
@@ -546,7 +547,7 @@ public class GameController : MonoBehaviour
         else if (unitCard.Skill == Global.Effects["MultiplyPower"])
         {
             Debug.Log("MultiplyPower");
-            int count = 0;
+            int count = 1;
             for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
             {
                 for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
@@ -564,7 +565,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (count != 0)
+            if (count != 1)
             {
                 Debug.Log(unit.GetComponent<Drag>().parentToReturnTo.parent.name);
                 unit.GetComponent<ThisCard>().powerText.text = (int.Parse(unit.GetComponent<ThisCard>().powerText.text) * count).ToString();
@@ -572,6 +573,19 @@ public class GameController : MonoBehaviour
             }
 
         }
+    }
+
+    private bool UnitSilverInRow(List<UnitCard> units)
+    {
+        for (int i = 0; i < units.Count; i++)
+        {
+            if (units[i] is Unit || units[i] is DecoyUnit)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -943,7 +957,7 @@ public class GameController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator ChangeTurn()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         yield return new WaitForEndOfFrame();
 
         if (currentTurn.transform.GetComponentInChildren<PlayerController>().Pass && !notCurrentTurn.transform.GetComponentInChildren<PlayerController>().Pass)
