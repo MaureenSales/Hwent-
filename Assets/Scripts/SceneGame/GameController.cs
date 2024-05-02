@@ -301,48 +301,24 @@ public class GameController : MonoBehaviour
             Debug.Log(indexRow);
             if (indexRow != -1)
             {
-                if (owner == notCurrentTurn)
-                {
-                    if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit))
-                    {
-                        if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
-                        {
-                            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
-                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
-                            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
-                        }
-                        else
-                        {
-                            unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
-                            LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-                        }
 
+                if (!(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit))
+                {
+                    if (int.Parse(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
+                    {
+                        owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                        GameObject toDestroy = owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
+                        LeanTween.move(toDestroy, owner.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(owner.transform.Find("Graveyard")));
+                        owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+                    }
+                    else
+                    {
+                        unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
+                        LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
                     }
 
                 }
-                else
-                {
-                    if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit))
-                    {
-                        if (!(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit) && int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
-                        {
-                            currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                            GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
-                            LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
 
-                            currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
-                        }
-                        else
-                        {
-                            unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
-                            await Task.Delay(800);
-                            LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-
-                        }
-
-                    }
-                }
             }
             else if (!thereCards)
             {
