@@ -437,7 +437,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            if (!(unitCard is HeroUnit))
+            if (unitCard is Unit)
             {
                 unit.GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
                 unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower();
@@ -551,6 +551,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+/// <summary>
+/// Método para la segunda variante del efecto limpiar una fila del rival
+/// </summary>
+/// <param name="units">lista de unidades de la fila</param>
+/// <returns>si posee al menos una unidad de plata</returns>
     private bool UnitSilverInRow(List<UnitCard> units)
     {
         for (int i = 0; i < units.Count; i++)
@@ -694,7 +699,7 @@ public class GameController : MonoBehaviour
 
         foreach (var unit in units)
         {
-            if (!(unit.GetComponent<ThisCard>().thisCard is HeroUnit) && !(unit.GetComponent<ThisCard>().thisCard is DecoyUnit))
+            if (unit.GetComponent<ThisCard>().thisCard is Unit)
             {
 
                 int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
