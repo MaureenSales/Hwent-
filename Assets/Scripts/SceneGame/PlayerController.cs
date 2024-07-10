@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameObject Gems; //gemas del jugador
     public GameObject Turn; //indicador de turno del jugador
     public GameObject PlayerBoard; //objeto que conntiene la mano, el botón de pase e intercambio del jugador
-    public GameObject WinnerIndicator; //indicador de gandor del jugador
+    public GameObject WinnerIndicator; //indicador de ganador del jugador
     public GameObject CardPrefab; //Prefab de las cartas
     public GameObject LeaderPlayer; //líder del jugador asignado al objeto Player
     public GameObject LeaderEnemy; //líder del jugador asignado al objeto Enemy

@@ -181,6 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 10076461}
   - component: {fileID: 10076462}
+  - component: {fileID: 10076463}
   m_Layer: 5
   m_Name: Graveyard
   m_TagString: Untagged
@@ -233,6 +234,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &10076463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10076460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde024c3e2ed4116a9ff156fd72d6216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &47047911
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,6 +894,7 @@ GameObject:
   m_Component:
   - component: {fileID: 149140159}
   - component: {fileID: 149140160}
+  - component: {fileID: 149140161}
   m_Layer: 5
   m_Name: PlayerField
   m_TagString: Untagged
@@ -919,6 +933,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 149140158}
   m_CullTransparentMesh: 1
+--- !u!114 &149140161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149140158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76caa3d8e472f37418e516a549084938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &163698370 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7725351577811130447, guid: 11422ac865929583db726601db354ad0, type: 3}
@@ -2455,6 +2481,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 596410376}
+  - component: {fileID: 596410377}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2483,6 +2510,19 @@ Transform:
   - {fileID: 1264982853}
   m_Father: {fileID: 1626180800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &596410377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596410375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25e3251c7bf100e9291b1f5ec7e571cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Deck: {fileID: 1578579455}
 --- !u!1 &601073023
 GameObject:
   m_ObjectHideFlags: 0
@@ -3076,6 +3116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 797536287}
+  - component: {fileID: 797536288}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3104,6 +3145,19 @@ Transform:
   - {fileID: 10076461}
   m_Father: {fileID: 1626180800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &797536288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797536286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25e3251c7bf100e9291b1f5ec7e571cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Deck: {fileID: 947163565}
 --- !u!1 &845069027
 GameObject:
   m_ObjectHideFlags: 0
@@ -4243,6 +4297,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c3ac33366ec18f889f9ee265412d1b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &950017569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950017558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d54372cf6e86eb10bbf73e40732cd19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1093898908
 GameObject:
   m_ObjectHideFlags: 0
@@ -5044,6 +5110,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1260581667}
   - component: {fileID: 1260581668}
+  - component: {fileID: 1260581669}
   m_Layer: 5
   m_Name: EnemyField
   m_TagString: Untagged
@@ -5082,6 +5149,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1260581666}
   m_CullTransparentMesh: 1
+--- !u!114 &1260581669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260581666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76caa3d8e472f37418e516a549084938, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1264600719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5200,6 +5279,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5522512080772431617, guid: 08f98ec81888c60868bfa4581ee88623, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1264600722}
+    - targetCorrespondingSourceObject: {fileID: 5522512080772431617, guid: 08f98ec81888c60868bfa4581ee88623, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1264600724}
   m_SourcePrefab: {fileID: 100100000, guid: 08f98ec81888c60868bfa4581ee88623, type: 3}
 --- !u!224 &1264600720 stripped
 RectTransform:
@@ -5249,6 +5331,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1264600724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264600721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d54372cf6e86eb10bbf73e40732cd19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1264982852
 GameObject:
   m_ObjectHideFlags: 0
@@ -5259,6 +5353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1264982853}
   - component: {fileID: 1264982854}
+  - component: {fileID: 1264982855}
   m_Layer: 5
   m_Name: Graveyard
   m_TagString: Untagged
@@ -5311,6 +5406,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1264982855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264982852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde024c3e2ed4116a9ff156fd72d6216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1310216961 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6166187553625917572, guid: a40bcf95fd0d51450a32f8652c59936b, type: 3}
@@ -6532,10 +6639,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Message: {fileID: 490966015}
-  HandPlayer: {fileID: 950017558}
-  HandEnemy: {fileID: 1264600721}
   DeckPlayer: {fileID: 947163565}
   DeckEnemy: {fileID: 1578579455}
+  GraveyardPlayer: {fileID: 0}
+  GraveyardEnemy: {fileID: 0}
   currentTurn: {fileID: 797536286}
   notCurrentTurn: {fileID: 596410375}
   CardPrefab: {fileID: 3149766952750225326, guid: fb99eeb1e3132350bb2ce3a16de065ec, type: 3}
@@ -14546,6 +14653,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5522512080772431617, guid: 08f98ec81888c60868bfa4581ee88623, type: 3}
       insertIndex: -1
       addedObject: {fileID: 950017568}
+    - targetCorrespondingSourceObject: {fileID: 5522512080772431617, guid: 08f98ec81888c60868bfa4581ee88623, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 950017569}
   m_SourcePrefab: {fileID: 100100000, guid: 08f98ec81888c60868bfa4581ee88623, type: 3}
 --- !u!1001 &4486794900707408511
 PrefabInstance:
@@ -15002,8 +15112,31 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8161222193914654004, guid: c185d67134742ccf7a1327461023c199, type: 3}
       insertIndex: -1
       addedObject: {fileID: 879688368}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 196501377160753932, guid: c185d67134742ccf7a1327461023c199, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5383088326484935810}
   m_SourcePrefab: {fileID: 100100000, guid: c185d67134742ccf7a1327461023c199, type: 3}
+--- !u!1 &5383088326484935809 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 196501377160753932, guid: c185d67134742ccf7a1327461023c199, type: 3}
+  m_PrefabInstance: {fileID: 5383088326484935808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5383088326484935810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5383088326484935809}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324ac8487014ac6efa40e0bc7fb80adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WeatherArea: {fileID: 5980352557296389722}
+  FieldPlayer: {fileID: 149140158}
+  FieldEnemy: {fileID: 1260581666}
 --- !u!1 &5980352557296389722 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1102051457372196276, guid: 416a268c0207da46e86c3b14188972ef, type: 3}

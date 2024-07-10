@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class UnitCard : Card
+public abstract class UnitCard : Card
 {
-    public int Power {get;} //poder
+    public int Power {get; protected set; } //poder
     public List<Global.AttackModes> AttackTypes { get; protected set; } //tipos de ataque
 
     /// <summary>

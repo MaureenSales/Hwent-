@@ -16,7 +16,7 @@ public class LetterWelcome : MonoBehaviour
         Letter.transform.localScale = new Vector3(0, 0, 0);
         LeanTween.rotate(Letter, new Vector3(0f, 0f, 360) * 4, 2f).setEase(LeanTweenType.easeInOutQuad);
         LeanTween.scale(Letter, new Vector3(1, 1, 1), 2f);
-        string path = "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Assets/Scripts/letter.txt";
+        string path = "./Assets/Scripts/letter.txt";
         //leer el txt con la carta de Hogwarts 
         using (StreamReader reader = new StreamReader(path))
         {
