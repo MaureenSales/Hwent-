@@ -11,6 +11,6 @@ public class Clear: SpecialCard
     /// <param name="skill">habilidad</param>
     /// <param name="description">descripción</param>
     /// <param name="image">icono de Despeje</param>
-    public Clear(string name, string skill, string description, Sprite image): 
-    base(name, skill, description, image, Resources.Load <Sprite> ("Clear")){}
+    public Clear(string name, List<Skill> skills, string description, Sprite image): 
+    base(name, skills, description, image, Resources.Load <Sprite> ("Clear")){}
 }

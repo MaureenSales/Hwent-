@@ -12,6 +12,6 @@ public class Leader : Card
     /// <param name="skill">habilidad</param>
     /// <param name="description">descripción</param>
     /// <param name="image">imagen</param>
-    public Leader(string name, Global.Factions faction, string skill, string description, Sprite image) : 
-    base(name, faction, skill, description, image){}
+    public Leader(string name, Global.Factions faction, List<Skill> skills, string description, Sprite image) : 
+    base(name, faction, skills, description, image){}
 }

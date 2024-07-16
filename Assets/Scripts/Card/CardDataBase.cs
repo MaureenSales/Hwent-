@@ -22,30 +22,30 @@ public class CardDataBase : MonoBehaviour
    {
       //Leaders
       Debug.Log("Enter dataBase");
-      Leaders.Add(Global.Factions.Gryffindor, new Leader("Harry Potter", Global.Factions.Gryffindor, "Aumenta en el número de unidades cuerpo a cuerpo del rival cada unidad cuerpo a cuerpo propia",
+      Leaders.Add(Global.Factions.Gryffindor, new Leader("Harry Potter", Global.Factions.Gryffindor, new List<Skill>() { new Skill("LeaderGryffindor", null, null)},
      "El niño que vivió. El elegido para derrotar al señor tenebroso", Resources.Load<Sprite>("HarryPotter")));
-      Leaders.Add(Global.Factions.Slytherin, new Leader("Lord Voldemort", Global.Factions.Slytherin, "Robar dos cartas",
+      Leaders.Add(Global.Factions.Slytherin, new Leader("Lord Voldemort", Global.Factions.Slytherin, new List<Skill>() { new Skill("LeaderSlytherin", null, null)},
       "Un ser cuya ambición y sed de poder trascienden los límites de la cordura. Su nombre, susurrado con temor y evitado como una maldición.",
       Resources.Load<Sprite>("LordVoldemort")));
 
       //Specials
 
       //Weathers
-      Specials.Add(new Weather("Escarcha Heladora", "Iguala a 2 punto el valor de cada unidad cuerpo a cuerpo en el campo.",
+      Specials.Add(new Weather("Escarcha Heladora", new List<Skill>() { new Skill("WeatherMelee", null, null)},
       "En los confines más gélidos de la Escuela de Magia y Hechicería de Hogwarts, un fenómeno mágico sin igual se desencadena: la Escarcha Heladora. Evoca la esencia misma del invierno, transformando el majestuoso Castillo de Hogwarts en una fortaleza de hielo.",
       Resources.Load<Sprite>("EscarchaHeladora"), Resources.Load<Sprite>("Frost")));
-      Specials.Add(new Weather("Niebla Profunda", "Iguala a 2 punto el valor de cada unidad de ataque a distancia en el campo.",
+      Specials.Add(new Weather("Niebla Profunda", new List<Skill>() { new Skill("WeatherRanged", null, null)},
       "En los rincones más oscuros y misteriosos del Bosque Prohibido de Hogwarts, una niebla densa y profunda se alza como un velo entre los árboles retorcidos. Envuelve el bosque en un abrazo etéreo, ocultando secretos ancestrales y criaturas inimaginables.",
       Resources.Load<Sprite>("NieblaProfunda"), Resources.Load<Sprite>("Fog")));
-      Specials.Add(new Weather("Diluvio Quidditch", "Iguala a 2 punto el valor de cada unidad de asedio en el campo.",
+      Specials.Add(new Weather("Diluvio Quidditch", new List<Skill>() { new Skill("WeatherSiege", null, null)},
       "En el corazón del Estadio de Quidditch, donde los sueños de los magos y brujas se elevan junto con las escobas, se desata un diluvio mágico sin igual: el Diluvio Quidditch. Sumerge el campo de juego en una tormenta desenfrenada, desafiando a los jugadores a luchar contra las ráfagas de viento y las gotas de lluvia que caen como saetas.",
       Resources.Load<Sprite>("DiluvioQuidditch"), Resources.Load<Sprite>("Rain")));
 
       //Clear
-      Specials.Add(new Clear("Sol de Hogwarts", "Destruye los climas que afectan el campo",
+      Specials.Add(new Clear("Sol de Hogwarts", new List<Skill>() { new Skill("ClearWeather", null, null)},
       "En el corazón mismo de la Escuela de Magia y Hechicería de Hogwarts, un día de ensueño se despliega sobre las torres y los patios. Captura este momento mágico, cuando los rayos dorados del sol acarician las piedras ancestrales y las ventanas de vitrales.",
       Resources.Load<Sprite>("SolDeHogwarts")));
-      Specials.Add(new Clear("Gira Tiempo", "Destruye los climas que afectan el campo",
+      Specials.Add(new Clear("Gira Tiempo", new List<Skill>() { new Skill("ClearWeather", null, null)},
       "En el rincón más recóndito de la Biblioteca Prohibida de Hogwarts, resplandece una reliquia mágica de poder insondable cuyo cristal centella con destellos dorados. Quien lo posea, posee el poder de alterar el pasado y el futuro, de desafiar las leyes del universo.",
       Resources.Load<Sprite>("GiraTiempo")));
 

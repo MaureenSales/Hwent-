@@ -15,8 +15,8 @@ public class Unit : UnitCard
     /// <param name="power">poder</param>
     /// <param name="attackTypes">tipos de ataque</param>
     /// <param name="image">imagen</param>
-    public Unit(string name, Global.Factions faction, string skill, string description, int power, List<Global.AttackModes> attackTypes, Sprite image) :
-    base(name, faction, skill, description, power, attackTypes, image)
+    public Unit(string name, Global.Factions faction, List<Skill> skills, string description, int power, List<Global.AttackModes> attackTypes, Sprite image) :
+    base(name, faction, skills, description, power, attackTypes, image)
     {}
 
 }

@@ -45,7 +45,18 @@ public class ThisCard : MonoBehaviour
             thisCard = card;
 
             cardName = card.Name;
-            skill = card.Skill;
+            if (card.Skills.Count == 1)
+            {
+                if (Global.Effects.ContainsKey(card.Skills[0].Name)) skill = Global.Effects[card.Skills[0].Name];
+                else if (Global.SpecialsEffects.ContainsKey(card.Skills[0].Name)) skill = Global.SpecialsEffects[card.Skills[0].Name];
+            }
+            else if (card.Skills.Count > 1)
+            {
+                foreach (var effect in card.Skills)
+                {
+                    skill += effect.Name + "\n";
+                }
+            }
             sprite = card.Image;
 
             nameText.text = cardName;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine;
 using UnityEngine.UI;
+#nullable enable
 
 public static class Global
 {
@@ -20,6 +21,27 @@ public static class Global
         {"ClearRow", "Limpia la fila, no vacia, con menos unidades del rival"},
         {"Average", "Calcula el promedio de poder entre todas las carta del campo e iguala el poder de cada una a este promedio"},
     };
+    public static Dictionary<string, string> SpecialsEffects = new Dictionary<string, string>
+    {
+        {"Decoy", "Coloca esta carta de poder 0 en el lugar de una carta en el campo para regresar esta a la mano"},
+        {"WeatherMelee", "Iguala a 2 punto el valor de cada unidad cuerpo a cuerpo en el campo."},
+        {"WeatherRanged", "Iguala a 2 punto el valor de cada unidad de ataque a distancia en el campo."},
+        {"WeatherSiege", "Iguala a 2 punto el valor de cada unidad de asedio en el campo."},
+        {"ClearWeather","Destruye los climas que afectan el campo"},
+        {"Boost", "Multiplica por n su ataque, siendo n la cantidad de cartas iguales a ella en el campo"},
+        {"LeaderGryffindor", "Aumenta en el número de unidades cuerpo a cuerpo del rival cada unidad cuerpo a cuerpo propia"},
+        {"LeaderSlytherin", "Robar dos cartas"},
+    };
+
+    public static List<string> TypeCards = new List<string>
+    {
+        "Oro",
+        "Plata",
+        "Lider",
+        "Aumento",
+        "Clima",
+        "Despeje",
+    };
 
     /// <summary>
     /// Facciones
@@ -28,6 +50,8 @@ public static class Global
     {
         Gryffindor,
         Slytherin,
+        Ravenclaw,
+        Hufflepuff,
         Neutral
     }
 
@@ -39,5 +63,19 @@ public static class Global
         Melee,
         Ranged,
         Siege
+    }
+}
+
+public class Skill
+{
+    public string Name { get; private set; }
+    public List<(string, object)>? Arguments { get; private set; }
+    public List<object>? Targets { get; private set; }
+
+    public Skill(string name, List<(string, object)>? argumennts, List<object>? targets)
+    {
+        Name = name;
+        Arguments = argumennts;
+        Targets = targets;
     }
 }

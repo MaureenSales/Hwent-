@@ -14,8 +14,8 @@ public abstract class SpecialCard : Card
     /// <param name="description">descripción</param>
     /// <param name="image">imagen</param>
     /// <param name="cardType">icono</param>
-    protected SpecialCard(string name, string skill, string description, Sprite image, Sprite cardType) : 
-    base(name, Global.Factions.Neutral, skill, description, image)
+    protected SpecialCard(string name, List<Skill> skills, string description, Sprite image, Sprite cardType) : 
+    base(name, Global.Factions.Neutral, skills, description, image)
     {
         CardType = cardType;
     }
