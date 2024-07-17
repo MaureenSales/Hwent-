@@ -1718,7 +1718,6 @@ GameObject:
   - component: {fileID: 134433252}
   - component: {fileID: 134433251}
   - component: {fileID: 134433250}
-  - component: {fileID: 134433254}
   - component: {fileID: 134433256}
   - component: {fileID: 134433257}
   m_Layer: 5
@@ -1816,18 +1815,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &134433254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 134433249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6706d14803287059eb0398752fbd8899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &134433256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1842,7 +1829,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   contentGameData: {fileID: 1521943584}
   contentShowCards: {fileID: 1616664298}
-  cardsInDeck: {fileID: 1472801516}
   buttonNext: {fileID: 809502723}
   buttonBack: {fileID: 951186865}
 --- !u!82 &134433257

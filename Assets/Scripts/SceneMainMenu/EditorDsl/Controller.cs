@@ -13,9 +13,10 @@ public class Controller : MonoBehaviour
     public GameObject buttonAccept;
     public TextMeshProUGUI error;
     public GameObject windowError;
+    public GameObject messageSuccessfully;
     public Button buttonCancel;
 
-    public void RunInterprete()
+    public async void RunInterprete()
     {
         Debug.Log("ready");
 
@@ -49,13 +50,17 @@ public class Controller : MonoBehaviour
                 Debug.Log("");
             }
 
+            messageSuccessfully.SetActive(true);
+            tMP_Editor.text = "";
+            await Task.Delay(800);
+            messageSuccessfully.SetActive(false);
         }
         catch (System.Exception e)
         {
             windowError.SetActive(true);
             error.text = e.Message.ToString();
             Debug.Log(e.Message);
-            //System.Console.WriteLine(e.StackTrace);
+            Debug.Log(e.StackTrace);
         }
 
     }
@@ -64,11 +69,6 @@ public class Controller : MonoBehaviour
     void Start()
     {
 
-    }
-
-    public void ClosedError()
-    {
-        tMP_Editor.text = "";
     }
 
     // Update is called once per frame

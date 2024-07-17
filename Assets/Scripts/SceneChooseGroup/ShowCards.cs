@@ -29,11 +29,11 @@ public class ShowCards : MonoBehaviour
 
         if (FactionGryffindor)
         {
-            availableDeckCollection = GetComponentInParent<Canvas>().GetComponent<CardDataBase>().Gryffindor;
+            availableDeckCollection = CardDataBase.Decks[Global.Factions.Gryffindor];
         }
         else if (FactionSlytherin)
         {
-            availableDeckCollection = GetComponentInParent<Canvas>().GetComponent<CardDataBase>().Slytherin;
+            availableDeckCollection = CardDataBase.Decks[Global.Factions.Slytherin];
         }
 
         if (availableDeckCollection != null)
@@ -280,10 +280,10 @@ public class ShowCards : MonoBehaviour
             ClearGridDeck();
             ClearLeader();
             GameObject newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            newCard.GetComponent<ThisCard>().PrintCard(GetComponentInParent<Canvas>().GetComponent<CardDataBase>().Leaders[Global.Factions.Gryffindor]);
+            newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Gryffindor]);
             newCard.transform.SetParent(Leader.transform);
             newCard.transform.localScale = new Vector3(2f, 2f, 0f);
-            newDeck = new Deck(GetComponentInParent<Canvas>().GetComponent<CardDataBase>().Leaders[Global.Factions.Gryffindor]);
+            newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Gryffindor]);
 
         }
         else if (buttonEvent.name == "Slytherin")
@@ -293,10 +293,10 @@ public class ShowCards : MonoBehaviour
             ClearGridDeck();
             ClearLeader();
             GameObject newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            newCard.GetComponent<ThisCard>().PrintCard(GetComponentInParent<Canvas>().GetComponent<CardDataBase>().Leaders[Global.Factions.Slytherin]);
+            newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Slytherin]);
             newCard.transform.SetParent(Leader.transform);
             newCard.transform.localScale = new Vector3(2f, 2f, 0f);
-            newDeck = new Deck(GetComponentInParent<Canvas>().GetComponent<CardDataBase>().Leaders[Global.Factions.Slytherin]);
+            newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Slytherin]);
         }
 
     }

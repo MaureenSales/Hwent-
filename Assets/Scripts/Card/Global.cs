@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public static class Global
 {
+    public static Dictionary<string, Effect> EffectsCreated = new Dictionary<string, Effect>();
     /// <summary>
     /// Efectos
     /// </summary>
@@ -28,7 +29,7 @@ public static class Global
         {"WeatherRanged", "Iguala a 2 punto el valor de cada unidad de ataque a distancia en el campo."},
         {"WeatherSiege", "Iguala a 2 punto el valor de cada unidad de asedio en el campo."},
         {"ClearWeather","Destruye los climas que afectan el campo"},
-        {"Boost", "Multiplica por n su ataque, siendo n la cantidad de cartas iguales a ella en el campo"},
+        {"Boost", " +2 Aumenta el poder de las unidades de una fila"},
         {"LeaderGryffindor", "Aumenta en el número de unidades cuerpo a cuerpo del rival cada unidad cuerpo a cuerpo propia"},
         {"LeaderSlytherin", "Robar dos cartas"},
     };
@@ -41,6 +42,17 @@ public static class Global
         "Aumento",
         "Clima",
         "Despeje",
+    };
+    public static List<string> Sources = new List<string>
+    {
+        "board",
+        "hand",
+        "otherHand",
+        "deck",
+        "otherDeck",
+        "field",
+        "otherField",
+        "parent",
     };
 
     /// <summary>
@@ -70,12 +82,12 @@ public class Skill
 {
     public string Name { get; private set; }
     public List<(string, object)>? Arguments { get; private set; }
-    public List<object>? Targets { get; private set; }
+    public ASTnode? Selector { get; private set; }
 
-    public Skill(string name, List<(string, object)>? argumennts, List<object>? targets)
+    public Skill(string name, List<(string, object)>? argumennts, ASTnode? selector)
     {
         Name = name;
         Arguments = argumennts;
-        Targets = targets;
+        Selector = selector;
     }
 }

@@ -12,6 +12,7 @@ public class DropZone : MonoBehaviour, IDropHandler
       Drag card = eventData.pointerDrag.GetComponent<Drag>(); //componente Drag de la carta soltada
       if (card != null)
       {
+         Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
 
          if (card.parentToReturnTo.parent.parent == this.transform.parent.parent.parent) //verifica que la carta este siendo soltada en el campo del jugador actual usando la jerarquía del campo en la escena 
          {

@@ -49,6 +49,7 @@ public class ThisCard : MonoBehaviour
             {
                 if (Global.Effects.ContainsKey(card.Skills[0].Name)) skill = Global.Effects[card.Skills[0].Name];
                 else if (Global.SpecialsEffects.ContainsKey(card.Skills[0].Name)) skill = Global.SpecialsEffects[card.Skills[0].Name];
+                else if(Global.EffectsCreated.ContainsKey(card.Skills[0].Name)) skill = card.Skills[0].Name;
             }
             else if (card.Skills.Count > 1)
             {

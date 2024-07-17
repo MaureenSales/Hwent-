@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         Debug.Log("Start");
+        Context.gameController = this.gameObject;
         currentTurn.GetComponentInChildren<PlayerController>().IsYourTurn = true;
 
         ClearImages.SetActive(false);
@@ -55,507 +56,559 @@ public class GameController : MonoBehaviour
     /// Método para verificar si una unidad posee efecto y si es así activarlo
     /// </summary>
     /// <param name="unit">unidad a verificar efecto</param>
-    async public void Effects(GameObject unit)
+    public void Effects(GameObject unit)
     {
         Debug.Log("EnterEffect");
         Card unitCard = unit.GetComponent<ThisCard>().thisCard;
         Debug.Log(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount + " countCards");
-
-        if (unitCard.Skill == Global.Effects["DrawCard"])
+        Evaluador evaluador = new Evaluador();
+        Debug.Log(unitCard.Skills.Count);
+        foreach (var effect in unitCard.Skills)
         {
-            Debug.Log("EnterDrawCard");
-            bool destroy = false;
-
-            if (!(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount < 11))
+            switch (effect.Name)
             {
-                destroy = true;
-            }
-
-            if (currentTurn.name == "Player")
-            {
-                await Task.Delay(800);
-                DeckPlayer.GetComponent<Draw>().DrawCard();
-            }
-            else
-            {
-                await Task.Delay(800);
-                DeckEnemy.GetComponent<Draw>().DrawCard();
-            }
-
-            if (destroy)
-            {
-                GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").GetChild(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount - 1).gameObject;
-                LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-            }
-        }
-        else if (unitCard.Skill == Global.Effects["PutBoost"])
-        {
-            Debug.Log("EnterPutBoost");
-            List<Card> cards;
-            Boost boost = null;
-
-            if (currentTurn.name == "Player")
-            {
-                cards = GameData.playerDeck.cards;
-            }
-            else
-            {
-                cards = GameData.enemyDeck.cards;
-            }
-
-            for (int i = 0; i < cards.Count; i++)
-            {
-                if (cards[i] is Boost)
-                {
-                    boost = (Boost)cards[i];
+                case "DrawCard":
+                    DrawCard();
                     break;
-                }
-            }
+                case "PutBoost":
+                    PutBoost();
+                    break;
+                case "PutWeather":
+                    PutWeather();
+                    break;
+                case "PowerfulCard":
+                    PowerfulCard(unit);
+                    break;
+                case "LessPowerCard":
+                    LessPowerCard();
+                    break;
+                case "Average":
+                    Average(unitCard, unit);
+                    break;
+                case "ClearRow":
+                    ClearRow();
+                    break;
+                case "MultiplyPower":
+                    MultiplyPower(unit, unitCard);
+                    break;
 
-            if (boost != null)
-            {
-                int indexRow = -1;
-                int countUnit = -1;
-                for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
-                {
-                    Debug.Log(currentTurn.name);
-                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).name);
-                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count);
-
-                    if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count > countUnit && currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount == 0)
+                default:
+                Debug.Log("EffectCreated");
+                    try
                     {
-                        indexRow = i;
-                        countUnit = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count;
-                    }
-                }
-
-                GameObject boostCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                boostCard.GetComponent<ThisCard>().PrintCard(boost);
-                boostCard.transform.SetParent(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(2), false);
-                boostCard.GetComponent<Drag>().enabled = false;
-                List<GameObject> units = new();
-                for (int i = 0; i < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count; i++)
-                {
-                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i].transform.parent.name);
-                    if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i].transform.parent.name != currentTurn.name + "Board")
-                    {
-                        units.Add(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i]);
-                    }
-                }
-
-                ImproveUnits(units);
-
-                if (currentTurn.name == "Player")
-                {
-                    Debug.Log(GameData.playerDeck.cards.Contains(boost));
-                    GameData.playerDeck.cards.Remove(boost);
-                    Debug.Log(GameData.playerDeck.cards.Contains(boost));
-                }
-                else
-                {
-                    Debug.Log(GameData.enemyDeck.cards.Contains(boost));
-                    GameData.enemyDeck.cards.Remove(boost);
-                    Debug.Log(GameData.enemyDeck.cards.Contains(boost));
-                }
-            }
-        }
-        else if (unitCard.Skill == Global.Effects["PutWeather"])
-        {
-            Debug.Log("EnterPutWeather");
-            List<Card> cards;
-            Weather weather = null;
-
-            if (currentTurn.name == "Player")
-            {
-                cards = GameData.playerDeck.cards;
-            }
-            else
-            {
-                cards = GameData.enemyDeck.cards;
-            }
-
-            bool putWeather = false;
-            for (int i = 0; i < cards.Count; i++)
-            {
-                if (cards[i] is Weather)
-                {
-                    weather = (Weather)cards[i];
-                    Debug.Log(weather.Name);
-                    switch (weather.Name)
-                    {
-                        case "Escarcha Heladora":
-                            if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0])
-                            {
-                                putWeather = true;
-                                GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                                weatherCard.GetComponent<ThisCard>().PrintCard(weather);
-                                weatherCard.GetComponent<Drag>().enabled = false;
-                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0));
-                                weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
-                            }
-                            break;
-                        case "Niebla Profunda":
-                            if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1])
-                            {
-                                putWeather = true;
-                                GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                                weatherCard.GetComponent<ThisCard>().PrintCard(weather);
-                                weatherCard.GetComponent<Drag>().enabled = false;
-                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1));
-                                weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
-                            }
-                            break;
-                        case "Diluvio Quidditch":
-                            if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2])
-                            {
-                                putWeather = true;
-                                GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-                                weatherCard.GetComponent<ThisCard>().PrintCard(weather);
-                                weatherCard.GetComponent<Drag>().enabled = false;
-                                weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2));
-                                weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
-                                GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
-                            }
-                            break;
-                    }
-                    if (putWeather)
-                    {
-                        if (weather != null)
+                        evaluador.evaluate(effect.Selector);
+                        Debug.Log(evaluador.SelectorsList.Count);
+                        foreach (var item in evaluador.SelectorsList)
                         {
-                            if (currentTurn.name == "Player")
-                            {
-                                Debug.Log(GameData.playerDeck.cards.Contains(weather));
-                                GameData.playerDeck.cards.Remove(weather);
-                                Debug.Log(GameData.playerDeck.cards.Contains(weather));
-                            }
-                            else
-                            {
-                                Debug.Log(GameData.enemyDeck.cards.Contains(weather));
-                                GameData.enemyDeck.cards.Remove(weather);
-                                Debug.Log(GameData.enemyDeck.cards.Contains(weather));
-                            }
+                            Card card = (Card)item;
+                            Debug.Log(card.Name);
                         }
-                        break;
-
+                        //evaluador.evaluate(Global.EffectsCreated[effect.Name]);
                     }
-                }
-            }
-
-
-        }
-        else if (unitCard.Skill == Global.Effects["PowerfulCard"])
-        {
-            Debug.Log("PowerfulCard");
-            int maxPower = int.MinValue;
-            int indexRow = -1;
-            int indexInRowZone = -1;
-            GameObject owner = null;
-            bool thereCards = false;
-
-            for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
-            {
-                for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
-                {
-                    Debug.Log("i=" + i);
-                    Debug.Log("j=" + j);
-                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
-                    thereCards = true;
-                    if (int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower)
+                    catch (System.Exception e)
                     {
-                        maxPower = int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
-                        indexRow = i;
-                        indexInRowZone = j;
-                        owner = currentTurn;
+                        ShowMessage("Efecto Anulado");
+                        Debug.Log(e.ToString());
+                        Debug.Log(e.StackTrace);
                     }
-
-
-                }
+                    break;
             }
-
-            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
-            {
-                for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
-                {
-                    thereCards = true;
-                    if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower)
-                    {
-                        maxPower = int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
-                        indexRow = i;
-                        indexInRowZone = j;
-                        owner = notCurrentTurn;
-                    }
-
-                }
-            }
-            Debug.Log(indexRow);
-            if (indexRow != -1)
-            {
-
-                if (!(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit))
-                {
-                    if (int.Parse(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
-                    {
-                        owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                        GameObject toDestroy = owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
-                        LeanTween.move(toDestroy, owner.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(owner.transform.Find("Graveyard")));
-                        owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
-                    }
-                    else
-                    {
-                        unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
-                        LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-                    }
-
-                }
-
-            }
-            else if (!thereCards)
-            {
-                Debug.Log("destroy");
-                unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
-                await Task.Delay(800);
-                LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-            }
-
-        }
-        else if (unitCard.Skill == Global.Effects["LessPowerCard"])
-        {
-            Debug.Log("LessPowerCard");
-            int minPower = int.MaxValue;
-            int indexRow = -1;
-            int indexInRowZone = -1;
-            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
-            {
-                for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
-                {
-                    Debug.Log("i=" + i);
-                    Debug.Log("j=" + j);
-                    Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
-
-
-                    if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) < minPower)
-                    {
-                        minPower = int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
-                        indexRow = i;
-                        indexInRowZone = j;
-                    }
-
-                }
-            }
-
-            if (indexRow != -1 && !(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit))
-            {
-                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
-                GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
-                LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
-
-                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
-            }
-
-        }
-        else if (unitCard.Skill == Global.Effects["Average"])
-        {
-            Debug.Log("Average");
-
-            int totalPowerField = 0;
-            int countCardInField = 0;
-
-            totalPowerField += currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total;
-            totalPowerField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total;
-
-            countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetChild(0).childCount;
-            countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetChild(0).childCount;
-            countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetChild(0).childCount;
-
-            countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetChild(0).childCount;
-            countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetChild(0).childCount;
-            countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetChild(0).childCount;
-
-            int ApproximateAverage = totalPowerField / (countCardInField + 1);
-            Debug.Log(countCardInField);
-            Debug.Log(totalPowerField);
-            Debug.Log(ApproximateAverage);
-
-            for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
-            {
-                for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
-                {
-                    Debug.Log("i=" + i);
-                    Debug.Log("j=" + j);
-                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
-
-                    if (!(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit) && !(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is DecoyUnit))
-                    {
-                        currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
-                    }
-                }
-                currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
-                if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
-                {
-                    ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
-                }
-                if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
-                {
-                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, currentTurn.name);
-                }
-            }
-
-
-            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
-            {
-                for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
-                {
-                    Debug.Log("i=" + i);
-                    Debug.Log("j=" + j);
-                    Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
-                    if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit) && !(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is DecoyUnit))
-                    {
-                        notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
-                    }
-
-                }
-                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
-                if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
-                {
-                    ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
-                }
-
-                if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
-                {
-                    GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, notCurrentTurn.name);
-                }
-            }
-
-            if (unitCard is Unit)
-            {
-                unit.GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
-                unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower();
-                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(unit, unit.GetComponent<Drag>().parentToReturnTo);
-                switch (unit.GetComponent<Drag>().parentToReturnTo.name)
-                {
-                    case "MeleeZone": Improve(unit, "Melee"); break;
-                    case "RangedZone": Improve(unit, "Ranged"); break;
-                    case "SiegeZone": Improve(unit, "Siege"); break;
-                }
-            }
-
-
-        }
-        else if (unitCard.Skill == Global.Effects["ClearRow"])
-        {
-            Debug.Log("ClearRow");
-            Debug.Log(notCurrentTurn.name);
-
-            int indexRow = -1;
-            int countUnit = 14;
-            for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
-            {
-                Debug.Log(countUnit + " count unit");
-                if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count != 0 && notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count < countUnit)
-                {
-                    Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count + "count de la fila");
-                    countUnit = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count;
-                    indexRow = i;
-
-                }
-            }
-
-            if (indexRow != -1)
-            {
-                for (int i = 0; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count; i++)
-                {
-                    if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name == "MeleeRow")
-                    {
-                        if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
-                        {
-                            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject;
-                            toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
-                            await Task.Delay(200);
-                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
-
-                        }
-
-                    }
-                    else if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name == "RangedRow")
-                    {
-                        Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).name);
-                        if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
-                        {
-                            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).gameObject;
-                            toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
-                            await Task.Delay(200);
-                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
-                        }
-                    }
-                    else
-                    {
-                        if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
-                        {
-                            Debug.Log("EnterDestroySiege");
-                            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).gameObject;
-                            toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
-                            await Task.Delay(200);
-                            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
-                        }
-                    }
-
-                    notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
-                }
-                Debug.Log(notCurrentTurn);
-                Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count);
-                // notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects = new List<GameObject>();
-                // notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitsInRow = new List<UnitCard>();
-                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
-            }
-
-        }
-        else if (unitCard.Skill == Global.Effects["MultiplyPower"])
-        {
-            Debug.Log("MultiplyPower");
-            int count = 1;
-            for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
-            {
-                for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
-                {
-                    Debug.Log("i=" + i);
-                    Debug.Log("j=" + j);
-                    Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
-
-                    if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard == unitCard)
-                    {
-                        count++;
-                    }
-
-
-                }
-            }
-
-            if (count != 1)
-            {
-                Debug.Log(unit.GetComponent<Drag>().parentToReturnTo.parent.name);
-                unit.GetComponent<ThisCard>().powerText.text = (int.Parse(unit.GetComponent<ThisCard>().powerText.text) * count).ToString();
-                unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower();
-            }
-
         }
     }
 
-/// <summary>
-/// Método para la segunda variante del efecto limpiar una fila del rival
-/// </summary>
-/// <param name="units">lista de unidades de la fila</param>
-/// <returns>si posee al menos una unidad de plata</returns>
+    async private void DrawCard()
+    {
+        Debug.Log("EnterDrawCard");
+        bool destroy = false;
+
+        if (!(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount < 11))
+        {
+            destroy = true;
+        }
+
+        if (currentTurn.name == "Player")
+        {
+            await Task.Delay(800);
+            DeckPlayer.GetComponent<Draw>().DrawCard();
+        }
+        else
+        {
+            await Task.Delay(800);
+            DeckEnemy.GetComponent<Draw>().DrawCard();
+        }
+
+        if (destroy)
+        {
+            GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").GetChild(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount - 1).gameObject;
+            LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
+        }
+    }
+
+    private void PutBoost()
+    {
+        Debug.Log("EnterPutBoost");
+        List<Card> cards;
+        Boost boost = null;
+
+        if (currentTurn.name == "Player")
+        {
+            cards = GameData.playerDeck.cards;
+        }
+        else
+        {
+            cards = GameData.enemyDeck.cards;
+        }
+
+        for (int i = 0; i < cards.Count; i++)
+        {
+            if (cards[i] is Boost)
+            {
+                boost = (Boost)cards[i];
+                break;
+            }
+        }
+
+        if (boost != null)
+        {
+            int indexRow = -1;
+            int countUnit = -1;
+            for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
+            {
+                Debug.Log(currentTurn.name);
+                Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).name);
+                Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count);
+
+                if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count > countUnit && currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount == 0)
+                {
+                    indexRow = i;
+                    countUnit = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count;
+                }
+            }
+
+            GameObject boostCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            boostCard.GetComponent<ThisCard>().PrintCard(boost);
+            boostCard.transform.SetParent(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetChild(2), false);
+            boostCard.GetComponent<Drag>().enabled = false;
+            List<GameObject> units = new();
+            for (int i = 0; i < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count; i++)
+            {
+                Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i].transform.parent.name);
+                if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i].transform.parent.name != currentTurn.name + "Board")
+                {
+                    units.Add(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects[i]);
+                }
+            }
+
+            ImproveUnits(units);
+
+            if (currentTurn.name == "Player")
+            {
+                Debug.Log(GameData.playerDeck.cards.Contains(boost));
+                GameData.playerDeck.cards.Remove(boost);
+                Debug.Log(GameData.playerDeck.cards.Contains(boost));
+            }
+            else
+            {
+                Debug.Log(GameData.enemyDeck.cards.Contains(boost));
+                GameData.enemyDeck.cards.Remove(boost);
+                Debug.Log(GameData.enemyDeck.cards.Contains(boost));
+            }
+        }
+    }
+
+    private void PutWeather()
+    {
+        Debug.Log("EnterPutWeather");
+        List<Card> cards;
+        Weather weather = null;
+
+        if (currentTurn.name == "Player")
+        {
+            cards = GameData.playerDeck.cards;
+        }
+        else
+        {
+            cards = GameData.enemyDeck.cards;
+        }
+
+        bool putWeather = false;
+        for (int i = 0; i < cards.Count; i++)
+        {
+            if (cards[i] is Weather)
+            {
+                weather = (Weather)cards[i];
+                Debug.Log(weather.Name);
+                switch (weather.Name)
+                {
+                    case "Escarcha Heladora":
+                        if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0])
+                        {
+                            putWeather = true;
+                            GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                            weatherCard.GetComponent<ThisCard>().PrintCard(weather);
+                            weatherCard.GetComponent<Drag>().enabled = false;
+                            weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0));
+                            weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
+                        }
+                        break;
+                    case "Niebla Profunda":
+                        if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1])
+                        {
+                            putWeather = true;
+                            GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                            weatherCard.GetComponent<ThisCard>().PrintCard(weather);
+                            weatherCard.GetComponent<Drag>().enabled = false;
+                            weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1));
+                            weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
+                        }
+                        break;
+                    case "Diluvio Quidditch":
+                        if (!GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2])
+                        {
+                            putWeather = true;
+                            GameObject weatherCard = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+                            weatherCard.GetComponent<ThisCard>().PrintCard(weather);
+                            weatherCard.GetComponent<Drag>().enabled = false;
+                            weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2));
+                            weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
+                        }
+                        break;
+                }
+                if (putWeather)
+                {
+                    if (weather != null)
+                    {
+                        if (currentTurn.name == "Player")
+                        {
+                            Debug.Log(GameData.playerDeck.cards.Contains(weather));
+                            GameData.playerDeck.cards.Remove(weather);
+                            Debug.Log(GameData.playerDeck.cards.Contains(weather));
+                        }
+                        else
+                        {
+                            Debug.Log(GameData.enemyDeck.cards.Contains(weather));
+                            GameData.enemyDeck.cards.Remove(weather);
+                            Debug.Log(GameData.enemyDeck.cards.Contains(weather));
+                        }
+                    }
+                    break;
+
+                }
+            }
+        }
+    }
+
+    async private void PowerfulCard(GameObject unit)
+    {
+        Debug.Log("PowerfulCard");
+        int maxPower = int.MinValue;
+        int indexRow = -1;
+        int indexInRowZone = -1;
+        GameObject owner = null;
+        bool thereCards = false;
+
+        for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
+        {
+            for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+            {
+                Debug.Log("i=" + i);
+                Debug.Log("j=" + j);
+                Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
+                thereCards = true;
+                if (int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower)
+                {
+                    maxPower = int.Parse(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                    indexRow = i;
+                    indexInRowZone = j;
+                    owner = currentTurn;
+                }
+
+
+            }
+        }
+
+        for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
+        {
+            for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+            {
+                thereCards = true;
+                if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) > maxPower)
+                {
+                    maxPower = int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                    indexRow = i;
+                    indexInRowZone = j;
+                    owner = notCurrentTurn;
+                }
+
+            }
+        }
+        Debug.Log(indexRow);
+        if (indexRow != -1)
+        {
+
+            if (!(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit))
+            {
+                if (int.Parse(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().powerText.text) > int.Parse(unit.GetComponent<ThisCard>().powerText.text))
+                {
+                    owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+                    GameObject toDestroy = owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
+                    LeanTween.move(toDestroy, owner.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(owner.transform.Find("Graveyard")));
+                    owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+                }
+                else
+                {
+                    unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
+                    LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
+                }
+
+            }
+
+        }
+        else if (!thereCards)
+        {
+            Debug.Log("destroy");
+            unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
+            await Task.Delay(800);
+            LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
+        }
+    }
+
+    private void LessPowerCard()
+    {
+        Debug.Log("LessPowerCard");
+        int minPower = int.MaxValue;
+        int indexRow = -1;
+        int indexInRowZone = -1;
+        for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
+        {
+            for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+            {
+                Debug.Log("i=" + i);
+                Debug.Log("j=" + j);
+                Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
+
+
+                if (int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text) < minPower)
+                {
+                    minPower = int.Parse(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text);
+                    indexRow = i;
+                    indexInRowZone = j;
+                }
+
+            }
+        }
+
+        if (indexRow != -1 && !(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).GetComponent<ThisCard>().thisCard is HeroUnit))
+        {
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
+            GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
+            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+        }
+    }
+
+    private void Average(Card unitCard, GameObject unit)
+    {
+        Debug.Log("Average");
+
+        int totalPowerField = 0;
+        int countCardInField = 0;
+
+        totalPowerField += currentTurn.transform.Find(currentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total;
+        totalPowerField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetComponentInChildren<SumTotalPower>().total;
+
+        countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetChild(0).childCount;
+        countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetChild(0).childCount;
+        countCardInField += currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetChild(0).childCount;
+
+        countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetChild(0).childCount;
+        countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetChild(0).childCount;
+        countCardInField += notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetChild(0).childCount;
+
+        int ApproximateAverage = totalPowerField / (countCardInField + 1);
+        Debug.Log(countCardInField);
+        Debug.Log(totalPowerField);
+        Debug.Log(ApproximateAverage);
+
+        for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
+        {
+            for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+            {
+                Debug.Log("i=" + i);
+                Debug.Log("j=" + j);
+                Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
+
+                if (!(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit) && !(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is DecoyUnit))
+                {
+                    currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+                }
+            }
+            currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
+            if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
+            {
+                ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+            }
+            if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
+            {
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, currentTurn.name);
+            }
+        }
+
+
+        for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
+        {
+            for (int j = 0; j < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+            {
+                Debug.Log("i=" + i);
+                Debug.Log("j=" + j);
+                Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
+                if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is HeroUnit) && !(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard is DecoyUnit))
+                {
+                    notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+                }
+
+            }
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
+            if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
+            {
+                ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+            }
+
+            if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
+            {
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, notCurrentTurn.name);
+            }
+        }
+
+        if (unitCard is Unit)
+        {
+            unit.GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
+            unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower();
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(unit, unit.GetComponent<Drag>().parentToReturnTo);
+            switch (unit.GetComponent<Drag>().parentToReturnTo.name)
+            {
+                case "MeleeZone": Improve(unit, "Melee"); break;
+                case "RangedZone": Improve(unit, "Ranged"); break;
+                case "SiegeZone": Improve(unit, "Siege"); break;
+            }
+        }
+    }
+
+    async private void ClearRow()
+    {
+        Debug.Log("ClearRow");
+        Debug.Log(notCurrentTurn.name);
+
+        int indexRow = -1;
+        int countUnit = 14;
+        for (int i = 1; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").childCount; i++)
+        {
+            Debug.Log(countUnit + " count unit");
+            if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count != 0 && notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count < countUnit)
+            {
+                Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count + "count de la fila");
+                countUnit = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects.Count;
+                indexRow = i;
+
+            }
+        }
+
+        if (indexRow != -1)
+        {
+            for (int i = 0; i < notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count; i++)
+            {
+                if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name == "MeleeRow")
+                {
+                    if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject;
+                        toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
+                        await Task.Delay(200);
+                        LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+
+                    }
+
+                }
+                else if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).name == "RangedRow")
+                {
+                    Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).name);
+                    if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetChild(i).gameObject;
+                        toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
+                        await Task.Delay(200);
+                        LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+                    }
+                }
+                else
+                {
+                    if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
+                    {
+                        Debug.Log("EnterDestroySiege");
+                        GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetChild(i).gameObject;
+                        toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
+                        await Task.Delay(200);
+                        LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+                    }
+                }
+
+                notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+            }
+            Debug.Log(notCurrentTurn);
+            Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count);
+            // notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects = new List<GameObject>();
+            // notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitsInRow = new List<UnitCard>();
+            notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
+        }
+    }
+
+    private void MultiplyPower(GameObject unit, Card unitCard)
+    {
+        Debug.Log("MultiplyPower");
+        int count = 1;
+        for (int i = 1; i < currentTurn.transform.Find(currentTurn.name + "Field").childCount; i++)
+        {
+            for (int j = 0; j < currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).childCount; j++)
+            {
+                Debug.Log("i=" + i);
+                Debug.Log("j=" + j);
+                Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
+
+                if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard == unitCard)
+                {
+                    count++;
+                }
+
+
+            }
+        }
+
+        if (count != 1)
+        {
+            Debug.Log(unit.GetComponent<Drag>().parentToReturnTo.parent.name);
+            unit.GetComponent<ThisCard>().powerText.text = (int.Parse(unit.GetComponent<ThisCard>().powerText.text) * count).ToString();
+            unit.GetComponent<Drag>().parentToReturnTo.parent.GetComponentInChildren<SumPower>().UpdatePower();
+        }
+    }
+
+    /// <summary>
+    /// Método para la segunda variante del efecto limpiar una fila del rival
+    /// </summary>
+    /// <param name="units">lista de unidades de la fila</param>
+    /// <returns>si posee al menos una unidad de plata</returns>
     private bool UnitSilverInRow(List<UnitCard> units)
     {
         for (int i = 0; i < units.Count; i++)
@@ -770,6 +823,7 @@ public class GameController : MonoBehaviour
         unit.transform.GetComponent<ThisCard>().powerText.text = unit.transform.GetComponent<ThisCard>().power.ToString();
         parentUnit.GetComponent<Row>().RemoveFromRow(unit);
         parentUnit.GetComponent<Row>().AddToRow(DecoyActive);
+        Debug.Log(parentUnit.name);
         parentUnit.parent.GetComponentInChildren<SumPower>().UpdatePower();
     }
 

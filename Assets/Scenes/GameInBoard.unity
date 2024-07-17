@@ -4309,6 +4309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d54372cf6e86eb10bbf73e40732cd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardsObject: []
 --- !u!1 &1093898908
 GameObject:
   m_ObjectHideFlags: 0
@@ -5343,6 +5344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d54372cf6e86eb10bbf73e40732cd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardsObject: []
 --- !u!1 &1264982852
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,6 +23,7 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
             {
                 if (contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard) >= 1 && !(eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit))
                 {
+                    Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
                     contentShowCards.GetComponent<ShowCards>().newDeck.AddCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                     Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
                     card.originalScale = new Vector3( 1f, 1f, 1f);

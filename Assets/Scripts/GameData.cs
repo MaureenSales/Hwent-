@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameData : MonoBehaviour
 {
     public static GameData gameData;
-    public static Dictionary<string, Effect> Effects;
     public static string namePlayer = "";
     public static string nameEnemy = "";
     public static Deck playerDeck;
