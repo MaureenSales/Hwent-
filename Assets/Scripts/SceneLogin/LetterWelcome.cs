@@ -37,7 +37,7 @@ public class LetterWelcome : MonoBehaviour
         for (int i = 0; i < text.Length; i++)
         {
             this.GetComponent<TextMeshProUGUI>().text += text[i];
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 

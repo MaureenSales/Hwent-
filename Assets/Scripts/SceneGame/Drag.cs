@@ -31,7 +31,7 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         parentToReturnTo = this.transform.parent;
         placeHolderParent = parentToReturnTo;
         originalScale = this.transform.localScale;
-        this.transform.SetParent(this.transform.parent.parent);
+        //this.transform.SetParent(this.transform.parent.parent);
 
         GetComponent<CanvasGroup>().blocksRaycasts = false;
 

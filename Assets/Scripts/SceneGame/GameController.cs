@@ -71,10 +71,10 @@ public class GameController : MonoBehaviour
                     DrawCard();
                     break;
                 case "PutBoost":
-                    PutBoost();
+                    PutBoost(unit);
                     break;
                 case "PutWeather":
-                    PutWeather();
+                    PutWeather(unit);
                     break;
                 case "PowerfulCard":
                     PowerfulCard(unit);
@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour
                     break;
 
                 default:
-                Debug.Log("EffectCreated");
+                    Debug.Log("EffectCreated");
                     try
                     {
                         evaluador.evaluate(effect.Selector);
@@ -143,7 +143,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void PutBoost()
+    private void PutBoost(GameObject unit)
     {
         Debug.Log("EnterPutBoost");
         List<Card> cards;
@@ -198,7 +198,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            ImproveUnits(units);
+            ImproveUnits(units, unit);
 
             if (currentTurn.name == "Player")
             {
@@ -215,7 +215,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void PutWeather()
+    private void PutWeather(GameObject unit)
     {
         Debug.Log("EnterPutWeather");
         List<Card> cards;
@@ -249,8 +249,8 @@ public class GameController : MonoBehaviour
                             weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0));
                             weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name, unit);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name, unit);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
                         }
                         break;
@@ -264,8 +264,8 @@ public class GameController : MonoBehaviour
                             weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1));
                             weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name, unit);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name, unit);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
                         }
                         break;
@@ -279,8 +279,8 @@ public class GameController : MonoBehaviour
                             weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2));
                             weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name, unit);
+                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name, unit);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
                         }
                         break;
@@ -459,11 +459,11 @@ public class GameController : MonoBehaviour
             currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
             if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
             {
-                ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+                ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, unit);
             }
             if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
             {
-                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, currentTurn.name);
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, currentTurn.name, unit);
             }
         }
 
@@ -484,12 +484,12 @@ public class GameController : MonoBehaviour
             notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
             if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
             {
-                ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects);
+                ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, unit);
             }
 
             if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
             {
-                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, notCurrentTurn.name);
+                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, notCurrentTurn.name, unit);
             }
         }
 
@@ -534,7 +534,7 @@ public class GameController : MonoBehaviour
                 {
                     if (!(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).GetComponent<ThisCard>().thisCard is HeroUnit))
                     {
-                    
+
                         GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetChild(i).gameObject;
                         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetComponent<Row>().RemoveFromRow(toDestroy);
                         toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
@@ -574,9 +574,9 @@ public class GameController : MonoBehaviour
             Debug.Log(notCurrentTurn);
             Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count);
             notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
-            Debug.Log( notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).gameObject + " revision aqui");
-            Debug.Log( notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count + "revision");
-            Debug.Log( notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitsInRow.Count + "revision");
+            Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).gameObject + " revision aqui");
+            Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitObjects.Count + "revision");
+            Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitsInRow.Count + "revision");
         }
     }
 
@@ -751,13 +751,13 @@ public class GameController : MonoBehaviour
     /// Método para bonificar a una lista de unidades al colocar un aumento
     /// </summary>
     /// <param name="units">lista de unidades a bonificar</param>
-    public void ImproveUnits(List<GameObject> units)
+    public void ImproveUnits(List<GameObject> units, GameObject eventData)
     {
         Debug.Log("EnterImproveUnitsList");
 
         foreach (var unit in units)
         {
-            if (unit.GetComponent<ThisCard>().thisCard is Unit)
+            if (unit.GetComponent<ThisCard>().thisCard is Unit && unit != eventData)
             {
 
                 int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
@@ -855,12 +855,12 @@ public class GameController : MonoBehaviour
                         if (currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en melee");
-                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects);
+                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, null);
                         }
                         if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en melee");
-                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects);
+                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, null);
                         }
                         break;
                     case 1:
@@ -871,12 +871,12 @@ public class GameController : MonoBehaviour
                         if (currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en ranged");
-                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects);
+                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects, null);
                         }
                         if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en ranged");
-                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects);
+                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects, null);
                         }
                         break;
                     case 2:
@@ -887,12 +887,12 @@ public class GameController : MonoBehaviour
                         if (currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en siege");
-                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects);
+                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, null);
                         }
                         if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en siege");
-                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects);
+                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, null);
                         }
                         break;
                 }

@@ -47,7 +47,7 @@ public class NickInput : MonoBehaviour
         buttonLogin.gameObject.SetActive(false);
         buttonLogin.GetComponent<Button>().interactable = false;
         tMP_InputField.placeholder.GetComponent<TMP_Text>().text = "Introduce tu nombre";
-        await Task.Delay(28200);
+        await Task.Delay(400);
         tMP_InputField.gameObject.SetActive(true);
         buttonLogin.gameObject.SetActive(true);
 

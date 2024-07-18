@@ -10,8 +10,11 @@ public class DropZone : MonoBehaviour, IDropHandler
       UnityEngine.Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
 
       Drag card = eventData.pointerDrag.GetComponent<Drag>(); //componente Drag de la carta soltada
+      Debug.Log(eventData.pointerDrag.transform.parent.name);
+      Hand hand = eventData.pointerDrag.transform.parent.GetComponent<Hand>();
       if (card != null)
       {
+         //!!!Disminuir codigo!!!
          Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
 
          if (card.parentToReturnTo.parent.parent == this.transform.parent.parent.parent) //verifica que la carta este siendo soltada en el campo del jugador actual usando la jerarquía del campo en la escena 
@@ -23,6 +26,8 @@ public class DropZone : MonoBehaviour, IDropHandler
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
+                  hand.CardsObject.Remove(eventData.pointerDrag);
+                  hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
@@ -31,7 +36,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
                      GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                   }
                }
                else if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Melee))
@@ -39,13 +43,14 @@ public class DropZone : MonoBehaviour, IDropHandler
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
+                  hand.CardsObject.Remove(eventData.pointerDrag);
+                  hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
                      GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                   }
                }
 
@@ -57,6 +62,8 @@ public class DropZone : MonoBehaviour, IDropHandler
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
+                  hand.CardsObject.Remove(eventData.pointerDrag);
+                  hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
@@ -65,7 +72,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
                      GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                   }
                }
                else if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Ranged))
@@ -73,13 +79,14 @@ public class DropZone : MonoBehaviour, IDropHandler
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
+                  hand.CardsObject.Remove(eventData.pointerDrag);
+                  hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
                      GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                   }
                }
             }
@@ -91,6 +98,8 @@ public class DropZone : MonoBehaviour, IDropHandler
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
+                  hand.CardsObject.Remove(eventData.pointerDrag);
+                  hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
@@ -99,7 +108,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
                      GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                   }
                }
                else if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Siege))
@@ -107,14 +115,14 @@ public class DropZone : MonoBehaviour, IDropHandler
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
+                  hand.CardsObject.Remove(eventData.pointerDrag);
+                  hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
-                  //eventData.pointerDrag.GetComponent<Info>().enabled = false;
-
+            
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
                      GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                   }
 
                }
@@ -124,39 +132,42 @@ public class DropZone : MonoBehaviour, IDropHandler
             {
                card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                card.parentToReturnTo = this.transform;
+               hand.CardsObject.Remove(eventData.pointerDrag);
+               hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
-               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects);
+               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, null);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                {
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                }
             }
             else if (this.name == "BoostRanged" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Boost && this.transform.childCount < 2)
             {
                card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                card.parentToReturnTo = this.transform;
+               hand.CardsObject.Remove(eventData.pointerDrag);
+               hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
-               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects);
+               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, null);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                {
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                }
             }
             else if (this.name == "BoostSiege" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Boost && this.transform.childCount < 2)
             {
                card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                card.parentToReturnTo = this.transform;
+               hand.CardsObject.Remove(eventData.pointerDrag);
+               hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
-               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects);
+               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, null);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                {
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
                }
             }
 
@@ -165,57 +176,58 @@ public class DropZone : MonoBehaviour, IDropHandler
          if (this.name == "MeleeWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().cardName == "Escarcha Heladora" && (this.transform.childCount < 1))
          {
             card.originalScale = new Vector3(0.8f, 0.8f, 0f);
-
             card.parentToReturnTo = this.transform;
+            hand.CardsObject.Remove(eventData.pointerDrag);
+            hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Player");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Enemy", null);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Player", null);
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
             }
 
          }
          else if (this.name == "RangedWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().cardName == "Niebla Profunda" && (this.transform.childCount < 1))
          {
             card.originalScale = new Vector3(0.8f, 0.8f, 0f);
-
             card.parentToReturnTo = this.transform;
+            hand.CardsObject.Remove(eventData.pointerDrag);
+            hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Enemy", null);
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Player");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Player", null);
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
             }
          }
          else if (this.name == "SiegeWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().cardName == "Diluvio Quidditch" && (this.transform.childCount < 1))
          {
             card.originalScale = new Vector3(0.8f, 0.8f, 0f);
-
             card.parentToReturnTo = this.transform;
+            hand.CardsObject.Remove(eventData.pointerDrag);
+            hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Player");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Enemy", null);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Player", null);
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
-
             }
          }
 
          UnityEngine.Debug.Log(this.name);
+         UnityEngine.Debug.Log(hand.Cards.Count + " revision");
 
       }
    }
