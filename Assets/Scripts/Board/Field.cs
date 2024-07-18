@@ -15,7 +15,6 @@ public class Field : MonoBehaviour
     {
         Owner = this.transform.parent.parent.GetComponentInChildren<Player>();
         Rows = new List<Row>();
-        Rows.AsReadOnly();
         AllCards = new List<Card>();
         AllCardsObjects = new List<GameObject>();
         PowerField = transform.GetChild(0).gameObject;

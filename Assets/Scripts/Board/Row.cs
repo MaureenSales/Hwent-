@@ -38,11 +38,7 @@ public class Row : MonoBehaviour
     public void AddToRow(GameObject unit)
     {
         unitObjects.Add(unit);
-    
-        if (unit.GetComponent<ThisCard>().thisCard is UnitCard)
-        {
-            unitsInRow.Add((UnitCard)unit.GetComponent<ThisCard>().thisCard);
-        }
+        unitsInRow.Add((UnitCard)unit.GetComponent<ThisCard>().thisCard);
         Owner.AllCardsObjects.Add(unit);
         Owner.AllCards.Add(unit.GetComponent<ThisCard>().thisCard);
         powerRow.GetComponent<SumPower>().UpdatePower();
@@ -55,13 +51,18 @@ public class Row : MonoBehaviour
     public void RemoveFromRow(GameObject unit)
     {
         unitObjects.Remove(unit);
-        if (unit.GetComponent<ThisCard>().thisCard is UnitCard)
-        {
-            unitsInRow.Remove((UnitCard)unit.GetComponent<ThisCard>().thisCard);
-        }
+        unitsInRow.Remove((UnitCard)unit.GetComponent<ThisCard>().thisCard);
         Owner.AllCardsObjects.Remove(unit);
         Owner.AllCards.Remove(unit.GetComponent<ThisCard>().thisCard);
     }
 
-}
+    public void Clear()
+    {
+        unitObjects.Clear();
+        unitsInRow.Clear();
+        Owner.AllCardsObjects.Clear();
+        Owner.AllCards.Clear();
 
+    }
+
+}

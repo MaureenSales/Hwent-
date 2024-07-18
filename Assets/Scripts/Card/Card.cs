@@ -10,7 +10,7 @@ public abstract class Card
     public string Description { get; private set; }  //descripción
     public Sprite Image { get; private set; } //imagen de la carta
     public Sprite FactionImage { get; private set; } //icono de la facción
-    public string MyType => this.GetType().ToString();
+    public string Type => this.GetType().ToString();
 
     protected Card(string name, Global.Factions faction, List<Skill> skills, string description, Sprite image)
     {

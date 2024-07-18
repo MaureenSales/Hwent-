@@ -32,7 +32,6 @@ public class Board : MonoBehaviour
     void Start()
     {
         Fields = new List<Field>();
-        Fields.AsReadOnly();
         Fields.Add(FieldPlayer.GetComponent<Field>());
         Fields.Add(FieldEnemy.GetComponent<Field>());
     }
@@ -42,6 +41,7 @@ public class Board : MonoBehaviour
         List<GameObject> result = new List<GameObject>();
         foreach (Field field in Fields)
         {
+            Debug.Log(field.AllCardsObjects.Count);
             foreach (var card in field.AllCardsObjects)
             {
                 result.Add(card);
