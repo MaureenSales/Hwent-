@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
@@ -20,7 +21,15 @@ public class Player : MonoBehaviour
         MyHand = draw.hand;
         MyGraveyard = this.GetComponentInChildren<Graveyard>();
         MyField = this.GetComponentInChildren<Field>();
-        Id = this.GetComponentInChildren<PlayerController>().Nick;
+        if(this.name == "Player") Id = GameData.namePlayer;
+        else Id = GameData.nameEnemy;
+        AssingOwner(Id, MyDeck.cards);
+        MyDeck.Leader.AssignOwner(Id);
+    }
+
+    private void AssingOwner(string owner, List<Card> cards)
+    {
+        foreach (Card card in cards) card.AssignOwner(owner);
     }
 
     

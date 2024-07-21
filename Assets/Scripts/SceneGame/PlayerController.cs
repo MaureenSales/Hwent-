@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     //public Image avatar;
     public TextMeshProUGUI countCards; //contador de cartas actuales en la mano
-    public TextMeshProUGUI nick; 
+    public TextMeshProUGUI nick;
     public TextMeshProUGUI countCardsInDeck; //contador de cartas actuales en el mazo
     public GameObject Gems; //gemas del jugador
     public GameObject Turn; //indicador de turno del jugador
@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
         if (this.name.StartsWith("Enemy"))
         {
             Nick = GameData.nameEnemy;
+            Debug.Log(Nick);
             GameObject leaderEnemy = Instantiate(CardPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             leaderEnemy.GetComponent<ThisCard>().PrintCard(GameData.enemyDeck.Leader);
             leaderEnemy.transform.SetParent(LeaderEnemy.transform);
@@ -143,24 +144,13 @@ public class PlayerController : MonoBehaviour
         buttonChange.GetComponent<AudioSource>().Play();
         ChangeAllowed = false;
 
-        if (GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.name == "Player")
+        for (int i = 0; i < cardsToChange.Count; i++)
         {
-            for (int i = 0; i < cardsToChange.Count; i++)
-            {
-                GameData.playerDeck.AddCard(cardsToChange[i].GetComponent<ThisCard>().thisCard);
-                Destroy(cardsToChange[i]);
-                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Deck").GetComponent<Draw>().DrawCard();
-            }
-
-        }
-        else
-        {
-            for (int i = 0; i < cardsToChange.Count; i++)
-            {
-                GameData.enemyDeck.AddCard(cardsToChange[i].GetComponent<ThisCard>().thisCard);
-                Destroy(cardsToChange[i]);
-                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Deck").GetComponent<Draw>().DrawCard();
-            }
+            GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyDeck.AddCard(cardsToChange[i].GetComponent<ThisCard>().thisCard);
+            GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyHand.CardsObject.Remove(cardsToChange[i]);
+            GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyHand.Cards.Remove(cardsToChange[i].GetComponent<ThisCard>().thisCard);
+            Destroy(cardsToChange[i]);
+            GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Deck").GetComponent<Draw>().DrawCard();
         }
 
         PanelField.SetActive(false);

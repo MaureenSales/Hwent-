@@ -27,6 +27,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
                   hand.CardsObject.Remove(eventData.pointerDrag);
+                  Debug.Log(hand.CardsObject.Count);
                   hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 

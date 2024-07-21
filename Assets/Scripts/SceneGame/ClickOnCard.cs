@@ -31,10 +31,14 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
                 {
                     LeanTween.alpha(ClearImages.transform.GetChild(i).GetComponent<RectTransform>(), 1, 2f);
                 }
+                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyHand.CardsObject.Remove(ClearCard);
+                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyHand.Cards.Remove(ClearCard.GetComponent<ThisCard>().thisCard);
                 GetComponentInParent<Canvas>().GetComponent<GameController>().ClearWeatherZone();
                 await Task.Delay(1000);
                 ClearCard.transform.localScale = new Vector3(0.9f, 0.9f, 0f);
                 LeanTween.move(ClearCard, GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => ClearCard.transform.SetParent(GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Graveyard")));
+                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyGraveyard.CardsObject.Add(ClearCard);
+                GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyGraveyard.Cards.Add(ClearCard.GetComponent<ThisCard>().thisCard);
                 ClearImages.SetActive(false);
                 if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                 {

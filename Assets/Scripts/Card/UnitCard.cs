@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public abstract class UnitCard : Card
 {
-    public int Power {get; protected set; } //poder
+    public int Power {get; set; } //poder
     public List<Global.AttackModes> AttackTypes { get; protected set; } //tipos de ataque
 
     /// <summary>

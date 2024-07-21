@@ -37,6 +37,7 @@ public class Controller : MonoBehaviour
 
             foreach (var stm in parser.Statements)
             {
+                System.Console.WriteLine(printer.Print(stm));
                 Debug.Log(printer.Print(stm));
                 Debug.Log("");
             }

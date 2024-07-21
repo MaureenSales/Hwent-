@@ -5,6 +5,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 public class GameController : MonoBehaviour
 {
     public GameObject Message; //Mensaje para actualizar estado del juego
@@ -98,11 +99,7 @@ public class GameController : MonoBehaviour
                     {
                         evaluador.evaluate(effect.Selector);
                         Debug.Log(evaluador.SelectorsList.Count);
-                        foreach (var item in evaluador.SelectorsList)
-                        {
-                            Debug.Log(((GameObject)item).name);
-                        }
-                        //evaluador.evaluate(Global.EffectsCreated[effect.Name]);
+                        evaluador.Evaluate(Global.EffectsCreated[effect.Name], effect, evaluador.SelectorsList);
                     }
                     catch (System.Exception e)
                     {
@@ -139,7 +136,7 @@ public class GameController : MonoBehaviour
         if (destroy)
         {
             GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").GetChild(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount - 1).gameObject;
-            LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
+            LeanTweenMoveGraveyard(toDestroy, currentTurn.transform.Find("Graveyard").transform);
         }
     }
 
@@ -149,14 +146,7 @@ public class GameController : MonoBehaviour
         List<Card> cards;
         Boost boost = null;
 
-        if (currentTurn.name == "Player")
-        {
-            cards = GameData.playerDeck.cards;
-        }
-        else
-        {
-            cards = GameData.enemyDeck.cards;
-        }
+        cards = currentTurn.GetComponent<Player>().MyDeck.cards;
 
         for (int i = 0; i < cards.Count; i++)
         {
@@ -199,19 +189,7 @@ public class GameController : MonoBehaviour
             }
 
             ImproveUnits(units, unit);
-
-            if (currentTurn.name == "Player")
-            {
-                Debug.Log(GameData.playerDeck.cards.Contains(boost));
-                GameData.playerDeck.cards.Remove(boost);
-                Debug.Log(GameData.playerDeck.cards.Contains(boost));
-            }
-            else
-            {
-                Debug.Log(GameData.enemyDeck.cards.Contains(boost));
-                GameData.enemyDeck.cards.Remove(boost);
-                Debug.Log(GameData.enemyDeck.cards.Contains(boost));
-            }
+            currentTurn.GetComponent<Player>().MyDeck.cards.Remove(boost);
         }
     }
 
@@ -220,15 +198,7 @@ public class GameController : MonoBehaviour
         Debug.Log("EnterPutWeather");
         List<Card> cards;
         Weather weather = null;
-
-        if (currentTurn.name == "Player")
-        {
-            cards = GameData.playerDeck.cards;
-        }
-        else
-        {
-            cards = GameData.enemyDeck.cards;
-        }
+        cards = currentTurn.GetComponent<Player>().MyDeck.cards;
 
         bool putWeather = false;
         for (int i = 0; i < cards.Count; i++)
@@ -287,21 +257,7 @@ public class GameController : MonoBehaviour
                 }
                 if (putWeather)
                 {
-                    if (weather != null)
-                    {
-                        if (currentTurn.name == "Player")
-                        {
-                            Debug.Log(GameData.playerDeck.cards.Contains(weather));
-                            GameData.playerDeck.cards.Remove(weather);
-                            Debug.Log(GameData.playerDeck.cards.Contains(weather));
-                        }
-                        else
-                        {
-                            Debug.Log(GameData.enemyDeck.cards.Contains(weather));
-                            GameData.enemyDeck.cards.Remove(weather);
-                            Debug.Log(GameData.enemyDeck.cards.Contains(weather));
-                        }
-                    }
+                    if (weather != null) currentTurn.GetComponent<Player>().MyDeck.cards.Remove(weather);
                     break;
 
                 }
@@ -363,13 +319,13 @@ public class GameController : MonoBehaviour
                 {
                     owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
                     GameObject toDestroy = owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
-                    LeanTween.move(toDestroy, owner.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(owner.transform.Find("Graveyard")));
+                    LeanTweenMoveGraveyard(toDestroy, owner.transform.Find("Graveyard").transform);
                     owner.transform.Find(owner.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
                 }
                 else
                 {
                     unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
-                    LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
+                    LeanTweenMoveGraveyard(unit, currentTurn.transform.Find("Graveyard").transform);
                 }
 
             }
@@ -380,7 +336,7 @@ public class GameController : MonoBehaviour
             Debug.Log("destroy");
             unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
             await Task.Delay(800);
-            LeanTween.move(unit, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => unit.transform.SetParent(currentTurn.transform.Find("Graveyard")));
+            LeanTweenMoveGraveyard(unit, currentTurn.transform.Find("Graveyard").transform);
         }
     }
 
@@ -414,8 +370,7 @@ public class GameController : MonoBehaviour
             //->
             notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetComponent<Row>().RemoveFromRow(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject);
             GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetChild(0).GetChild(indexInRowZone).gameObject;
-            LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
-
+            LeanTweenMoveGraveyard(toDestroy, notCurrentTurn.transform.Find("Graveyard").transform);
             notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<SumPower>().UpdatePower();
         }
     }
@@ -539,8 +494,7 @@ public class GameController : MonoBehaviour
                         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("MeleeZone").GetComponent<Row>().RemoveFromRow(toDestroy);
                         toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
                         await Task.Delay(200);
-                        LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
-
+                        LeanTweenMoveGraveyard(toDestroy, notCurrentTurn.transform.Find("Graveyard").transform);
                     }
 
                 }
@@ -553,7 +507,7 @@ public class GameController : MonoBehaviour
                         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("RangedZone").GetComponent<Row>().RemoveFromRow(toDestroy);
                         toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
                         await Task.Delay(200);
-                        LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+                        LeanTweenMoveGraveyard(toDestroy, notCurrentTurn.transform.Find("Graveyard").transform);
                     }
                 }
                 else
@@ -565,7 +519,7 @@ public class GameController : MonoBehaviour
                         notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).Find("SiegeZone").GetComponent<Row>().RemoveFromRow(toDestroy);
                         toDestroy.GetComponent<ThisCard>().borderFire.gameObject.SetActive(true);
                         await Task.Delay(200);
-                        LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 2f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+                        LeanTweenMoveGraveyard(toDestroy, notCurrentTurn.transform.Find("Graveyard").transform);
                     }
                 }
 
@@ -824,7 +778,10 @@ public class GameController : MonoBehaviour
         unit.transform.SetParent(parentDecoy);
         DecoyActive.transform.position = positionUnit;
         DecoyActive.transform.SetParent(parentUnit);
-
+        currentTurn.GetComponent<Player>().MyHand.CardsObject.Remove(DecoyActive);
+        currentTurn.GetComponent<Player>().MyHand.Cards.Remove(DecoyActive.GetComponent<ThisCard>().thisCard);
+        currentTurn.GetComponent<Player>().MyHand.CardsObject.Add(unit);
+        currentTurn.GetComponent<Player>().MyHand.Cards.Add(unit.GetComponent<ThisCard>().thisCard);
         unit.transform.GetComponent<ThisCard>().powerText.text = unit.transform.GetComponent<ThisCard>().power.ToString();
         parentUnit.GetComponent<Row>().RemoveFromRow(unit);
         parentUnit.GetComponent<Row>().AddToRow(DecoyActive);
@@ -843,8 +800,7 @@ public class GameController : MonoBehaviour
             {
                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i] = false;
                 GameObject toDestroy = GameObject.Find("WeatherZone").transform.GetChild(i).GetChild(0).gameObject;
-                LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-
+                LeanTweenMoveGraveyard(toDestroy, currentTurn.transform.Find("Graveyard").transform);
                 switch (i)
                 {
                     case 0:
@@ -1176,6 +1132,13 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void LeanTweenMoveGraveyard(GameObject toDestroy, Transform graveyard)
+    {
+        graveyard.GetComponent<Graveyard>().CardsObject.Add(toDestroy);
+        graveyard.GetComponent<Graveyard>().Cards.Add(toDestroy.GetComponent<ThisCard>().thisCard);
+        LeanTween.move(toDestroy, graveyard.position, 1f).setOnComplete(() => toDestroy.transform.SetParent(graveyard));
+    }
+
     /// <summary>
     /// Método para limpiar el tablero
     /// </summary>
@@ -1191,8 +1154,7 @@ public class GameController : MonoBehaviour
             {
                 GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).gameObject;
                 Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
-                LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-
+                LeanTweenMoveGraveyard(toDestroy, currentTurn.transform.Find("Graveyard").transform);
             }
             currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().Clear();
             currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().power = 0;
@@ -1202,8 +1164,7 @@ public class GameController : MonoBehaviour
                 Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).name);
                 GameObject toDestroy = currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).GetChild(0).gameObject;
                 Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
-                LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
-
+                LeanTweenMoveGraveyard(toDestroy, currentTurn.transform.Find("Graveyard").transform);
             }
 
         }
@@ -1217,7 +1178,7 @@ public class GameController : MonoBehaviour
             {
                 GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).gameObject;
                 Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
-                LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+                LeanTweenMoveGraveyard(toDestroy, notCurrentTurn.transform.Find("Graveyard").transform);
             }
             notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().Clear();
             notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().power = 0;
@@ -1226,7 +1187,7 @@ public class GameController : MonoBehaviour
             {
                 GameObject toDestroy = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).GetChild(0).gameObject;
                 Debug.Log(toDestroy.GetComponent<ThisCard>().cardName);
-                LeanTween.move(toDestroy, notCurrentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(notCurrentTurn.transform.Find("Graveyard")));
+                LeanTweenMoveGraveyard(toDestroy, notCurrentTurn.transform.Find("Graveyard").transform);
             }
         }
 
@@ -1238,7 +1199,7 @@ public class GameController : MonoBehaviour
                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherImagesEnemy[i].SetActive(false);
                 GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i] = false;
                 GameObject toDestroy = GameObject.Find("WeatherZone").transform.GetChild(i).GetChild(0).gameObject;
-                LeanTween.move(toDestroy, currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => toDestroy.transform.SetParent(currentTurn.transform.Find("Graveyard")));
+                LeanTweenMoveGraveyard(toDestroy, currentTurn.transform.Find("Graveyard").transform);
             }
         }
 

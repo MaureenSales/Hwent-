@@ -15,8 +15,8 @@ public class HeroUnit: UnitCard
     /// <param name="power">número de poder</param>
     /// <param name="attackType">tipo de ataque</param>
     /// <param name="image">imagen</param>
+    new public int Power { get => base.Power; private set {} }
     public HeroUnit(string name, Global.Factions faction, List<Skill> skills, string description, int power, List<Global.AttackModes> attackType, Sprite image):
     base(name, faction, skills, description, power, attackType, image){}
 
-    new public int Power { get => base.Power; private set {} }
 }

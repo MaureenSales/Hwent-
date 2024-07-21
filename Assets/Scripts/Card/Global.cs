@@ -81,10 +81,10 @@ public static class Global
 public class Skill
 {
     public string Name { get; private set; }
-    public List<(string, object)>? Arguments { get; private set; }
+    public Dictionary<string, object>? Arguments { get; private set; }
     public ASTnode? Selector { get; private set; }
 
-    public Skill(string name, List<(string, object)>? argumennts, ASTnode? selector)
+    public Skill(string name, Dictionary<string, object>? argumennts, ASTnode? selector)
     {
         Name = name;
         Arguments = argumennts;
