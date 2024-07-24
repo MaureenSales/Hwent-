@@ -44,6 +44,15 @@ public class Row : MonoBehaviour
         powerRow.GetComponent<SumPower>().UpdatePower();
     }
 
+    public void InsertInRow(int index, GameObject unit)
+    {
+        unitObjects.Insert(index, unit);
+        unitsInRow.Insert(index, (UnitCard)unit.GetComponent<ThisCard>().thisCard);
+        Owner.AllCardsObjects.Insert(index, unit);
+        Owner.AllCards.Insert(index, unit.GetComponent<ThisCard>().thisCard);
+        powerRow.GetComponent<SumPower>().UpdatePower();
+    }
+
     /// <summary>
     /// Método para remover una unidad de la fila
     /// </summary>

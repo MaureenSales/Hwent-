@@ -97,8 +97,11 @@ public class GameController : MonoBehaviour
                     Debug.Log("EffectCreated");
                     try
                     {
-                        evaluador.evaluate(effect.Selector);
-                        Debug.Log(evaluador.SelectorsList.Count);
+                        if (!(effect.Selector is null))
+                        {
+                            evaluador.evaluate(effect.Selector);
+                            Debug.Log(evaluador.SelectorsList.Count);
+                        }
                         evaluador.Evaluate(Global.EffectsCreated[effect.Name], effect, evaluador.SelectorsList);
                     }
                     catch (System.Exception e)

@@ -56,7 +56,7 @@ public class NickInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(tMP_InputField.text != "")
+        if(tMP_InputField.text != "" &&  tMP_InputField.text != GameData.namePlayer)
         {
             buttonLogin.GetComponent<Button>().interactable = true;
         }
