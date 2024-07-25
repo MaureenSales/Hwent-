@@ -63,9 +63,9 @@ public class GameController : MonoBehaviour
         Card unitCard = unit.GetComponent<ThisCard>().thisCard;
         Debug.Log(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount + " countCards");
         Debug.Log(unitCard.Skills.Count);
+        Evaluador evaluador = new Evaluador();
         foreach (var effect in unitCard.Skills)
         {
-            Evaluador evaluador = new Evaluador();
             switch (effect.Name)
             {
                 case "DrawCard":
