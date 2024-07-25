@@ -44,9 +44,9 @@ public class Controller : MonoBehaviour
 
             Debug.Log("Successfully completed " + "🎊");
 
-            Evaluador evaluador = new Evaluador();
             foreach (var stm in parser.Statements)
             {
+                Evaluador evaluador = new Evaluador();
                 Debug.Log(evaluador.evaluate(stm));
                 Debug.Log("");
             }

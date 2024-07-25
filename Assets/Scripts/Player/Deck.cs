@@ -55,7 +55,7 @@ public class Deck
         int copies = 0;
         foreach (var item in cards)
         {
-            if(item == card) copies++;
+            if(card.Equals(item)) copies++;
         }
         return copies;
     }

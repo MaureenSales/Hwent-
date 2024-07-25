@@ -13,4 +13,9 @@ public class DecoyUnit : UnitCard
     public DecoyUnit(string name, string description, Sprite image) :
     base(name, Global.Factions.Neutral, new List<Skill>() { new Skill("Decoy", null, null)}, description, 0, new List<Global.AttackModes>() { Global.AttackModes.Siege, Global.AttackModes.Melee, Global.AttackModes.Ranged }, image)
     { }
+
+    public override object Clone()
+    {
+        return new DecoyUnit(this.Name, this.Description, this.Image);
+    }
 }

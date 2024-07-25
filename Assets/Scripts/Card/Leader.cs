@@ -14,4 +14,9 @@ public class Leader : Card
     /// <param name="image">imagen</param>
     public Leader(string name, Global.Factions faction, List<Skill> skills, string description, Sprite image) : 
     base(name, faction, skills, description, image){}
+
+    public override object Clone()
+    {
+        return new Leader(this.Name, this.Faction, this.Skills, this.Description, this.Image);
+    }
 }

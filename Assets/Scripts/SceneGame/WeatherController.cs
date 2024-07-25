@@ -61,22 +61,17 @@ public class WeatherController : MonoBehaviour
     /// <param name="unitTransform">Transform de la unidad</param>
     public void WeatherEffect(GameObject unit, Transform unitTransform)
     {
+        Debug.Log("primeroAqui");
         Debug.Log(unit.transform.parent.parent.parent);
         Debug.Log("EnterWeatherEffect");
         Debug.Log(unit.GetComponent<ThisCard>().powerText.text);
+        Debug.Log(unit.GetComponent<ThisCard>().name);
             if (weather[0] && unitTransform.name == "MeleeZone")
             {
                 Debug.Log("EnterWeatherFrost");
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                if(unit.transform.parent.parent.parent.name == "Enemy")
-                {
-                    unit.transform.parent.parent.parent.Find("EnemyField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower();
-                }
-                else
-                {
-                    unit.transform.parent.parent.parent.Find("PlayerField").Find("MeleeRow").GetComponentInChildren<SumPower>().UpdatePower();
-                }
+                unitTransform.parent.GetComponentInChildren<SumPower>().UpdatePower();
             }
             else if (weather[1] && unitTransform.name == "RangedZone")
             {
@@ -84,14 +79,7 @@ public class WeatherController : MonoBehaviour
                 Debug.Log(unit.transform.parent.name);
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                if(unit.transform.parent.parent.parent.name == "Enemy")
-                {
-                    unit.transform.parent.parent.parent.Find("EnemyField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower();
-                }
-                else
-                {
-                    unit.transform.parent.parent.parent.Find("PlayerField").Find("RangedRow").GetComponentInChildren<SumPower>().UpdatePower();
-                }
+                unitTransform.parent.GetComponentInChildren<SumPower>().UpdatePower();
             }
             else if (weather[2] && unitTransform.name == "SiegeZone")
             {
@@ -99,14 +87,7 @@ public class WeatherController : MonoBehaviour
                 Debug.Log(unit.transform.parent.name);
                 int newPower = 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                if(unit.transform.parent.parent.name == "Enemy")
-                {
-                    unit.transform.parent.parent.parent.Find("EnemyField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower();
-                }
-                else
-                {
-                    unit.transform.parent.parent.parent.Find("PlayerField").Find("SiegeRow").GetComponentInChildren<SumPower>().UpdatePower();
-                }
+                unitTransform.parent.GetComponentInChildren<SumPower>().UpdatePower();
             }
 
             Debug.Log(unit.GetComponent<ThisCard>().powerText.text);

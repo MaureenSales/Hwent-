@@ -137,7 +137,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
-               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, null);
+               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, this.transform.parent);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                {
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
@@ -151,7 +151,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
-               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, null);
+               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, this.transform.parent);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                {
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
@@ -165,7 +165,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
-               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, null);
+               GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveUnits(this.transform.parent.GetComponentInChildren<Row>().unitObjects, this.transform.parent);
                if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                {
                   GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();

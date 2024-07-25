@@ -13,4 +13,9 @@ public class Boost: SpecialCard
     /// <param name="image">icono de aumento</param>
     public Boost(string name, List<Skill> skills, string description, Sprite image): 
     base(name, skills, description, image, Resources.Load <Sprite> ("Boost")){}
+
+    public override object Clone()
+    {
+        return new Boost(this.Name, this.Skills, this.Description, this.Image);
+    }
 }

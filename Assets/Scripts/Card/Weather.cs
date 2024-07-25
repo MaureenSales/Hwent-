@@ -14,4 +14,9 @@ public class Weather: SpecialCard
     /// <param name="weatherType">icono del tipo de clima</param>
     public Weather(string name, List<Skill> skills, string description, Sprite image, Sprite weatherType): 
     base(name, skills, description, image, weatherType){}
+
+    public override object Clone()
+    {
+        return new Weather(this.Name, this.Skills, this.Description, this.Image, this.CardType);
+    }
 }

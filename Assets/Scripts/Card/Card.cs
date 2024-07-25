@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-public abstract class Card
+public abstract class Card: ICloneable, IEquatable<Card>
 {
     public string Name { get; private set; } //nombre de la carta
     public Global.Factions Faction { get; private set; } //facción a la que pertenece
@@ -40,4 +41,13 @@ public abstract class Card
         //else throw new InvalidOperationException("El dueno ya ha sido asignado y no puede ser cambiado");
     }
 
+    public bool Equals(Card other)
+    {
+        if(this.Name != other.Name) return false;
+        if(this.Faction != other.Faction) return false;
+        if(other is UnitCard unit) return unit.Power == ((UnitCard)this).Power;
+        else return true;
+    }
+
+    public abstract object Clone();
 }

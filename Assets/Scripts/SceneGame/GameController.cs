@@ -62,10 +62,10 @@ public class GameController : MonoBehaviour
         Debug.Log("EnterEffect");
         Card unitCard = unit.GetComponent<ThisCard>().thisCard;
         Debug.Log(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount + " countCards");
-        Evaluador evaluador = new Evaluador();
         Debug.Log(unitCard.Skills.Count);
         foreach (var effect in unitCard.Skills)
         {
+            Evaluador evaluador = new Evaluador();
             switch (effect.Name)
             {
                 case "DrawCard":
@@ -191,7 +191,7 @@ public class GameController : MonoBehaviour
                 }
             }
 
-            ImproveUnits(units, unit);
+            ImproveUnits(units, boostCard.transform.parent.parent);
             currentTurn.GetComponent<Player>().MyDeck.cards.Remove(boost);
         }
     }
@@ -417,7 +417,7 @@ public class GameController : MonoBehaviour
             currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
             if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
             {
-                ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, unit);
+                ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).transform);
             }
             if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
             {
@@ -442,7 +442,7 @@ public class GameController : MonoBehaviour
             notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<SumPower>().UpdatePower();
             if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(2).childCount != 0)
             {
-                ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, unit);
+                ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).transform);
             }
 
             if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
@@ -536,7 +536,6 @@ public class GameController : MonoBehaviour
             Debug.Log(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(indexRow).GetComponentInChildren<Row>().unitsInRow.Count + "revision");
         }
     }
-
     private void MultiplyPower(GameObject unit, Card unitCard)
     {
         Debug.Log("MultiplyPower");
@@ -549,7 +548,7 @@ public class GameController : MonoBehaviour
                 Debug.Log("j=" + j);
                 Debug.Log(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).name);
 
-                if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard == unitCard)
+                if (currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetChild(j).GetComponent<ThisCard>().thisCard.Equals(unitCard))
                 {
                     count++;
                 }
@@ -620,6 +619,7 @@ public class GameController : MonoBehaviour
     /// <param name="zone">nombre de la zona de ataque</param>
     public void Improve(GameObject eventData, string zone)
     {
+        Debug.Log("segundoAqui");
         Debug.Log("EnterImprove");
         GameObject boost = null;
 
@@ -687,8 +687,9 @@ public class GameController : MonoBehaviour
     /// <param name="zone">zona de ataque donde fue soltada</param>
     public void ImproveUnits(GameObject unit, string zone)
     {
+        Debug.Log("terceroAqui");
         Debug.Log("EnterImproveUnit");
-
+        Debug.Log(unit.GetComponent<ThisCard>().name);
         int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
 
         unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
@@ -708,20 +709,18 @@ public class GameController : MonoBehaviour
     /// Método para bonificar a una lista de unidades al colocar un aumento
     /// </summary>
     /// <param name="units">lista de unidades a bonificar</param>
-    public void ImproveUnits(List<GameObject> units, GameObject eventData)
+    public void ImproveUnits(List<GameObject> units, Transform row)
     {
         Debug.Log("EnterImproveUnitsList");
 
         foreach (var unit in units)
         {
-            if (unit.GetComponent<ThisCard>().thisCard is Unit && unit != eventData)
+            if (unit.GetComponent<ThisCard>().thisCard is Unit && unit.transform.parent.parent == row)
             {
 
                 int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
-
-
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                unit.transform.parent.parent.GetComponentInChildren<SumPower>().UpdatePower();
+                row.GetComponentInChildren<SumPower>().UpdatePower();
             }
 
 
@@ -814,12 +813,12 @@ public class GameController : MonoBehaviour
                         if (currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en melee");
-                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, null);
+                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.transform.Find(currentTurn.name + "Field").Find("MeleeRow").transform);
                         }
                         if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en melee");
-                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, null);
+                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("MeleeRow").transform);
                         }
                         break;
                     case 1:
@@ -830,12 +829,12 @@ public class GameController : MonoBehaviour
                         if (currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en ranged");
-                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects, null);
+                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.transform.Find(currentTurn.name + "Field").Find("RangedRow").transform);
                         }
                         if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en ranged");
-                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects, null);
+                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("RangedRow").transform);
                         }
                         break;
                     case 2:
@@ -846,12 +845,12 @@ public class GameController : MonoBehaviour
                         if (currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en siege");
-                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, null);
+                            ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.transform.Find(currentTurn.name + "Field").Find("SiegeRow").transform);
                         }
                         if (notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetChild(2).childCount > 0)
                         {
                             Debug.Log("hay aumento en siege");
-                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, null);
+                            ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").Find("SiegeRow").transform);
                         }
                         break;
                 }
@@ -1137,6 +1136,11 @@ public class GameController : MonoBehaviour
 
     private void LeanTweenMoveGraveyard(GameObject toDestroy, Transform graveyard)
     {
+        if (toDestroy.GetComponent<ThisCard>().thisCard is UnitCard unit)
+        {
+            toDestroy.GetComponent<ThisCard>().power = unit.Power.ToString();
+            toDestroy.GetComponent<ThisCard>().powerText.text = unit.Power.ToString();
+        }
         graveyard.GetComponent<Graveyard>().CardsObject.Add(toDestroy);
         graveyard.GetComponent<Graveyard>().Cards.Add(toDestroy.GetComponent<ThisCard>().thisCard);
         LeanTween.move(toDestroy, graveyard.position, 1f).setOnComplete(() => toDestroy.transform.SetParent(graveyard));

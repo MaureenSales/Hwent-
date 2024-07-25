@@ -13,4 +13,9 @@ public class Clear: SpecialCard
     /// <param name="image">icono de Despeje</param>
     public Clear(string name, List<Skill> skills, string description, Sprite image): 
     base(name, skills, description, image, Resources.Load <Sprite> ("Clear")){}
+
+    public override object Clone()
+    {
+        return new Clear(this.Name, this.Skills, this.Description, this.Image);
+    }
 }

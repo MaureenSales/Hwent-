@@ -19,4 +19,8 @@ public class Unit : UnitCard
     base(name, faction, skills, description, power, attackTypes, image)
     {}
 
+    public override object Clone()
+    {
+        return new Unit(this.Name, this.Faction, this.Skills, this.Description, this.Power, this.AttackTypes, this.Image);
+    }
 }

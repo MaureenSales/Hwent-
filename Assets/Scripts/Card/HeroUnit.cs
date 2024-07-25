@@ -19,4 +19,8 @@ public class HeroUnit: UnitCard
     public HeroUnit(string name, Global.Factions faction, List<Skill> skills, string description, int power, List<Global.AttackModes> attackType, Sprite image):
     base(name, faction, skills, description, power, attackType, image){}
 
+    public override object Clone()
+    {
+        return new HeroUnit(this.Name, this.Faction, this.Skills, this.Description, this.Power, this.AttackTypes, this.Image);
+    }
 }
