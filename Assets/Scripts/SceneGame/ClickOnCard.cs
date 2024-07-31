@@ -68,7 +68,6 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
                     {
                         GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
                     }
-
                 }
             }
             else if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is Leader && eventData.pointerClick.transform.parent.parent.name == GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.name)
@@ -82,6 +81,10 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
                 else if (leader.Faction == Global.Factions.Slytherin)
                 {
                     GetComponentInParent<Canvas>().GetComponent<GameController>().SlytherinEffect();
+                }
+                else
+                {
+                    GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerClick.gameObject);
                 }
                 this.enabled = false;
                 if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)

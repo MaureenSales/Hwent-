@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-public abstract class Card: ICloneable, IEquatable<Card>
+public abstract class Card : ICloneable, IEquatable<Card>
 {
     public string Name { get; private set; } //nombre de la carta
     public Global.Factions Faction { get; private set; } //facción a la que pertenece
@@ -25,27 +25,30 @@ public abstract class Card: ICloneable, IEquatable<Card>
         Description = description;
         Image = image;
 
-        if (faction == Global.Factions.Gryffindor)
+        switch (faction)
         {
-            FactionImage = Resources.Load<Sprite>("Gryffindor");
-        }
-        else if (faction == Global.Factions.Slytherin)
-        {
-            FactionImage = Resources.Load<Sprite>("Slytherin");
+            case Global.Factions.Gryffindor:
+                FactionImage = Resources.Load<Sprite>("Gryffindor"); break;
+            case Global.Factions.Slytherin:
+                FactionImage = Resources.Load<Sprite>("Slytherin"); break;
+            case Global.Factions.Ravenclaw:
+                FactionImage = Resources.Load<Sprite>("Ravenclaw"); break;
+            case Global.Factions.Hufflepuff:
+                FactionImage = Resources.Load<Sprite>("Hufflepuff"); break;
         }
     }
 
     public void AssignOwner(string ownerId)
     {
-        if(string.IsNullOrEmpty(owner)) owner = ownerId;
+        if (string.IsNullOrEmpty(owner)) owner = ownerId;
         //else throw new InvalidOperationException("El dueno ya ha sido asignado y no puede ser cambiado");
     }
 
     public bool Equals(Card other)
     {
-        if(this.Name != other.Name) return false;
-        if(this.Faction != other.Faction) return false;
-        if(other is UnitCard unit) return unit.Power == ((UnitCard)this).Power;
+        if (this.Name != other.Name) return false;
+        if (this.Faction != other.Faction) return false;
+        if (other is UnitCard unit) return unit.Power == ((UnitCard)this).Power;
         else return true;
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,10 +9,13 @@ using UnityEngine.UI;
 public class ShowCards : MonoBehaviour
 {
     public GameObject CardPrefab; //Prefab de las cartas
+    public GameObject Message;
     public TextMeshProUGUI typeCardCollection; //tipo de cartas de la colección
     public TextMeshProUGUI typeCardDeck; //tipo de cartas del mazo
     public bool FactionGryffindor;
     public bool FactionSlytherin;
+    public bool FactionRavenclaw;
+    public bool FactionHufflepuff;
     public Deck availableDeckCollection = null; //mazo disponible actualmente para selección
     public GameObject GridCollection; //matriz UI de la colección 
     public GameObject GridDeck; //matriz UI del mazo
@@ -27,14 +31,10 @@ public class ShowCards : MonoBehaviour
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
         ClearGridCollection();
 
-        if (FactionGryffindor)
-        {
-            availableDeckCollection = CardDataBase.Decks[Global.Factions.Gryffindor];
-        }
-        else if (FactionSlytherin)
-        {
-            availableDeckCollection = CardDataBase.Decks[Global.Factions.Slytherin];
-        }
+        if (FactionGryffindor) availableDeckCollection = CardDataBase.Decks[Global.Factions.Gryffindor];
+        else if (FactionSlytherin) availableDeckCollection = CardDataBase.Decks[Global.Factions.Slytherin];
+        else if (FactionRavenclaw) availableDeckCollection = CardDataBase.Decks[Global.Factions.Ravenclaw];
+        else if (FactionHufflepuff) availableDeckCollection = CardDataBase.Decks[Global.Factions.Hufflepuff];
 
         if (availableDeckCollection != null)
         {
@@ -270,35 +270,85 @@ public class ShowCards : MonoBehaviour
     /// </summary>
     public void UpdateFaction()
     {
-
         Button buttonEvent = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
         UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<AudioSource>().Play();
-        if (buttonEvent.name == "Gryffindor")
+        GameObject newCard;
+        switch (buttonEvent.name)
         {
-            FactionGryffindor = true;
-            FactionSlytherin = false;
-            ClearGridDeck();
-            ClearLeader();
-            GameObject newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Gryffindor]);
-            newCard.transform.SetParent(Leader.transform);
-            newCard.transform.localScale = new Vector3(2f, 2f, 0f);
-            newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Gryffindor]);
-
+            case "Gryffindor":
+                FactionGryffindor = true;
+                FactionSlytherin = false;
+                FactionRavenclaw = false;
+                FactionHufflepuff = false;
+                ClearGridDeck();
+                ClearLeader();
+                newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Gryffindor]);
+                newCard.transform.SetParent(Leader.transform);
+                newCard.transform.localScale = new Vector3(2f, 2f, 0f);
+                newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Gryffindor]);
+                break;
+            case "Slytherin":
+                FactionSlytherin = true;
+                FactionGryffindor = false;
+                FactionRavenclaw = false;
+                FactionHufflepuff = false;
+                ClearGridDeck();
+                ClearLeader();
+                newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Slytherin]);
+                newCard.transform.SetParent(Leader.transform);
+                newCard.transform.localScale = new Vector3(2f, 2f, 0f);
+                newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Slytherin]);
+                break;
+            case "Ravenclaw":
+                if (!CardDataBase.Leaders.ContainsKey(Global.Factions.Ravenclaw))
+                {
+                    ShowMessage("La faccion Ravenclaw no esta disponible");
+                    break;
+                }
+                FactionRavenclaw = true;
+                FactionSlytherin = false;
+                FactionGryffindor = false;
+                FactionHufflepuff = false;
+                ClearGridDeck();
+                ClearLeader();
+                newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Ravenclaw]);
+                newCard.transform.SetParent(Leader.transform);
+                newCard.transform.localScale = new Vector3(2f, 2f, 0f);
+                newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Ravenclaw]);
+                break;
+            case "Hufflepuff":
+                if (!CardDataBase.Leaders.ContainsKey(Global.Factions.Hufflepuff))
+                {
+                    ShowMessage("La faccion Hufflepuff no esta disponible");
+                    break;
+                }
+                FactionHufflepuff = true;
+                FactionRavenclaw = false;
+                FactionSlytherin = false;
+                FactionGryffindor = false;
+                ClearGridDeck();
+                ClearLeader();
+                newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+                newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Hufflepuff]);
+                newCard.transform.SetParent(Leader.transform);
+                newCard.transform.localScale = new Vector3(2f, 2f, 0f);
+                newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Hufflepuff]);
+                break;
         }
-        else if (buttonEvent.name == "Slytherin")
-        {
-            FactionGryffindor = false;
-            FactionSlytherin = true;
-            ClearGridDeck();
-            ClearLeader();
-            GameObject newCard = Instantiate(CardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
-            newCard.GetComponent<ThisCard>().PrintCard(CardDataBase.Leaders[Global.Factions.Slytherin]);
-            newCard.transform.SetParent(Leader.transform);
-            newCard.transform.localScale = new Vector3(2f, 2f, 0f);
-            newDeck = new Deck(CardDataBase.Leaders[Global.Factions.Slytherin]);
-        }
 
+    }
+
+    async private void ShowMessage(string message)
+    {
+        Message.transform.localScale = new Vector3(0f, 0f, 0f);
+        Message.gameObject.SetActive(true);
+        LeanTween.scale(Message, new Vector3(1f, 1f, 1f), 0.3f);
+        Message.transform.GetComponentInChildren<TextMeshProUGUI>().text = message;
+        await Task.Delay(2000);
+        Message.gameObject.SetActive(false);
     }
 
 }

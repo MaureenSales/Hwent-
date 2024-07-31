@@ -14,10 +14,10 @@ public static class CardDataBase
    public static Dictionary<Global.Factions, Deck> Decks = new Dictionary<Global.Factions, Deck>();
    private static Deck Gryffindor; //mazo de la facción Gryffindor
    private static Deck Slytherin; //mazo de la facción Slytherin
-   private static Deck Ravenclaw;
-   private static Deck Hufflepuff;
-   private  static List<UnitCard> Neutral = new List<UnitCard>(); //lista de unidades neutrales
-   private static List<SpecialCard> Specials = new List<SpecialCard>(); //lista de cartas especiales neutrales
+   public static Deck Ravenclaw;
+   public static Deck Hufflepuff;
+   public  static List<UnitCard> Neutral = new List<UnitCard>(); //lista de unidades neutrales
+   public static List<SpecialCard> Specials = new List<SpecialCard>(); //lista de cartas especiales neutrales
    /// <summary>
    /// Diccionario donde a cada facción se le hace corresponder su líder
    /// </summary>
@@ -65,18 +65,12 @@ public static class CardDataBase
       //Decks
       Gryffindor = new Deck(Leaders[Global.Factions.Gryffindor]);
       Slytherin = new Deck(Leaders[Global.Factions.Slytherin]);
-      Ravenclaw = new Deck(null);
-      Hufflepuff = new Deck(null);
-      
-
 
       //Decoy
-      Gryffindor.AddCard(new DecoyUnit("Hagrid",
+      Neutral.Add(new DecoyUnit("Hagrid",
       "Es más que un guardián de llaves y terrenos. Es un amigo leal, un mentor apasionado y un defensor incansable de la magia y la naturaleza. Cuida y protege a todas las criaturas, sin importar su tamaño o peligro.",
       Resources.Load<Sprite>("Hagrid")));
-      Slytherin.AddCard(new DecoyUnit("Hagrid",
-      "Es más que un guardián de llaves y terrenos. Es un amigo leal, un mentor apasionado y un defensor incansable de la magia y la naturaleza. Cuida y protege a todas las criaturas, sin importar su tamaño o peligro.",
-      Resources.Load<Sprite>("Hagrid")));
+
 
       //Neutral
       Neutral.Add(new HeroUnit("Albus Dumbledore", Global.Factions.Neutral, new List<Skill>() { new Skill("DrawCard", null, null) }, "El Gran Hechicero, director de Hogwarts, el mago más grande de su tiempo. Su sombra se alza como un faro, guiando a las generaciones futuras hacia la luz.",
@@ -163,8 +157,6 @@ public static class CardDataBase
       {
          Gryffindor.AddCard(card);
          Slytherin.AddCard(card);
-         //Ravenclaw.AddCard(card);
-         //Hufflepuff.AddCard(card);
       }
 
       //añadiendo especiales neutrales
@@ -172,14 +164,10 @@ public static class CardDataBase
       {
          Gryffindor.AddCard(card);
          Slytherin.AddCard(card);
-         //
-         //
       }
-      Debug.Log("llego hasta aqui");
+  
       Decks.Add(Global.Factions.Gryffindor, Gryffindor);
       Decks.Add(Global.Factions.Slytherin, Slytherin);
-      //Decks.Add(Global.Factions.Hufflepuff, Hufflepuff);
-      //Decks.Add(Global.Factions.Ravenclaw, Ravenclaw);
    }
 
 
