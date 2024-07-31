@@ -174,7 +174,7 @@ public class DropZone : MonoBehaviour, IDropHandler
 
          }
 
-         if (this.name == "MeleeWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().cardName == "Escarcha Heladora" && (this.transform.childCount < 1))
+         if (this.name == "MeleeWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().thisCard.Skills[0].Name == "WeatherMelee" && (this.transform.childCount < 1))
          {
             card.originalScale = new Vector3(0.8f, 0.8f, 0f);
             card.parentToReturnTo = this.transform;
@@ -192,7 +192,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             }
 
          }
-         else if (this.name == "RangedWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().cardName == "Niebla Profunda" && (this.transform.childCount < 1))
+         else if (this.name == "RangedWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().thisCard.Skills[0].Name == "WeatherRanged" && (this.transform.childCount < 1))
          {
             card.originalScale = new Vector3(0.8f, 0.8f, 0f);
             card.parentToReturnTo = this.transform;
@@ -209,7 +209,7 @@ public class DropZone : MonoBehaviour, IDropHandler
                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
             }
          }
-         else if (this.name == "SiegeWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().cardName == "Diluvio Quidditch" && (this.transform.childCount < 1))
+         else if (this.name == "SiegeWeather" && eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Weather && eventData.pointerDrag.GetComponent<ThisCard>().thisCard.Skills[0].Name == "WeatherSiege" && (this.transform.childCount < 1))
          {
             card.originalScale = new Vector3(0.8f, 0.8f, 0f);
             card.parentToReturnTo = this.transform;
