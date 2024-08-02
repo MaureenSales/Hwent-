@@ -70,6 +70,8 @@ public class ChooseDecksController : MonoBehaviour
 /// </summary>
     async public void Back()
     {
+        if(GameData.nameEnemy != "") GameData.nameEnemy = "";
+        else GameData.namePlayer = "";
         buttonBack.GetComponent<AudioSource>().Play();
         await Task.Delay(80);
         SceneManager.LoadScene("MainMenu");

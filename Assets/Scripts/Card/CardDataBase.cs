@@ -12,8 +12,8 @@ public static class CardDataBase
    /// Diccionario donde a cada facción se le hace corresponder su mazo
    /// </summary>
    public static Dictionary<Global.Factions, Deck> Decks = new Dictionary<Global.Factions, Deck>();
-   private static Deck Gryffindor; //mazo de la facción Gryffindor
-   private static Deck Slytherin; //mazo de la facción Slytherin
+   public static Deck Gryffindor; //mazo de la facción Gryffindor
+   public static Deck Slytherin; //mazo de la facción Slytherin
    public static Deck Ravenclaw;
    public static Deck Hufflepuff;
    public  static List<UnitCard> Neutral = new List<UnitCard>(); //lista de unidades neutrales
@@ -21,7 +21,7 @@ public static class CardDataBase
    /// <summary>
    /// Diccionario donde a cada facción se le hace corresponder su líder
    /// </summary>
-   public static Dictionary<Global.Factions, Leader> Leaders = new Dictionary<Global.Factions, Leader>();
+    public static Dictionary<Global.Factions, Leader> Leaders = new Dictionary<Global.Factions, Leader>();
    static CardDataBase()
    {
       //Leaders

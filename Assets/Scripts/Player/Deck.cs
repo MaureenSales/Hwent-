@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Deck
 {
-    public Leader Leader { get; private set; } //líder de la facción del mazo
+    public Leader Leader { get; set; } //líder de la facción del mazo
     public List<Card> cards = new List<Card>(); //mazo de cartas
 
 /// <summary>
