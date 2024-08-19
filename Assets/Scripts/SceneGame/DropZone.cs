@@ -7,15 +7,11 @@ public class DropZone : MonoBehaviour, IDropHandler
 {
    public void OnDrop(PointerEventData eventData)
    {
-      UnityEngine.Debug.Log(eventData.pointerDrag.name + " was dropped on " + gameObject.name);
-
       Drag card = eventData.pointerDrag.GetComponent<Drag>(); //componente Drag de la carta soltada
-      Debug.Log(eventData.pointerDrag.transform.parent.name);
       Hand hand = eventData.pointerDrag.transform.parent.GetComponent<Hand>();
       if (card != null)
       {
          //!!!Disminuir codigo!!!
-         Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
 
          if (card.parentToReturnTo.parent.parent == this.transform.parent.parent.parent) //verifica que la carta este siendo soltada en el campo del jugador actual usando la jerarquía del campo en la escena 
          {
@@ -27,7 +23,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
                   hand.CardsObject.Remove(eventData.pointerDrag);
-                  Debug.Log(hand.CardsObject.Count);
                   hand.Cards.Remove(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
@@ -95,7 +90,6 @@ public class DropZone : MonoBehaviour, IDropHandler
             {
                if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is Unit && eventData.pointerDrag.GetComponent<ThisCard>().attackType.Contains(Global.AttackModes.Siege))
                {
-                  Debug.Log(eventData.pointerDrag.transform.parent.name);
                   this.transform.gameObject.GetComponent<Row>().AddToRow(eventData.pointerDrag.gameObject);
                   card.originalScale = new Vector3(0.9f, 0.9f, 0f);
                   card.parentToReturnTo = this.transform;
@@ -183,8 +177,8 @@ public class DropZone : MonoBehaviour, IDropHandler
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Enemy", null);
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Player", null);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Player");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
@@ -201,9 +195,9 @@ public class DropZone : MonoBehaviour, IDropHandler
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Enemy", null);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Player", null);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Player");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
@@ -218,17 +212,14 @@ public class DropZone : MonoBehaviour, IDropHandler
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Enemy", null);
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Player", null);
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
+            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Player");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
             }
          }
-
-         UnityEngine.Debug.Log(this.name);
-         UnityEngine.Debug.Log(hand.Cards.Count + " revision");
 
       }
    }

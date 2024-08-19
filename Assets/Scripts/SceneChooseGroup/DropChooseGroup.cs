@@ -23,9 +23,7 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
             {
                 if (contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard) >= 1 && !(eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit))
                 {
-                    Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
                     contentShowCards.GetComponent<ShowCards>().newDeck.AddCard((Card)eventData.pointerDrag.GetComponent<ThisCard>().thisCard.Clone());
-                    Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
                     card.originalScale = new Vector3( 1f, 1f, 1f);
                 }
                 else if (!contentShowCards.GetComponent<ShowCards>().newDeck.cards.Contains(eventData.pointerDrag.GetComponent<ThisCard>().thisCard))
@@ -38,14 +36,10 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                     card.parentToReturnTo = this.transform;
                     card.originalScale = new Vector3(1f, 1f, 1f);
                     contentShowCards.GetComponent<ShowCards>().newDeck.AddCard((Card)eventData.pointerDrag.GetComponent<ThisCard>().thisCard.Clone());
-                    Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
                 }
             }
             else if (this.name == "Trash")
             {
-                Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
-                Debug.Log(card.IsRemove);
-                Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard));
                 if (card.IsRemove)
                 {
                     if (eventData.pointerDrag.GetComponent<ThisCard>().thisCard is HeroUnit || (contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard) == 0))
@@ -55,17 +49,13 @@ public class DropChooseGroup : MonoBehaviour, IDropHandler
                     }
                     else
                     {
-                        Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
                         contentShowCards.GetComponent<ShowCards>().newDeck.RemoveCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
-                        Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
                         GameObject.Find("Trash").GetComponent<AudioSource>().Play();
                     }
 
                 }
                 card.originalScale = new Vector3( 1f, 1f, 1f);
-                Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
             }
-            Debug.Log(contentShowCards.GetComponent<ShowCards>().newDeck.cards.Count);
 
         }
     }

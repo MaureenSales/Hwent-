@@ -14,7 +14,6 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             //Activar efecto de despeje
-            Debug.Log("EnterOnClickRigth");
             if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is Clear && eventData.pointerClick.transform.parent.name == "Hand")
             {
                 GameObject ClearCard = eventData.pointerClick.gameObject;

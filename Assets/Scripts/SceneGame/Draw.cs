@@ -12,7 +12,6 @@ public class Draw : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        Debug.Log(GameData.playerDeck is null);
         if (Hand.transform.parent.name == "PlayerBoard")
         {
             deck = GameData.playerDeck;
@@ -22,7 +21,6 @@ public class Draw : MonoBehaviour
             deck = GameData.enemyDeck;
         }
         hand = Hand.GetComponent<Hand>();
-        Debug.Log(hand is null);
         for (int i = 0; i < 10; i++)
         {
             DrawCard();
@@ -41,12 +39,7 @@ public class Draw : MonoBehaviour
         deck.cards.Remove(deck.cards[index]);
         drawCard.transform.SetParent(Hand.transform, false);
         hand = Hand.GetComponent<Hand>();
-        Debug.Log(hand is null);
-        Debug.Log(hand.CardsObject.Count);
         hand.CardsObject.Add(drawCard);
-        Debug.Log(hand.CardsObject.Count);
-        Debug.Log(drawCard.GetComponent<ThisCard>().thisCard.Name);
-        Debug.Log(hand.Cards.Count);
         hand.Cards.Add(drawCard.GetComponent<ThisCard>().thisCard);
         GameObject owner = GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn;
         if (!owner.transform.Find(owner.name + "Info").GetComponent<PlayerController>().ChangeAllowed)

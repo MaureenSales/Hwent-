@@ -119,7 +119,6 @@ public class ThisCard : MonoBehaviour
                 powerText.gameObject.SetActive(false);
                 powerImage.gameObject.SetActive(false);
                 imageCardType.gameObject.SetActive(false);
-                Debug.Log(this.name);
                 if (this.name.StartsWith("CardPrefab 1"))
                 {
                     this.transform.GetComponent<DragChooseGroup>().enabled = false;

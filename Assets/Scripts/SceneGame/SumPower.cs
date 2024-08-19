@@ -25,26 +25,23 @@ public class SumPower : MonoBehaviour
     /// </summary>
     public void UpdatePower()
     {
-        Debug.Log("UpdatePower enter");
         int updatePower = 0;
-        Debug.Log(this.name);
-        Debug.Log(row.GetComponent<Row>().unitObjects.Count);
-        Debug.Log(row.name);
+     
         foreach (var unit in row.GetComponent<Row>().unitObjects)
         {
-            Debug.Log("sitiiene");
             if (unit.GetComponent<ThisCard>().thisCard is UnitCard)
             {
-                Debug.Log(unit.GetComponent<ThisCard>().powerText.text);
                 updatePower += int.Parse(unit.GetComponent<ThisCard>().powerText.text);
 
             }
         }
         power = updatePower;
-        Debug.Log(power);
-        Debug.Log(powerText.text);
         powerText.text = power.ToString();
-        Debug.Log(powerText.text);
         this.transform.parent.parent.Find("SumTotalPower").GetComponent<SumTotalPower>().UpdateTotalPower();
+    }
+
+    void Update()
+    {
+        UpdatePower();
     }
 }

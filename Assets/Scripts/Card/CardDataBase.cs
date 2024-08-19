@@ -16,16 +16,15 @@ public static class CardDataBase
    public static Deck Slytherin; //mazo de la facción Slytherin
    public static Deck Ravenclaw;
    public static Deck Hufflepuff;
-   public  static List<UnitCard> Neutral = new List<UnitCard>(); //lista de unidades neutrales
+   public static List<UnitCard> Neutral = new List<UnitCard>(); //lista de unidades neutrales
    public static List<SpecialCard> Specials = new List<SpecialCard>(); //lista de cartas especiales neutrales
    /// <summary>
    /// Diccionario donde a cada facción se le hace corresponder su líder
    /// </summary>
-    public static Dictionary<Global.Factions, Leader> Leaders = new Dictionary<Global.Factions, Leader>();
+   public static Dictionary<Global.Factions, Leader> Leaders = new Dictionary<Global.Factions, Leader>();
    static CardDataBase()
    {
       //Leaders
-      Debug.Log("Enter dataBase");
       Leaders.Add(Global.Factions.Gryffindor, new Leader("Harry Potter", Global.Factions.Gryffindor, new List<Skill>() { new Skill("LeaderGryffindor", null, null) },
      "El niño que vivió. El elegido para derrotar al señor tenebroso", Resources.Load<Sprite>("HarryPotter")));
       Leaders.Add(Global.Factions.Slytherin, new Leader("Lord Voldemort", Global.Factions.Slytherin, new List<Skill>() { new Skill("LeaderSlytherin", null, null) },
@@ -165,7 +164,7 @@ public static class CardDataBase
          Gryffindor.AddCard(card);
          Slytherin.AddCard(card);
       }
-  
+
       Decks.Add(Global.Factions.Gryffindor, Gryffindor);
       Decks.Add(Global.Factions.Slytherin, Slytherin);
    }

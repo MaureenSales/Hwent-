@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class Board : MonoBehaviour
 {
-    public GameObject WeatherArea;
     public List<Field> Fields { get; private set; }
+    public GameObject FieldPlayer;
+    public GameObject FieldEnemy;
     public List<GameObject> AllCardsObject
     {
-        get
-        {
-            return GetAllCards();
-        }
+        get => GetAllCards();
         set { }
     }
     public List<Card> AllCards
@@ -26,14 +24,14 @@ public class Board : MonoBehaviour
         set { }
     }
 
-    public GameObject FieldPlayer;
-    public GameObject FieldEnemy;
     // Start is called before the first frame update
     void Start()
     {
-        Fields = new List<Field>();
-        Fields.Add(FieldPlayer.GetComponent<Field>());
-        Fields.Add(FieldEnemy.GetComponent<Field>());
+        Fields = new List<Field>
+        {
+            FieldPlayer.GetComponent<Field>(),
+            FieldEnemy.GetComponent<Field>()
+        };
     }
 
     private List<GameObject> GetAllCards()
@@ -41,7 +39,6 @@ public class Board : MonoBehaviour
         List<GameObject> result = new List<GameObject>();
         foreach (Field field in Fields)
         {
-            Debug.Log(field.AllCardsObjects.Count);
             foreach (var card in field.AllCardsObjects)
             {
                 result.Add(card);

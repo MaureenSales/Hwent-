@@ -38,15 +38,10 @@ public class DragChooseGroup : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         this.transform.localScale = originalScale;
         this.transform.SetParent(parentToReturnTo);
-        Debug.Log(eventData.pointerDrag.GetComponent<ThisCard>().cardName);
-        Debug.Log(IsRemove);
-        Debug.Log(parentToReturnTo.parent.parent.name);
 
         if (parentToReturnTo.parent.parent.name == "MenuCardsDeck" && IsRemove)
         {
-            Debug.Log(parentToReturnTo.GetComponent<DropChooseGroup>().contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard));
             parentToReturnTo.GetComponent<DropChooseGroup>().contentShowCards.GetComponent<ShowCards>().newDeck.AddCard(eventData.pointerDrag.GetComponent<ThisCard>().thisCard);
-            Debug.Log(parentToReturnTo.GetComponent<DropChooseGroup>().contentShowCards.GetComponent<ShowCards>().newDeck.countCopies(eventData.pointerDrag.GetComponent<ThisCard>().thisCard));
             IsRemove = false;
         }
         audioSource.Play();

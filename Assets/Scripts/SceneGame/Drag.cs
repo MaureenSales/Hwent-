@@ -15,8 +15,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
-
         placeHolder = new GameObject();
         placeHolder.transform.SetParent(this.transform.parent);
 
@@ -39,8 +37,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnDrag");
-
         this.transform.position = eventData.position;
         if (placeHolder.transform.parent != placeHolderParent)
         { 
@@ -67,7 +63,6 @@ public class Drag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnEndDrag");
         this.transform.localScale = originalScale;
         this.transform.SetParent(parentToReturnTo); 
         this.transform.SetSiblingIndex(placeHolder.transform.GetSiblingIndex());

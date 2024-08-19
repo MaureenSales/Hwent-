@@ -52,8 +52,6 @@ public class ChooseDecksController : MonoBehaviour
             GameData.playerDeck = contentShowCards.GetComponent<ShowCards>().newDeck;
         }
         
-        Debug.Log(GameData.playerDeck is null);
-        Debug.Log(GameData.playerDeck.cards.Count);
         if (GameData.playerDeck != null && GameData.enemyDeck != null)
         {
             SceneManager.LoadScene("GameInBoard");

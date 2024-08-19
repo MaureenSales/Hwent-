@@ -15,9 +15,4 @@ public class Graveyard : MonoBehaviour
         Owner = this.transform.parent.GetComponent<Player>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
