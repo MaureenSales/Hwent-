@@ -1,0 +1,16 @@
+\babel@toc {nil}{}\relax 
+\beamer@sectionintoc {1}{Introducción}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{¿Hwent, de qué va?}{4}{0}{1}
+\beamer@sectionintoc {2}{Colecciones}{5}{0}{2}
+\beamer@subsectionintoc {2}{1}{Facciones}{6}{0}{2}
+\beamer@subsectionintoc {2}{2}{Tipos de cartas coleccionables}{7}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{1}{Líder}{8}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{2}{Unidades}{9}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{3}{Habilidades de las unidades}{10}{0}{2}
+\beamer@subsubsectionintoc {2}{2}{4}{Especiales}{13}{0}{2}
+\beamer@subsectionintoc {2}{3}{Reglas de creación de mazos}{15}{0}{2}
+\beamer@sectionintoc {3}{Tablero}{16}{0}{3}
+\beamer@sectionintoc {4}{Juego}{19}{0}{4}
+\beamer@subsectionintoc {4}{1}{Reglas}{20}{0}{4}
+\beamer@subsectionintoc {4}{2}{Comandos}{22}{0}{4}
+\beamer@sectionintoc {5}{UI}{24}{0}{5}
