@@ -1,0 +1,163 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Assembly-CSharp.csproj": {}
+  },
+  "projects": {
+    "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Assembly-CSharp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Assembly-CSharp.csproj",
+        "projectName": "Assembly-CSharp",
+        "projectPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Assembly-CSharp.csproj",
+        "packagesPath": "/home/maureensb/.nuget/packages/",
+        "outputPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Temp/obj//Assembly-CSharp/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/maureensb/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.csproj": {
+                "projectPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.csproj"
+              },
+              "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.editor.csproj": {
+                "projectPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.editor.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/home/maureensb/dotnet-sdk/sdk/8.0.101/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.csproj",
+        "projectName": "com.leantween",
+        "projectPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.csproj",
+        "packagesPath": "/home/maureensb/.nuget/packages/",
+        "outputPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Temp/obj//com.leantween/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/maureensb/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/home/maureensb/dotnet-sdk/sdk/8.0.101/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.editor.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.editor.csproj",
+        "projectName": "com.leantween.editor",
+        "projectPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.editor.csproj",
+        "packagesPath": "/home/maureensb/.nuget/packages/",
+        "outputPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/Temp/obj//com.leantween.editor/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/maureensb/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.1": {
+            "targetAlias": "netstandard2.1",
+            "projectReferences": {
+              "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.csproj": {
+                "projectPath": "/home/maureensb/Documentos/cardgame/gwent-pro-2d-template-main/com.leantween.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.1": {
+          "targetAlias": "netstandard2.1",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/home/maureensb/dotnet-sdk/sdk/8.0.101/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
