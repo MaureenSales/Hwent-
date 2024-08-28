@@ -110,6 +110,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void UpdatePass()
     {
+        if(PanelField.gameObject.activeSelf) notChange();
         buttonPass.GetComponent<AudioSource>().Play();
         Pass = true;
         GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
@@ -133,7 +134,6 @@ public class PlayerController : MonoBehaviour
         }
 
         ChangeAllowed = false;
-
     }
 
     /// <summary>

@@ -11,6 +11,7 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
     public GameObject ClearImages; //Imgenes de los rayos de sol de despeje
     async public void OnPointerClick(PointerEventData eventData)
     {
+        ClearImages = GetComponentInParent<Canvas>().GetComponent<GameController>().ClearImages;
         if (eventData.button == PointerEventData.InputButton.Right)
         {
             //Activar efecto de despeje
@@ -98,7 +99,6 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        ClearImages = GetComponentInParent<Canvas>().GetComponent<GameController>().ClearImages;
-
+        
     }
 }
