@@ -1308,7 +1308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Declara un carta o efecto...
+  m_text: Declara una carta o efecto...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1aba3534d7acb8d17b8582a4f3d7ab98, type: 2}
   m_sharedMaterial: {fileID: 5250361755836668990, guid: 1aba3534d7acb8d17b8582a4f3d7ab98, type: 2}
