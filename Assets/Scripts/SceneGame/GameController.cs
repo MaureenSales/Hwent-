@@ -536,7 +536,6 @@ public class GameController : MonoBehaviour
     {
         int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
         unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-
     }
 
     /// <summary>
