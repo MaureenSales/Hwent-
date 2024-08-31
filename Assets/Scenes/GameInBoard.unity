@@ -895,6 +895,7 @@ GameObject:
   - component: {fileID: 149140159}
   - component: {fileID: 149140160}
   - component: {fileID: 149140161}
+  - component: {fileID: 149140162}
   m_Layer: 5
   m_Name: PlayerField
   m_TagString: Untagged
@@ -945,6 +946,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76caa3d8e472f37418e516a549084938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &149140162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 149140158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac5fa3aaa7f6e5ae8b2a28998043fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CellM: {fileID: 19583342370300179}
+  CellR: {fileID: 4551753172695439800}
+  CellS: {fileID: 4486794900707408513}
+  CellsList: []
 --- !u!224 &163698370 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7725351577811130447, guid: 11422ac865929583db726601db354ad0, type: 3}
@@ -5112,6 +5129,7 @@ GameObject:
   - component: {fileID: 1260581667}
   - component: {fileID: 1260581668}
   - component: {fileID: 1260581669}
+  - component: {fileID: 1260581670}
   m_Layer: 5
   m_Name: EnemyField
   m_TagString: Untagged
@@ -5162,6 +5180,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76caa3d8e472f37418e516a549084938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1260581670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260581666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ac5fa3aaa7f6e5ae8b2a28998043fef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CellM: {fileID: 1363104679}
+  CellR: {fileID: 1952043663}
+  CellS: {fileID: 1577096022}
+  CellsList: []
 --- !u!1001 &1264600719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6122,6 +6156,11 @@ RectTransform:
 --- !u!1 &1577096021 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6087083732475968333, guid: 11422ac865929583db726601db354ad0, type: 3}
+  m_PrefabInstance: {fileID: 1577096019}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1577096022 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3910399569130569547, guid: 11422ac865929583db726601db354ad0, type: 3}
   m_PrefabInstance: {fileID: 1577096019}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1578579453
@@ -14531,6 +14570,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1102051457372196276, guid: 416a268c0207da46e86c3b14188972ef, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6541606600991319389}
+    - targetCorrespondingSourceObject: {fileID: 1102051457372196276, guid: 416a268c0207da46e86c3b14188972ef, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6541606600991319390}
   m_SourcePrefab: {fileID: 100100000, guid: 416a268c0207da46e86c3b14188972ef, type: 3}
 --- !u!224 &2327294673863600435 stripped
 RectTransform:
@@ -15136,7 +15178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324ac8487014ac6efa40e0bc7fb80adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeatherArea: {fileID: 5980352557296389722}
   FieldPlayer: {fileID: 149140158}
   FieldEnemy: {fileID: 1260581666}
 --- !u!1 &5980352557296389722 stripped
@@ -15159,6 +15200,19 @@ MonoBehaviour:
   WeatherImagesPlayer: []
   WeatherImagesEnemy: []
   weather: 000000
+  Board: {fileID: 5383088326484935809}
+--- !u!114 &6541606600991319390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5980352557296389722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d989dbc55bbee11689906ad8d978f8ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

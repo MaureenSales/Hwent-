@@ -41,7 +41,6 @@ public class Row : MonoBehaviour
         unitsInRow.Add((UnitCard)unit.GetComponent<ThisCard>().thisCard);
         Owner.AllCardsObjects.Add(unit);
         Owner.AllCards.Add(unit.GetComponent<ThisCard>().thisCard);
-        //powerRow.GetComponent<SumPower>().UpdatePower();
     }
 
     public void InsertInRow(int index, GameObject unit)
@@ -50,7 +49,6 @@ public class Row : MonoBehaviour
         unitsInRow.Insert(index, (UnitCard)unit.GetComponent<ThisCard>().thisCard);
         Owner.AllCardsObjects.Insert(index, unit);
         Owner.AllCards.Insert(index, unit.GetComponent<ThisCard>().thisCard);
-        //powerRow.GetComponent<SumPower>().UpdatePower();
     }
 
     /// <summary>

@@ -208,8 +208,6 @@ public class GameController : MonoBehaviour
                             weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(0));
                             weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
                         }
                         break;
@@ -223,8 +221,6 @@ public class GameController : MonoBehaviour
                             weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(1));
                             weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
                         }
                         break;
@@ -238,8 +234,6 @@ public class GameController : MonoBehaviour
                             weatherCard.transform.SetParent(GameObject.Find("WeatherZone").transform.GetChild(2));
                             weatherCard.transform.localScale = new Vector3(0.8f, 0.8f, 0f);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(currentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, currentTurn.name);
-                            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find(notCurrentTurn.name + "Field").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, notCurrentTurn.name);
                             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
                         }
                         break;
@@ -381,10 +375,6 @@ public class GameController : MonoBehaviour
             {
                 ImproveUnits(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).transform);
             }
-            if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
-            {
-                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(currentTurn.transform.Find(currentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, currentTurn.name);
-            }
         }
 
 
@@ -402,17 +392,11 @@ public class GameController : MonoBehaviour
             {
                 ImproveUnits(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetComponentInChildren<Row>().unitObjects, notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).transform);
             }
-
-            if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i - 1])
-            {
-                GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").GetChild(i).GetChild(0).GetComponent<Row>().unitObjects, notCurrentTurn.name);
-            }
         }
 
         if (unitCard is Unit)
         {
             unit.GetComponent<ThisCard>().powerText.text = ApproximateAverage.ToString();
-            GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(unit, unit.GetComponent<Drag>().parentToReturnTo);
             switch (unit.GetComponent<Drag>().parentToReturnTo.name)
             {
                 case "MeleeZone": Improve(unit, "Melee"); break;
@@ -531,61 +515,26 @@ public class GameController : MonoBehaviour
 
         if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
         {
-            ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject);
         }
         else if ((boost.transform.childCount != 0) && (boost.name == "BoostRanged"))
         {
-            ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject);
         }
         else if ((boost.transform.childCount != 0) && (boost.name == "BoostSiege"))
         {
-            ImproveUnits(eventData.gameObject, zone);
+            ImproveUnits(eventData.gameObject);
         }
     }
-
-    /// <summary>
-    /// Método para verificar si hay un aumento en la fila donde hay un clima activo
-    /// </summary>
-    /// <param name="unit">unidad afectada</param>
-    /// <param name="zone">zona donde se encuentra la unidad</param>
-    /// <param name="owner">jugador dueño de la unidad</param>
-    public void ImproveAfterWeather(GameObject unit, string zone, string owner)
-    {
-        GameObject boost = null;
-        if (owner == currentTurn.name)
-        {
-            boost = currentTurn.transform.Find(currentTurn.name + "Field").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
-
-        }
-        else
-        {
-            boost = notCurrentTurn.transform.Find(notCurrentTurn.name + "Field").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
-        }
-
-        if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
-        {
-            ImproveUnits(unit.gameObject, zone);
-        }
-        else if ((boost.transform.childCount != 0) && (boost.name == "BoostRanged"))
-        {
-            ImproveUnits(unit.gameObject, zone);
-        }
-        else if ((boost.transform.childCount != 0) && (boost.name == "BoostSiege"))
-        {
-            ImproveUnits(unit.gameObject, zone);
-        }
-    }
-
 
     /// <summary>
     /// Método para bonificar a la unidad soltada en una fila donde hay aumento
     /// </summary>
     /// <param name="unit">unidad a bonificar</param>
     /// <param name="zone">zona de ataque donde fue soltada</param>
-    public void ImproveUnits(GameObject unit, string zone)
+    public void ImproveUnits(GameObject unit)
     {
         int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
-
         unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
 
     }
@@ -600,7 +549,6 @@ public class GameController : MonoBehaviour
         {
             if (unit.GetComponent<ThisCard>().thisCard is Unit && unit.transform.parent.parent == row)
             {
-
                 int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
             }

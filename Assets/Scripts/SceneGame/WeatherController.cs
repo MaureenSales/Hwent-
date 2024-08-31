@@ -9,7 +9,7 @@ public class WeatherController : MonoBehaviour
     public List<GameObject> WeatherImagesPlayer = new List<GameObject>(); //lista con las imagenes de los efectos clima del objeto jugador
     public List<GameObject> WeatherImagesEnemy = new List<GameObject>(); //lista con las imagenes de los efectos clima del objeto enemigo
     [HideInInspector] public bool[] weather = { false, false, false }; //lista para verificar estado de la zona de climas
-
+    public GameObject Board;
     public void Start()
     {
         WeatherImagesPlayer.Add(GameObject.Find("PlayerField").transform.Find("MeleeRow").Find("Frost").gameObject);
@@ -28,6 +28,30 @@ public class WeatherController : MonoBehaviour
         foreach (var image in WeatherImagesEnemy)
         {
             image.SetActive(false);
+        }
+    }
+
+    public void Update()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (weather[j])
+                {
+                    for (int k = 0; k < Board.GetComponent<Board>().Fields[i].Rows[j].unitObjects.Count; k++)
+                    {
+                        int newPower = 2;
+                        Board.GetComponent<Board>().Fields[i].Rows[j].unitObjects[k].GetComponent<ThisCard>().powerText.text = newPower.ToString();
+                        if (Board.GetComponent<Board>().Fields[i].gameObject.GetComponent<BoostCells>().CellsList[j].transform.childCount > 0)
+                        {
+                            int power = 4;
+                            Board.GetComponent<Board>().Fields[i].Rows[j].unitObjects[k].GetComponent<ThisCard>().powerText.text = power.ToString();
+                        }
+                    }
+
+                }
+            }
         }
     }
 
@@ -50,55 +74,6 @@ public class WeatherController : MonoBehaviour
             {
                 image.SetActive(true);
             }
-        }
-    }
-
-    /// <summary>
-    /// Método para aplicar el efecto de un clima a una unidad
-    /// </summary>
-    /// <param name="unit">unidad a aplicar clima</param>
-    /// <param name="unitTransform">Transform de la unidad</param>
-    public void WeatherEffect(GameObject unit, Transform unitTransform)
-    {
-        if (weather[0] && unitTransform.name == "MeleeZone")
-        {
-            int newPower = 2;
-            unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-        }
-        else if (weather[1] && unitTransform.name == "RangedZone")
-        {
-            int newPower = 2;
-            unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-        }
-        else if (weather[2] && unitTransform.name == "SiegeZone")
-        {
-            int newPower = 2;
-            unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-        }
-
-    }
-
-    /// <summary>
-    /// Método para aplicar el efecto de un clima a una lista de unidades
-    /// </summary>
-    /// <param name="units">lista de unidades a aplicar clima</param>
-    /// <param name="owner">jugador dueño de las unidades</param>
-    public void WeatherEffect(List<GameObject> units, string owner)
-    {
-        foreach (var unit in units)
-        {
-            if (unit.GetComponent<ThisCard>().thisCard is Unit)
-            {
-                int newPower = 2;
-                unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
-                switch (unit.transform.parent.name)
-                {
-                    case "MeleeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveAfterWeather(unit, "Melee", owner); break;
-                    case "RangedZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveAfterWeather(unit, "Ranged", owner); break;
-                    case "SiegeZone": GetComponentInParent<Canvas>().GetComponent<GameController>().ImproveAfterWeather(unit, "Siege", owner); break;
-                }
-            }
-
         }
     }
 }

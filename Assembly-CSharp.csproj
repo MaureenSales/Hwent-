@@ -130,6 +130,7 @@
     <Compile Include="Assets/Scripts/Interprete/InterpreteGwent++/ASTnodes/Number.cs" />
     <Compile Include="Assets/Scripts/Interprete/InterpreteGwent++/ASTnodes/Effect.cs" />
     <Compile Include="Assets/Scripts/Interprete/InterpreteGwent++/ASTnodes/UnaryInverseOp.cs" />
+    <Compile Include="Assets/Scripts/Board/WeatherZone.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_DigitValidator.cs" />
     <Compile Include="Assets/Scripts/Card/ThisCard.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_FrameRateCounter.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Assets/LeanTweenSamples/Testing/TestingSceneSwitching.cs" />
     <Compile Include="Assets/Scripts/Interprete/InterpreteGwent++/Context.cs" />
     <Compile Include="Assets/LeanTweenSamples/Examples/Scripts/Following.cs" />
+    <Compile Include="Assets/Scripts/Board/BoostCells.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets/Scripts/Card/Card.cs" />
     <Compile Include="Assets/Scripts/SceneChooseGroup/DropChooseGroup.cs" />
