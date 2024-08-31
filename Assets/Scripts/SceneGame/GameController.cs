@@ -509,19 +509,8 @@ public class GameController : MonoBehaviour
     /// <param name="zone">nombre de la zona de ataque</param>
     public void Improve(GameObject eventData, string zone)
     {
-        GameObject boost = null;
-
-        boost = GameObject.Find(currentTurn.name + "Field").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
-
-        if ((boost.transform.childCount != 0) && (boost.name == "BoostMelee"))
-        {
-            ImproveUnits(eventData.gameObject);
-        }
-        else if ((boost.transform.childCount != 0) && (boost.name == "BoostRanged"))
-        {
-            ImproveUnits(eventData.gameObject);
-        }
-        else if ((boost.transform.childCount != 0) && (boost.name == "BoostSiege"))
+        GameObject boost = GameObject.Find(currentTurn.name + "Field").transform.Find(zone + "Row").Find("Boost" + zone).gameObject;
+        if (boost.transform.childCount != 0)
         {
             ImproveUnits(eventData.gameObject);
         }
@@ -551,8 +540,6 @@ public class GameController : MonoBehaviour
                 int newPower = int.Parse(unit.GetComponent<ThisCard>().powerText.text) + 2;
                 unit.GetComponent<ThisCard>().powerText.text = newPower.ToString();
             }
-
-
         }
     }
 

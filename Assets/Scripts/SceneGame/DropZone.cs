@@ -11,7 +11,6 @@ public class DropZone : MonoBehaviour, IDropHandler
       Hand hand = eventData.pointerDrag.transform.parent.GetComponent<Hand>();
       if (card != null)
       {
-         //!!!Disminuir codigo!!!
 
          if (card.parentToReturnTo.parent.parent == this.transform.parent.parent.parent) //verifica que la carta este siendo soltada en el campo del jugador actual usando la jerarquía del campo en la escena 
          {
@@ -27,7 +26,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
-                  //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Melee");
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
@@ -63,7 +61,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
-                  //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Ranged");
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
@@ -98,7 +95,6 @@ public class DropZone : MonoBehaviour, IDropHandler
                   StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerDrag.gameObject);
-                  //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(eventData.pointerDrag.gameObject, this.transform);
                   GetComponentInParent<Canvas>().GetComponent<GameController>().Improve(eventData.pointerDrag.gameObject, "Siege");
                   if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                   {
@@ -177,8 +173,6 @@ public class DropZone : MonoBehaviour, IDropHandler
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[0] = true;
-            //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
-            //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("MeleeRow").GetComponentInChildren<Row>().unitObjects, "Player");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Frost");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
@@ -195,9 +189,7 @@ public class DropZone : MonoBehaviour, IDropHandler
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[1] = true;
-            //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Fog");
-            //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("RangedRow").GetComponentInChildren<Row>().unitObjects, "Player");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
                GetComponentInParent<Canvas>().GetComponent<GameController>().FinalizedTurn();
@@ -212,8 +204,6 @@ public class DropZone : MonoBehaviour, IDropHandler
             StartCoroutine(EnableDragScript(eventData.pointerDrag.GetComponent<Drag>()));
 
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[2] = true;
-            //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("EnemyField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Enemy");
-            //GameObject.Find("WeatherZone").GetComponent<WeatherController>().WeatherEffect(GameObject.Find("PlayerField").transform.Find("SiegeRow").GetComponentInChildren<Row>().unitObjects, "Player");
             GameObject.Find("WeatherZone").GetComponent<WeatherController>().ApplyWeather("Rain");
             if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
             {
