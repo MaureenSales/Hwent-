@@ -68,10 +68,10 @@ public class GameController : MonoBehaviour
                     DrawCard();
                     break;
                 case "PutBoost":
-                    PutBoost(unit);
+                    PutBoost();
                     break;
                 case "PutWeather":
-                    PutWeather(unit);
+                    PutWeather();
                     break;
                 case "PowerfulCard":
                     PowerfulCard(unit);
@@ -101,7 +101,7 @@ public class GameController : MonoBehaviour
                     }
                     catch (System.Exception e)
                     {
-                        ShowMessage("Efecto Anulado");
+                        ShowMessage("Error en el efecto");
                         Debug.Log(e.ToString());
                         Debug.Log(e.StackTrace);
                     }
@@ -137,7 +137,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void PutBoost(GameObject unit)
+    private void PutBoost()
     {
         List<Card> cards;
         Boost boost = null;
@@ -184,7 +184,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void PutWeather(GameObject unit)
+    private void PutWeather()
     {
         List<Card> cards;
         Weather weather = null;
@@ -608,9 +608,9 @@ public class GameController : MonoBehaviour
     /// <summary>
     /// Método para limpiar la zona de clima
     /// </summary>
-    public void ClearWeatherZone()
+    public void ClearWeatherZone(int start, int end)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = start; i < end; i++)
         {
             if (GameObject.Find("WeatherZone").GetComponent<WeatherController>().weather[i] == true)
             {

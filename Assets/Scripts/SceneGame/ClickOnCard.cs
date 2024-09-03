@@ -33,7 +33,7 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
                 }
                 GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyHand.CardsObject.Remove(ClearCard);
                 GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.GetComponent<Player>().MyHand.Cards.Remove(ClearCard.GetComponent<ThisCard>().thisCard);
-                GetComponentInParent<Canvas>().GetComponent<GameController>().ClearWeatherZone();
+                GetComponentInParent<Canvas>().GetComponent<GameController>().ClearWeatherZone(0, 3);
                 await Task.Delay(1000);
                 ClearCard.transform.localScale = new Vector3(0.9f, 0.9f, 0f);
                 LeanTween.move(ClearCard, GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Graveyard").position, 1f).setOnComplete(() => ClearCard.transform.SetParent(GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.transform.Find("Graveyard")));
