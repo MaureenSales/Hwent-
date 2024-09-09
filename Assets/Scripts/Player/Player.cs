@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public Deck MyDeck {get; private set;}
     public Graveyard MyGraveyard {get; private set;}
     public Field MyField {get; private set;}
+    public BoostCells MyBoosts {get; private set;}
     public GameObject Deck;
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
         MyHand = draw.hand;
         MyGraveyard = this.GetComponentInChildren<Graveyard>();
         MyField = this.GetComponentInChildren<Field>();
+        MyBoosts = this.GetComponentInChildren<BoostCells>();
         if(this.name == "Player") Id = GameData.namePlayer;
         else Id = GameData.nameEnemy;
         AssingOwner(Id, MyDeck.cards);

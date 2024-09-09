@@ -179,6 +179,7 @@
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/WarpTextExample.cs" />
     <Compile Include="Assets/LeanTweenSamples/Examples/Scripts/GeneralBasics2d.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TextMeshProFloatingText.cs" />
+    <Compile Include="Assets/Scripts/Board/BoosterCells.cs" />
     <Compile Include="Assets/Scripts/SceneGame/WeatherController.cs" />
     <Compile Include="Assets/Scripts/Card/CardDataBase.cs" />
     <Compile Include="Assets/Scripts/SceneGame/ChangeCards.cs" />
@@ -215,7 +216,6 @@
     <Compile Include="Assets/LeanTweenSamples/Testing/TestingSceneSwitching.cs" />
     <Compile Include="Assets/Scripts/Interprete/InterpreteGwent++/Context.cs" />
     <Compile Include="Assets/LeanTweenSamples/Examples/Scripts/Following.cs" />
-    <Compile Include="Assets/Scripts/Board/BoostCells.cs" />
     <Compile Include="Assets/TextMesh Pro/Examples &amp; Extras/Scripts/TMP_TextInfoDebugTool.cs" />
     <Compile Include="Assets/Scripts/Card/Card.cs" />
     <Compile Include="Assets/Scripts/SceneChooseGroup/DropChooseGroup.cs" />

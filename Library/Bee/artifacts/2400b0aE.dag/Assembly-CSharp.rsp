@@ -392,7 +392,7 @@
 "Assets/LeanTweenSamples/Testing/TestingSceneSwitching.cs"
 "Assets/LeanTweenSamples/Testing/TestingSequencer.cs"
 "Assets/Scripts/Board/Board.cs"
-"Assets/Scripts/Board/BoostCells.cs"
+"Assets/Scripts/Board/BoosterCells.cs"
 "Assets/Scripts/Board/Field.cs"
 "Assets/Scripts/Board/Row.cs"
 "Assets/Scripts/Board/WeatherZone.cs"
