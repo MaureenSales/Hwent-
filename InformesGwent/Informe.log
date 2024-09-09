@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.1.26)  29 AUG 2024 11:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.1.26)  9 SEP 2024 13:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1098,7 +1098,7 @@ Overfull \vbox (14.78468pt too high) detected at line 76
 [9
 
 ]
-Overfull \vbox (2.4566pt too high) detected at line 88
+Overfull \vbox (4.98866pt too high) detected at line 89
  []
 
 [10
@@ -1115,49 +1115,51 @@ Overfull \vbox (2.4566pt too high) detected at line 88
 
 ] [16
 
+] [17
+
 ]
-<images/image10.png, id=123, 1448.41125pt x 908.39375pt>
+<images/image10.png, id=128, 1448.41125pt x 908.39375pt>
 File: images/image10.png Graphic file (type png)
 <use images/image10.png>
-Package pdftex.def Info: images/image10.png  used on input line 152.
-(pdftex.def)             Requested size: 289.67712pt x 181.67552pt.
- [17
-
- <./images/image10.png>]
-<images/image11.png, id=131, 1448.41125pt x 908.39375pt>
-File: images/image11.png Graphic file (type png)
-<use images/image11.png>
-Package pdftex.def Info: images/image11.png  used on input line 156.
+Package pdftex.def Info: images/image10.png  used on input line 160.
 (pdftex.def)             Requested size: 289.67712pt x 181.67552pt.
  [18
 
- <./images/image11.png>]
-<images/image12.png, id=138, 1448.41125pt x 908.39375pt>
-File: images/image12.png Graphic file (type png)
-<use images/image12.png>
-Package pdftex.def Info: images/image12.png  used on input line 160.
+ <./images/image10.png>]
+<images/image11.png, id=136, 1448.41125pt x 908.39375pt>
+File: images/image11.png Graphic file (type png)
+<use images/image11.png>
+Package pdftex.def Info: images/image11.png  used on input line 164.
 (pdftex.def)             Requested size: 289.67712pt x 181.67552pt.
  [19
 
- <./images/image12.png>]
-<images/image13.png, id=146, 1448.41125pt x 908.39375pt>
-File: images/image13.png Graphic file (type png)
-<use images/image13.png>
-Package pdftex.def Info: images/image13.png  used on input line 164.
+ <./images/image11.png>]
+<images/image12.png, id=144, 1448.41125pt x 908.39375pt>
+File: images/image12.png Graphic file (type png)
+<use images/image12.png>
+Package pdftex.def Info: images/image12.png  used on input line 168.
 (pdftex.def)             Requested size: 289.67712pt x 181.67552pt.
  [20
 
+ <./images/image12.png>]
+<images/image13.png, id=152, 1448.41125pt x 908.39375pt>
+File: images/image13.png Graphic file (type png)
+<use images/image13.png>
+Package pdftex.def Info: images/image13.png  used on input line 172.
+(pdftex.def)             Requested size: 289.67712pt x 181.67552pt.
+ [21
+
  <./images/image13.png>]
-<images/image14.png, id=154, 1448.41125pt x 908.39375pt>
+<images/image14.png, id=159, 1448.41125pt x 908.39375pt>
 File: images/image14.png Graphic file (type png)
 <use images/image14.png>
-Package pdftex.def Info: images/image14.png  used on input line 171.
+Package pdftex.def Info: images/image14.png  used on input line 179.
 (pdftex.def)             Requested size: 289.67712pt x 181.67552pt.
 
-Overfull \vbox (12.70514pt too high) detected at line 171
+Overfull \vbox (12.70514pt too high) detected at line 179
  []
 
-[21
+[22
 
  <./images/image14.png>]
 \tf@nav=\write6
@@ -1174,10 +1176,10 @@ Package rerunfilecheck Info: File `Informe.out' has not changed.
 (rerunfilecheck)             Checksum: 6A1F8275B120B0334CDAC75593535BE3;375.
  ) 
 Here is how much of TeX's memory you used:
- 27840 strings out of 480204
- 550544 string characters out of 5895010
+ 27844 strings out of 480204
+ 550579 string characters out of 5895010
  794099 words of memory out of 5000000
- 45172 multiletter control sequences out of 15000+600000
+ 45174 multiletter control sequences out of 15000+600000
  511690 words of font info for 76 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  101i,13n,111p,1806b,753s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1187,10 +1189,10 @@ t1095.600pk>{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/sh
 are/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/f
 onts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on Informe.pdf (21 pages, 9151377 bytes).
+Output written on Informe.pdf (22 pages, 9152395 bytes).
 PDF statistics:
- 272 PDF objects out of 1000 (max. 8388607)
- 149 compressed objects within 2 object streams
- 48 named destinations out of 1000 (max. 500000)
+ 278 PDF objects out of 1000 (max. 8388607)
+ 154 compressed objects within 2 object streams
+ 50 named destinations out of 1000 (max. 500000)
  92 words of extra memory for PDF output out of 10000 (max. 10000000)
 

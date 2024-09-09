@@ -3,4 +3,4 @@
 \beamer@sectionintoc {2}{DSL generalidades}{5}{0}{2}
 \beamer@subsectionintoc {2}{1}{Creando un nuevo efecto}{6}{0}{2}
 \beamer@subsectionintoc {2}{2}{Creando una carta}{11}{0}{2}
-\beamer@sectionintoc {3}{UI/particularidades}{16}{0}{3}
+\beamer@sectionintoc {3}{UI/particularidades}{17}{0}{3}

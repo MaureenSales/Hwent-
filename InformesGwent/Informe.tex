@@ -83,7 +83,8 @@ Como jugador con la capacidad de crear tienes acceso a:
 \item El cementerio de un jugador.
 \item El mazo de un jugador.
 \item El tablero de un jugador. Se define como el cojunto de los campos de juego.
-\item No se ha definido acceso a la columna de aumentos o la zona de climas.
+\item La zona de climas.
+\item Las celdas de aumento de un jugador.
 \end{itemize}
 \end{frame}
 
@@ -144,6 +145,13 @@ Selector:\\
 \hspace{1cm} Single: \texttt{valor booleano que indica si solo se toma un objetivo, ej: true},\\
 \hspace{1cm} Predicate: (\texttt{identificador de la carta}) => \texttt{instrucción booleana para selecionar la carta}\\
 \},
+\end{frame}
+
+\begin{frame}{\textcolor{plata}{DSL: carta}}
+\texttt{Selector}\\
+\begin{itemize}
+\item Las fuentes definidas son:  \textbf{"board", "weatherZone", "hand", "graveyard", "deck", "field", "boosterCells"} para referirse a el tablero, zona de climas, mano, cementerio, mazo, campo y celdas de aumento propios, respectivamente, en el caso de las fuentes no comunes se agrega "other" como prefijo de la fuente \texttt{ej:"otherHand"}.
+\end{itemize}
 \end{frame}
 
 \section{UI/particularidades}
