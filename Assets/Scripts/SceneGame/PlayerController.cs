@@ -87,7 +87,6 @@ public class PlayerController : MonoBehaviour
                 countCards.text = CardsInHand.ToString();
             }
 
-            countCardsInDeck.text = GameData.playerDeck.cards.Count.ToString();
         }
         else if (this.name == "EnemyInfo")
         {
@@ -98,11 +97,9 @@ public class PlayerController : MonoBehaviour
 
             }
 
-            countCardsInDeck.text = GameData.enemyDeck.cards.Count.ToString();
         }
-
-
-
+        Debug.Log(this.transform.parent.GetComponent<Player>().MyDeck.cards.Count);
+        countCardsInDeck.text = this.transform.parent.GetComponent<Player>().MyDeck.cards.Count.ToString();
     }
 
     /// <summary>

@@ -66,7 +66,11 @@ public class Deck
 /// <param name="card">carta a eliminar</param>
     public void RemoveCard(Card card)
     {
+        Debug.Log(cards.Count);
+        Debug.Log(cards.Contains(card));
+        Debug.Log("removerdeldeck");
         cards.Remove(card);
+        Debug.Log(cards.Count);
     }
 
 }

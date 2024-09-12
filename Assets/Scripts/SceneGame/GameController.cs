@@ -88,6 +88,12 @@ public class GameController : MonoBehaviour
                 case "MultiplyPower":
                     MultiplyPower(unit, unitCard);
                     break;
+                case "LeaderGryffindor":
+                    GryffindorEffect();
+                    break;
+                case "LeaderSlytherin":
+                    SlytherinEffect();
+                    break;
 
                 default:
                     try
@@ -250,6 +256,7 @@ public class GameController : MonoBehaviour
 
     async private void PowerfulCard(GameObject unit)
     {
+        Debug.Log("Powerful");
         int maxPower = int.MinValue;
         int indexRow = -1;
         int indexInRowZone = -1;
@@ -268,7 +275,6 @@ public class GameController : MonoBehaviour
                     indexInRowZone = j;
                     owner = currentTurn;
                 }
-
 
             }
         }
@@ -310,6 +316,7 @@ public class GameController : MonoBehaviour
         }
         else if (!thereCards)
         {
+            Debug.Log("ellamisma");
             unit.GetComponent<Drag>().parentToReturnTo.GetComponent<Row>().RemoveFromRow(unit);
             await Task.Delay(800);
             LeanTweenMoveGraveyard(unit, currentTurn.transform.Find("Graveyard").transform);

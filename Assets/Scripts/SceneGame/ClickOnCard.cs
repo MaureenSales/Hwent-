@@ -73,19 +73,8 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
             else if (eventData.pointerClick.GetComponent<ThisCard>().thisCard is Leader && eventData.pointerClick.transform.parent.parent.name == GetComponentInParent<Canvas>().GetComponent<GameController>().currentTurn.name)
             {
                 //Activar efecto de líder
-                Leader leader = (Leader)eventData.pointerClick.GetComponent<ThisCard>().thisCard;
-                if (leader.Faction == Global.Factions.Gryffindor)
-                {
-                    GetComponentInParent<Canvas>().GetComponent<GameController>().GryffindorEffect();
-                }
-                else if (leader.Faction == Global.Factions.Slytherin)
-                {
-                    GetComponentInParent<Canvas>().GetComponent<GameController>().SlytherinEffect();
-                }
-                else
-                {
-                    GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerClick.gameObject);
-                }
+                GetComponentInParent<Canvas>().GetComponent<GameController>().Effects(eventData.pointerClick.gameObject);
+
                 this.enabled = false;
                 if (!GetComponentInParent<Canvas>().GetComponent<GameController>().notCurrentTurn.GetComponentInChildren<PlayerController>().Pass)
                 {
@@ -99,6 +88,6 @@ public class ClickOnCard : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 }
