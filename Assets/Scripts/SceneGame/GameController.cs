@@ -120,7 +120,7 @@ public class GameController : MonoBehaviour
     {
         bool destroy = false;
 
-        if (!(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount < 11))
+        if (!(currentTurn.transform.Find(currentTurn.name + "Board").Find("Hand").childCount <= 11))
         {
             destroy = true;
         }
