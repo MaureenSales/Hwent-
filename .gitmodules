@@ -1,3 +1,6 @@
 [submodule "InterpreteGwent--"]
 	path = InterpreteGwent--
 	url = https://github.com/MaureenSales/InterpreteGwent--.git
+[submodule "Assets/Scripts/Interprete/InterpreteGwent++"]
+	path = Assets/Scripts/Interprete/InterpreteGwent++
+	url = https://github.com/MaureenSales/InterpreteGwent--.git
