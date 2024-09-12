@@ -154,15 +154,15 @@ public static class CardDataBase
       //añadiendo unidades neutrales
       foreach (var card in Neutral)
       {
-         Gryffindor.AddCard(card);
-         Slytherin.AddCard(card);
+         Gryffindor.AddCard((Card)card.Clone());
+         Slytherin.AddCard((Card)card.Clone());
       }
 
       //añadiendo especiales neutrales
       foreach (var card in Specials)
       {
-         Gryffindor.AddCard(card);
-         Slytherin.AddCard(card);
+         Gryffindor.AddCard((Card)card.Clone());
+         Slytherin.AddCard((Card)card.Clone());
       }
 
       Decks.Add(Global.Factions.Gryffindor, Gryffindor);

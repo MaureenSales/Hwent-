@@ -41,7 +41,7 @@ public abstract class Card : ICloneable, IEquatable<Card>
     public void AssignOwner(string ownerId)
     {
         if (string.IsNullOrEmpty(owner)) owner = ownerId;
-        //else throw new InvalidOperationException("El dueno ya ha sido asignado y no puede ser cambiado");
+        else throw new InvalidOperationException("El dueno ya ha sido asignado y no puede ser cambiado");
     }
 
     public bool Equals(Card other)
